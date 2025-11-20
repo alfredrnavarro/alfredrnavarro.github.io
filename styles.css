@@ -14,10 +14,10 @@ html {
     /* Light theme colors (inspired by astro-theme-cactus) */
     --color-global-bg: oklch(98.48% 0 0);
     --color-global-text: oklch(26.99% 0.0096 235.05);
-    --color-link: oklch(55.44% 0.0431 185.69);
-    --color-accent: #af67ff;
-    --color-accent-2: oklch(18.15% 0 0);
-    --color-quote: #af67ff;
+    --color-link: #3b82f6; /* blue */
+    --color-accent: #f97316; /* orange */
+    --color-accent-2: #3b82f6; /* blue */
+    --color-quote: #f97316; /* orange */
     --color-border: #e5e7eb;
     --color-card-bg: rgba(255, 255, 255, 0.8);
     --color-shadow: rgba(0, 0, 0, 0.1);
@@ -27,10 +27,10 @@ html {
 [data-theme="dark"] {
     --color-global-bg: oklch(23.64% 0.0045 248);
     --color-global-text: oklch(83.54% 0 264);
-    --color-link: oklch(70.44% 0.1133 349);
-    --color-accent: #5ff26b;
-    --color-accent-2: oklch(94.66% 0 0);
-    --color-quote: oklch(94.8% 0.106 136.49);
+    --color-link: #3b82f6; /* blue */
+    --color-accent: #f97316; /* orange */
+    --color-accent-2: #3b82f6; /* blue */
+    --color-quote: #f97316; /* orange */
     --color-border: #374151;
     --color-card-bg: rgba(31, 41, 55, 0.8);
     --color-shadow: rgba(0, 0, 0, 0.3);
@@ -1018,27 +1018,27 @@ html {
 }
 
 .tag-interpretability {
-    background-color: color-mix(in srgb, #af67ff 15%, transparent);
-    border-color: #af67ff;
-    color: #af67ff;
+    background-color: color-mix(in srgb, var(--color-accent) 15%, transparent);
+    border-color: var(--color-accent);
+    color: var(--color-accent);
 }
 
 .tag-arxiv {
-    background-color: color-mix(in srgb, #10b981 15%, transparent);
-    border-color: #10b981;
-    color: #10b981;
+    background-color: color-mix(in srgb, var(--color-accent-2) 15%, transparent);
+    border-color: var(--color-accent-2);
+    color: var(--color-accent-2);
 }
 
 .tag-workshop {
-    background-color: color-mix(in srgb, #f59e0b 15%, transparent);
-    border-color: #f59e0b;
-    color: #f59e0b;
+    background-color: color-mix(in srgb, var(--color-accent) 15%, transparent);
+    border-color: var(--color-accent);
+    color: var(--color-accent);
 }
 
 .tag-conference {
-    background-color: color-mix(in srgb, #3b82f6 15%, transparent);
-    border-color: #3b82f6;
-    color: #3b82f6;
+    background-color: color-mix(in srgb, var(--color-accent-2) 15%, transparent);
+    border-color: var(--color-accent-2);
+    color: var(--color-accent-2);
 }
 
 .tag-bibtex {
