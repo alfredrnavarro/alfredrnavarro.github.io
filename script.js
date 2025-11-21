@@ -494,8 +494,25 @@ document.addEventListener('DOMContentLoaded', () => {
         window.applyBHoverEffect(document.body);
     }
 
-    // Initialize party hat explosion feature
+        // Initialize party hat explosion feature
     new PartyHatExplosion();
+
+    // Replace header inline SVG with favicon image (no HTML edit required)
+    (function replaceHeaderSvgWithFavicon() {
+        try {
+            const logoSvgEl = document.querySelector('#main-header svg');
+            if (logoSvgEl && logoSvgEl.parentNode) {
+                const img = document.createElement('img');
+                img.src = 'assets/favicon.ico';
+                img.alt = 'A Navarro logo';
+                img.className = logoSvgEl.getAttribute('class') || 'me-3 h-10 w-6 sm:me-3 sm:h-20 sm:w-12';
+                logoSvgEl.parentNode.replaceChild(img, logoSvgEl);
+            }
+        } catch (e) {
+            // Fail silently if replacement not possible
+            console.warn('Logo replacement failed:', e);
+        }
+    })();
     
     // Add loading state management
     document.body.classList.add('loaded');
@@ -550,7 +567,7 @@ class PartyHatExplosion {
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         if (prefersReducedMotion) {
             // Just do a simple pulse for users who prefer reduced motion
-            const logoSvg = document.querySelector('#main-header svg');
+            const logoSvg = document.querySelector('#main-header svg, #main-header img');
             if (logoSvg) {
                 logoSvg.classList.add('logo-party-pulse');
                 setTimeout(() => {
@@ -561,7 +578,7 @@ class PartyHatExplosion {
         }
         
         // Get logo position for explosion origin
-        const logoSvg = document.querySelector('#main-header svg');
+        const logoSvg = document.querySelector('#main-header svg, #main-header img');
         if (!logoSvg) return;
         
         const logoRect = logoSvg.getBoundingClientRect();
