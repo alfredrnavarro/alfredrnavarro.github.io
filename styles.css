@@ -11,7 +11,7 @@ html {
 
 /* CSS Custom Properties for theming */
 :root {
-    /* Light theme colors (inspired by astro-theme-cactus) */
+    /* Light theme colors (orange & blue) */
     --color-global-bg: oklch(98.48% 0 0);
     --color-global-text: oklch(26.99% 0.0096 235.05);
     --color-link: #3b82f6; /* blue */
@@ -21,16 +21,21 @@ html {
     --color-border: #e5e7eb;
     --color-card-bg: rgba(255, 255, 255, 0.8);
     --color-shadow: rgba(0, 0, 0, 0.1);
+    /* Logo color steps that follow the current accent variables; these will swap automatically in dark mode */
+    --logo-1: var(--color-accent);
+    --logo-2: color-mix(in srgb, var(--color-accent) 60%, var(--color-accent-2) 40%);
+    --logo-3: var(--color-accent-2);
 }
 
 /* Dark theme colors */
 [data-theme="dark"] {
     --color-global-bg: oklch(23.64% 0.0045 248);
     --color-global-text: oklch(83.54% 0 264);
-    --color-link: #3b82f6; /* blue */
-    --color-accent: #f97316; /* orange */
-    --color-accent-2: #3b82f6; /* blue */
-    --color-quote: #f97316; /* orange */
+    /* In dark mode, swap orange & blue */
+    --color-link: #f97316; /* orange */
+    --color-accent: #3b82f6; /* blue */
+    --color-accent-2: #f97316; /* orange */
+    --color-quote: #3b82f6; /* blue */
     --color-border: #374151;
     --color-card-bg: rgba(31, 41, 55, 0.8);
     --color-shadow: rgba(0, 0, 0, 0.3);
