@@ -11,7 +11,7 @@
       <span class="timeline-role">Bachelors in Computer Engineering</span>
       <span class="timeline-dates">Aug 2025 – <strong class="text-accent">Present</strong></span>
     </div>
-    <div class="timeline-desc">GPA: X.</div>
+    <div class="timeline-desc">GPA: 4.0</div>
   </div>
 
   <div class="timeline-item">
