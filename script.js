@@ -518,3 +518,136 @@ prefersReducedMotion.addEventListener('change', () => {
         document.documentElement.style.setProperty('scroll-behavior', 'smooth');
     }
 });
+
+// ===================================
+// Upside Down Mode (Grandfather Clock)
+// ===================================
+class UpsideDownMode {
+    constructor() {
+        this.isActive = false;
+        this.vinesContainer = null;
+        this.overlay = null;
+        this.spores = [];
+        this.init();
+    }
+
+    init() {
+        const clockButton = document.getElementById('grandfather-clock');
+        if (clockButton) {
+            clockButton.addEventListener('click', () => this.toggle());
+        }
+    }
+
+    toggle() {
+        if (this.isActive) {
+            this.deactivate();
+        } else {
+            this.activate();
+        }
+    }
+
+    activate() {
+        this.isActive = true;
+        document.body.classList.add('upside-down-mode');
+        
+        // Create overlay
+        this.overlay = document.createElement('div');
+        this.overlay.className = 'upside-down-overlay';
+        document.body.appendChild(this.overlay);
+        
+        // Create vines container
+        this.vinesContainer = document.createElement('div');
+        this.vinesContainer.className = 'upside-down-vines';
+        document.body.appendChild(this.vinesContainer);
+        
+        // Create vines
+        this.createVines();
+        
+        // Create floating spores
+        this.createSpores();
+    }
+
+    deactivate() {
+        this.isActive = false;
+        document.body.classList.remove('upside-down-mode');
+        
+        // Remove overlay
+        if (this.overlay && this.overlay.parentNode) {
+            this.overlay.parentNode.removeChild(this.overlay);
+            this.overlay = null;
+        }
+        
+        // Remove vines
+        if (this.vinesContainer && this.vinesContainer.parentNode) {
+            this.vinesContainer.parentNode.removeChild(this.vinesContainer);
+            this.vinesContainer = null;
+        }
+        
+        // Remove spores
+        this.spores.forEach(spore => {
+            if (spore && spore.parentNode) {
+                spore.parentNode.removeChild(spore);
+            }
+        });
+        this.spores = [];
+    }
+
+    createVines() {
+        const vineCount = 12;
+        
+        for (let i = 0; i < vineCount; i++) {
+            const vine = document.createElement('div');
+            vine.className = 'vine';
+            
+            // Random horizontal position
+            vine.style.left = `${Math.random() * 100}%`;
+            
+            // Random delay for staggered effect
+            vine.style.animationDelay = `${Math.random() * 2}s`;
+            
+            // Random width variation
+            vine.style.width = `${2 + Math.random() * 3}px`;
+            
+            // Add some tendrils
+            const tendrilCount = 3 + Math.floor(Math.random() * 4);
+            for (let j = 0; j < tendrilCount; j++) {
+                const tendril = document.createElement('div');
+                tendril.className = `vine-tendril ${Math.random() > 0.5 ? 'left' : 'right'}`;
+                tendril.style.top = `${15 + j * 20}%`;
+                vine.appendChild(tendril);
+            }
+            
+            this.vinesContainer.appendChild(vine);
+        }
+    }
+
+    createSpores() {
+        const sporeCount = 20;
+        
+        for (let i = 0; i < sporeCount; i++) {
+            const spore = document.createElement('div');
+            spore.className = 'upside-down-spore';
+            
+            // Random position
+            spore.style.left = `${Math.random() * 100}%`;
+            spore.style.top = `${Math.random() * 100}%`;
+            
+            // Random size
+            const size = 2 + Math.random() * 4;
+            spore.style.width = `${size}px`;
+            spore.style.height = `${size}px`;
+            
+            // Random animation delay
+            spore.style.animationDelay = `${Math.random() * 8}s`;
+            spore.style.animationDuration = `${6 + Math.random() * 4}s`;
+            
+            document.body.appendChild(spore);
+            this.spores.push(spore);
+        }
+    }
+}
+
+// Initialize Upside Down Mode
+document.addEventListener('DOMContentLoaded', () => {
+    new UpsideDownMode();
+});

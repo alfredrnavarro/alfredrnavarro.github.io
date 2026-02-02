@@ -1596,3 +1596,162 @@ html {
     width: 20px;
     height: 30px;
 }
+
+/* ===================================
+   Upside Down Mode (Stranger Things)
+   =================================== */
+.upside-down-mode {
+    animation: upsideDownPulse 4s ease-in-out infinite;
+}
+
+.upside-down-mode,
+.upside-down-mode * {
+    --color-global-bg: #1a0a0a !important;
+    --color-global-text: #8b4444 !important;
+    --color-primary: #660000 !important;
+    --color-secondary: #553333 !important;
+    --color-card-bg: rgba(40, 10, 10, 0.8) !important;
+    --glass-bg: rgba(30, 5, 5, 0.9) !important;
+    --color-border: rgba(100, 20, 20, 0.3) !important;
+}
+
+@keyframes upsideDownPulse {
+    0%, 100% { filter: brightness(1) saturate(1); }
+    50% { filter: brightness(0.85) saturate(1.2); }
+}
+
+/* Vines Container */
+.upside-down-vines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9998;
+    overflow: hidden;
+}
+
+/* Individual Vine */
+.vine {
+    position: absolute;
+    top: -20px;
+    width: 3px;
+    background: linear-gradient(180deg, 
+        transparent 0%, 
+        #2d1a1a 10%, 
+        #1a0f0f 30%, 
+        #2d1a1a 50%,
+        #1a0f0f 70%,
+        #2d1a1a 90%,
+        transparent 100%);
+    border-radius: 2px;
+    animation: vineGrow 3s ease-out forwards;
+    transform-origin: top center;
+}
+
+.vine::before,
+.vine::after {
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: radial-gradient(ellipse at center, #2d1a1a 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+.vine::before {
+    top: 20%;
+    left: -8px;
+    transform: rotate(-30deg);
+}
+
+.vine::after {
+    top: 60%;
+    right: -8px;
+    transform: rotate(30deg);
+}
+
+/* Vine tendrils */
+.vine-tendril {
+    position: absolute;
+    width: 20px;
+    height: 2px;
+    background: linear-gradient(90deg, #2d1a1a, transparent);
+    border-radius: 1px;
+    transform-origin: left center;
+}
+
+.vine-tendril.left {
+    transform: rotate(-45deg);
+}
+
+.vine-tendril.right {
+    right: 0;
+    transform: rotate(45deg);
+    background: linear-gradient(-90deg, #2d1a1a, transparent);
+    transform-origin: right center;
+}
+
+@keyframes vineGrow {
+    0% {
+        height: 0;
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.8;
+    }
+    100% {
+        height: 120vh;
+        opacity: 0.9;
+    }
+}
+
+/* Floating spores/particles */
+.upside-down-spore {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    background: rgba(80, 30, 30, 0.6);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9997;
+    animation: sporeFloat 8s ease-in-out infinite;
+}
+
+@keyframes sporeFloat {
+    0%, 100% {
+        transform: translateY(0) translateX(0);
+        opacity: 0.3;
+    }
+    25% {
+        transform: translateY(-30px) translateX(10px);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translateY(-10px) translateX(-10px);
+        opacity: 0.4;
+    }
+    75% {
+        transform: translateY(-40px) translateX(5px);
+        opacity: 0.7;
+    }
+}
+
+/* Red overlay */
+.upside-down-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center, transparent 0%, rgba(30, 0, 0, 0.4) 100%);
+    pointer-events: none;
+    z-index: 9996;
+    animation: overlayPulse 3s ease-in-out infinite;
+}
+
+@keyframes overlayPulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 0.8; }
+}
