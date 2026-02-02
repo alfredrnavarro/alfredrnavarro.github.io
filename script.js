@@ -621,42 +621,43 @@ class UpsideDownMode {
 
     createTentacles() {
         // Create tentacles spreading in all directions from center
+        // All positioned relative to center (50%, 50%)
         const tentacleConfigs = [
-            // Top tentacles
+            // Top tentacles - spreading upward
             { angle: -90, length: 500, width: 25, x: 50, y: 50, delay: 0 },
-            { angle: -70, length: 450, width: 20, x: 55, y: 48, delay: 0.2 },
-            { angle: -110, length: 480, width: 22, x: 45, y: 48, delay: 0.1 },
-            { angle: -60, length: 400, width: 16, x: 60, y: 50, delay: 0.4 },
-            { angle: -120, length: 420, width: 18, x: 40, y: 50, delay: 0.3 },
-            { angle: -80, length: 380, width: 14, x: 52, y: 46, delay: 0.5 },
-            { angle: -100, length: 390, width: 15, x: 48, y: 46, delay: 0.45 },
+            { angle: -75, length: 450, width: 20, x: 50, y: 50, delay: 0.2 },
+            { angle: -105, length: 480, width: 22, x: 50, y: 50, delay: 0.1 },
+            { angle: -60, length: 400, width: 16, x: 50, y: 50, delay: 0.4 },
+            { angle: -120, length: 420, width: 18, x: 50, y: 50, delay: 0.3 },
+            { angle: -85, length: 380, width: 14, x: 50, y: 50, delay: 0.5 },
+            { angle: -95, length: 390, width: 15, x: 50, y: 50, delay: 0.45 },
             
-            // Bottom tentacles
-            { angle: 90, length: 480, width: 24, x: 50, y: 55, delay: 0.1 },
-            { angle: 70, length: 420, width: 20, x: 55, y: 54, delay: 0.25 },
-            { angle: 110, length: 440, width: 21, x: 45, y: 54, delay: 0.15 },
-            { angle: 60, length: 380, width: 15, x: 58, y: 52, delay: 0.5 },
-            { angle: 120, length: 400, width: 17, x: 42, y: 52, delay: 0.4 },
+            // Bottom tentacles - spreading downward
+            { angle: 90, length: 480, width: 24, x: 50, y: 50, delay: 0.1 },
+            { angle: 75, length: 420, width: 20, x: 50, y: 50, delay: 0.25 },
+            { angle: 105, length: 440, width: 21, x: 50, y: 50, delay: 0.15 },
+            { angle: 60, length: 380, width: 15, x: 50, y: 50, delay: 0.5 },
+            { angle: 120, length: 400, width: 17, x: 50, y: 50, delay: 0.4 },
             
-            // Side tentacles (left)
-            { angle: 180, length: 450, width: 22, x: 45, y: 50, delay: 0.2 },
-            { angle: 160, length: 400, width: 18, x: 44, y: 55, delay: 0.35 },
-            { angle: -160, length: 420, width: 19, x: 44, y: 45, delay: 0.3 },
-            { angle: 150, length: 350, width: 14, x: 42, y: 58, delay: 0.55 },
-            { angle: -150, length: 360, width: 15, x: 42, y: 42, delay: 0.5 },
+            // Left tentacles - spreading left
+            { angle: 180, length: 450, width: 22, x: 50, y: 50, delay: 0.2 },
+            { angle: 165, length: 400, width: 18, x: 50, y: 50, delay: 0.35 },
+            { angle: -165, length: 420, width: 19, x: 50, y: 50, delay: 0.3 },
+            { angle: 150, length: 350, width: 14, x: 50, y: 50, delay: 0.55 },
+            { angle: -150, length: 360, width: 15, x: 50, y: 50, delay: 0.5 },
             
-            // Side tentacles (right)
-            { angle: 0, length: 460, width: 23, x: 55, y: 50, delay: 0.15 },
-            { angle: 20, length: 410, width: 18, x: 56, y: 54, delay: 0.3 },
-            { angle: -20, length: 400, width: 17, x: 56, y: 46, delay: 0.35 },
-            { angle: 30, length: 340, width: 13, x: 58, y: 56, delay: 0.6 },
-            { angle: -30, length: 350, width: 14, x: 58, y: 44, delay: 0.55 },
+            // Right tentacles - spreading right
+            { angle: 0, length: 460, width: 23, x: 50, y: 50, delay: 0.15 },
+            { angle: 15, length: 410, width: 18, x: 50, y: 50, delay: 0.3 },
+            { angle: -15, length: 400, width: 17, x: 50, y: 50, delay: 0.35 },
+            { angle: 30, length: 340, width: 13, x: 50, y: 50, delay: 0.6 },
+            { angle: -30, length: 350, width: 14, x: 50, y: 50, delay: 0.55 },
             
             // Diagonal corner tentacles
-            { angle: -45, length: 520, width: 20, x: 58, y: 45, delay: 0.25 },
-            { angle: -135, length: 500, width: 19, x: 42, y: 45, delay: 0.3 },
-            { angle: 45, length: 490, width: 18, x: 58, y: 55, delay: 0.35 },
-            { angle: 135, length: 510, width: 21, x: 42, y: 55, delay: 0.2 },
+            { angle: -45, length: 520, width: 20, x: 50, y: 50, delay: 0.25 },
+            { angle: -135, length: 500, width: 19, x: 50, y: 50, delay: 0.3 },
+            { angle: 45, length: 490, width: 18, x: 50, y: 50, delay: 0.35 },
+            { angle: 135, length: 510, width: 21, x: 50, y: 50, delay: 0.2 },
         ];
 
         tentacleConfigs.forEach(config => {
