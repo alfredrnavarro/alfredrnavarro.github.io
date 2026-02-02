@@ -1608,11 +1608,18 @@ html {
 .upside-down-mode * {
     --color-global-bg: #1a0a0a !important;
     --color-global-text: #8b4444 !important;
-    --color-primary: #660000 !important;
-    --color-secondary: #553333 !important;
+    --color-primary: #cc2222 !important;
+    --color-primary-light: #ff4444 !important;
+    --color-primary-dark: #880000 !important;
+    --color-secondary: #884444 !important;
+    --color-accent: #cc2222 !important;
+    --color-accent-2: #dd3333 !important;
+    --color-link: #cc2222 !important;
     --color-card-bg: rgba(40, 10, 10, 0.8) !important;
     --glass-bg: rgba(30, 5, 5, 0.9) !important;
     --color-border: rgba(100, 20, 20, 0.3) !important;
+    --color-tag-bg: rgba(150, 30, 30, 0.3) !important;
+    --color-tag-text: #cc4444 !important;
 }
 
 @keyframes upsideDownPulse {
@@ -1635,19 +1642,43 @@ html {
 /* Individual Vine */
 .vine {
     position: absolute;
-    top: -20px;
     width: 3px;
     background: linear-gradient(180deg, 
-        transparent 0%, 
-        #2d1a1a 10%, 
+        #2d1a1a 0%, 
         #1a0f0f 30%, 
         #2d1a1a 50%,
         #1a0f0f 70%,
-        #2d1a1a 90%,
-        transparent 100%);
+        #2d1a1a 100%);
     border-radius: 2px;
-    animation: vineGrow 3s ease-out forwards;
     transform-origin: top center;
+    opacity: 0;
+}
+
+.vine.from-top {
+    top: -20px;
+    animation: vineGrowDown 3s ease-out forwards;
+}
+
+.vine.from-bottom {
+    bottom: -20px;
+    top: auto;
+    transform-origin: bottom center;
+    animation: vineGrowUp 3s ease-out forwards;
+}
+
+.vine.from-left {
+    left: -20px;
+    top: auto;
+    transform-origin: left center;
+    animation: vineGrowRight 3s ease-out forwards;
+}
+
+.vine.from-right {
+    right: -20px;
+    left: auto;
+    top: auto;
+    transform-origin: right center;
+    animation: vineGrowLeft 3s ease-out forwards;
 }
 
 .vine::before,
@@ -1675,7 +1706,7 @@ html {
 /* Vine tendrils */
 .vine-tendril {
     position: absolute;
-    width: 20px;
+    width: 25px;
     height: 2px;
     background: linear-gradient(90deg, #2d1a1a, transparent);
     border-radius: 1px;
@@ -1683,17 +1714,29 @@ html {
 }
 
 .vine-tendril.left {
+    left: -2px;
     transform: rotate(-45deg);
 }
 
 .vine-tendril.right {
-    right: 0;
+    right: -2px;
+    left: auto;
     transform: rotate(45deg);
     background: linear-gradient(-90deg, #2d1a1a, transparent);
     transform-origin: right center;
 }
 
-@keyframes vineGrow {
+/* Vine branch for spreading effect */
+.vine-branch {
+    position: absolute;
+    width: 2px;
+    height: 60px;
+    background: linear-gradient(180deg, #2d1a1a, transparent);
+    border-radius: 1px;
+    transform-origin: top center;
+}
+
+@keyframes vineGrowDown {
     0% {
         height: 0;
         opacity: 0;
@@ -1704,6 +1747,71 @@ html {
     100% {
         height: 120vh;
         opacity: 0.9;
+    }
+}
+
+@keyframes vineGrowUp {
+    0% {
+        height: 0;
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.8;
+    }
+    100% {
+        height: 60vh;
+        opacity: 0.9;
+    }
+}
+
+@keyframes vineGrowRight {
+    0% {
+        width: 0;
+        height: 3px;
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.8;
+    }
+    100% {
+        width: 50vw;
+        height: 3px;
+        opacity: 0.9;
+    }
+}
+
+@keyframes vineGrowLeft {
+    0% {
+        width: 0;
+        height: 3px;
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.8;
+    }
+    100% {
+        width: 50vw;
+        height: 3px;
+        opacity: 0.9;
+    }
+}
+
+/* Corner vines */
+.vine.corner {
+    animation: vineGrowCorner 3.5s ease-out forwards;
+}
+
+@keyframes vineGrowCorner {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.85;
     }
 }
 

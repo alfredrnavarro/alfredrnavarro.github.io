@@ -593,32 +593,100 @@ class UpsideDownMode {
     }
 
     createVines() {
-        const vineCount = 12;
-        
-        for (let i = 0; i < vineCount; i++) {
-            const vine = document.createElement('div');
-            vine.className = 'vine';
-            
-            // Random horizontal position
-            vine.style.left = `${Math.random() * 100}%`;
-            
-            // Random delay for staggered effect
-            vine.style.animationDelay = `${Math.random() * 2}s`;
-            
-            // Random width variation
-            vine.style.width = `${2 + Math.random() * 3}px`;
-            
-            // Add some tendrils
-            const tendrilCount = 3 + Math.floor(Math.random() * 4);
-            for (let j = 0; j < tendrilCount; j++) {
-                const tendril = document.createElement('div');
-                tendril.className = `vine-tendril ${Math.random() > 0.5 ? 'left' : 'right'}`;
-                tendril.style.top = `${15 + j * 20}%`;
-                vine.appendChild(tendril);
-            }
-            
-            this.vinesContainer.appendChild(vine);
+        // Vines from top
+        for (let i = 0; i < 8; i++) {
+            this.createVine('top', `${5 + Math.random() * 90}%`, Math.random() * 1.5);
         }
+        
+        // Vines from bottom
+        for (let i = 0; i < 5; i++) {
+            this.createVine('bottom', `${10 + Math.random() * 80}%`, Math.random() * 2);
+        }
+        
+        // Vines from left
+        for (let i = 0; i < 4; i++) {
+            this.createVine('left', `${10 + Math.random() * 80}%`, Math.random() * 2.5);
+        }
+        
+        // Vines from right
+        for (let i = 0; i < 4; i++) {
+            this.createVine('right', `${10 + Math.random() * 80}%`, Math.random() * 2.5);
+        }
+        
+        // Corner vines (spreading diagonally)
+        this.createCornerVines();
+    }
+
+    createVine(direction, position, delay) {
+        const vine = document.createElement('div');
+        vine.className = `vine from-${direction}`;
+        
+        // Position based on direction
+        if (direction === 'top' || direction === 'bottom') {
+            vine.style.left = position;
+            // Add slight rotation for organic feel
+            const rotation = -15 + Math.random() * 30;
+            vine.style.transform = `rotate(${rotation}deg)`;
+        } else {
+            vine.style.top = position;
+            const rotation = -15 + Math.random() * 30;
+            vine.style.transform = `rotate(${rotation}deg)`;
+        }
+        
+        vine.style.animationDelay = `${delay}s`;
+        vine.style.width = `${2 + Math.random() * 3}px`;
+        
+        // Add tendrils
+        const tendrilCount = 2 + Math.floor(Math.random() * 4);
+        for (let j = 0; j < tendrilCount; j++) {
+            const tendril = document.createElement('div');
+            tendril.className = `vine-tendril ${Math.random() > 0.5 ? 'left' : 'right'}`;
+            tendril.style.top = `${10 + j * 22}%`;
+            // Random angle variation
+            const baseAngle = tendril.classList.contains('left') ? -45 : 45;
+            tendril.style.transform = `rotate(${baseAngle + (Math.random() * 30 - 15)}deg)`;
+            vine.appendChild(tendril);
+        }
+        
+        // Add branches for spreading effect
+        if (Math.random() > 0.5) {
+            const branchCount = 1 + Math.floor(Math.random() * 2);
+            for (let k = 0; k < branchCount; k++) {
+                const branch = document.createElement('div');
+                branch.className = 'vine-branch';
+                branch.style.top = `${30 + k * 25}%`;
+                branch.style.left = Math.random() > 0.5 ? '-1px' : '1px';
+                branch.style.transform = `rotate(${Math.random() > 0.5 ? 30 : -30}deg)`;
+                branch.style.height = `${40 + Math.random() * 40}px`;
+                vine.appendChild(branch);
+            }
+        }
+        
+        this.vinesContainer.appendChild(vine);
+    }
+
+    createCornerVines() {
+        const corners = [
+            { x: '0%', y: '0%', rotate: 45 },
+            { x: '100%', y: '0%', rotate: 135 },
+            { x: '0%', y: '100%', rotate: -45 },
+            { x: '100%', y: '100%', rotate: -135 }
+        ];
+        
+        corners.forEach((corner, index) => {
+            for (let i = 0; i < 3; i++) {
+                const vine = document.createElement('div');
+                vine.className = 'vine corner';
+                vine.style.left = corner.x;
+                vine.style.top = corner.y;
+                vine.style.height = `${100 + Math.random() * 150}px`;
+                vine.style.width = `${2 + Math.random() * 2}px`;
+                vine.style.transform = `rotate(${corner.rotate + (Math.random() * 40 - 20)}deg)`;
+                vine.style.animationDelay = `${index * 0.3 + Math.random() * 0.5}s`;
+                
+                this.vinesContainer.appendChild(vine);
+            }
+        });
     }
 
     createSpores() {
