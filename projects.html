@@ -84,12 +84,64 @@
     </header>
 
     <!-- Main Content -->
-    <main class="mx-auto max-w-3xl px-4 sm:px-8">
+    <main class="mx-auto max-w-5xl px-4 sm:px-8">
         <!-- Projects Section -->
         <section id="projects" class="mb-16">
             <div class="prose">
                 <h1>Projects</h1>
-                <p style="font-size: 1.25rem; color: var(--color-secondary); text-align: center; margin-top: 3rem;">Projects coming Soon</p>
+                
+                <!-- Projects Grid -->
+                <div class="projects-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 2rem;">
+                    
+                    <!-- Project 1: Mosquito Tracker -->
+                    <div class="project-card" style="background: var(--color-card-bg); border-radius: 1rem; padding: 1.5rem; border: 1px solid var(--color-border); transition: transform 0.2s ease, box-shadow 0.2s ease;">
+                        <h3 style="margin: 0 0 0.75rem 0; font-size: 1.25rem; color: var(--color-global-text);">Mosquito Tracker</h3>
+                        <p style="font-size: 0.95rem; color: var(--color-secondary); margin-bottom: 1rem; line-height: 1.6;">An ultra-light, low-bandwidth version of the GLOBE Observer experience built for places with slow, unreliable, or no connectivity. Features client-side WebP compression, offline-first caching, and a "sync later" queue for field data collection.</p>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
+                            <span style="background: var(--color-tag-bg); color: var(--color-tag-text); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem;">Astro</span>
+                            <span style="background: var(--color-tag-bg); color: var(--color-tag-text); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem;">Svelte</span>
+                            <span style="background: var(--color-tag-bg); color: var(--color-tag-text); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem;">TypeScript</span>
+                            <span style="background: var(--color-tag-bg); color: var(--color-tag-text); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem;">JavaScript</span>
+                        </div>
+                        <div style="display: flex; gap: 1rem;">
+                            <a href="https://devpost.com/software/app-improvement-track" target="_blank" rel="noopener" style="color: var(--color-accent-2); text-decoration: none; font-size: 0.875rem; display: inline-flex; align-items: center; gap: 0.25rem;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm7.5-6.923c-.67.204-1.335.82-1.887 1.855A7.97 7.97 0 0 0 5.145 4H7.5V1.077zM4.09 4a9.267 9.267 0 0 1 .64-1.539 6.7 6.7 0 0 1 .597-.933A7.025 7.025 0 0 0 2.255 4H4.09zm-.582 3.5c.03-.877.138-1.718.312-2.5H1.674a6.958 6.958 0 0 0-.656 2.5h2.49zM4.847 5a12.5 12.5 0 0 0-.338 2.5H7.5V5H4.847zM8.5 5v2.5h2.99a12.495 12.495 0 0 0-.337-2.5H8.5zM4.51 8.5a12.5 12.5 0 0 0 .337 2.5H7.5V8.5H4.51zm3.99 0V11h2.653c.187-.765.306-1.608.338-2.5H8.5zM5.145 12c.138.386.295.744.468 1.068.552 1.035 1.218 1.65 1.887 1.855V12H5.145zm.182 2.472a6.696 6.696 0 0 1-.597-.933A9.268 9.268 0 0 1 4.09 12H2.255a7.024 7.024 0 0 0 3.072 2.472zM3.82 11a13.652 13.652 0 0 1-.312-2.5h-2.49c.062.89.291 1.733.656 2.5H3.82zm6.853 3.472A7.024 7.024 0 0 0 13.745 12H11.91a9.27 9.27 0 0 1-.64 1.539 6.688 6.688 0 0 1-.597.933zM8.5 12v2.923c.67-.204 1.335-.82 1.887-1.855.173-.324.33-.682.468-1.068H8.5zm3.68-1h2.146c.365-.767.594-1.61.656-2.5h-2.49a13.65 13.65 0 0 1-.312 2.5zm2.802-3.5a6.959 6.959 0 0 0-.656-2.5H12.18c.174.782.282 1.623.312 2.5h2.49zM11.27 2.461c.247.464.462.98.64 1.539h1.835a7.024 7.024 0 0 0-3.072-2.472c.218.284.418.598.597.933zM10.855 4a7.966 7.966 0 0 0-.468-1.068C9.835 1.897 9.17 1.282 8.5 1.077V4h2.355z"/></svg>
+                                Devpost
+                            </a>
+                            <a href="https://github.com/matheusmaldaner/MosquitoTracker" target="_blank" rel="noopener" style="color: var(--color-accent-2); text-decoration: none; font-size: 0.875rem; display: inline-flex; align-items: center; gap: 0.25rem;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.026 2c-5.509 0-9.974 4.465-9.974 9.974 0 4.406 2.857 8.145 6.821 9.465.499.09.679-.217.679-.481 0-.237-.008-.865-.011-1.696-2.775.602-3.361-1.338-3.361-1.338-.452-1.152-1.107-1.459-1.107-1.459-.905-.619.069-.605.069-.605 1.002.07 1.527 1.028 1.527 1.028.89 1.524 2.336 1.084 2.902.829.091-.645.351-1.085.635-1.334-2.214-.251-4.542-1.107-4.542-4.93 0-1.087.389-1.979 1.024-2.675-.101-.253-.446-1.268.099-2.64 0 0 .837-.269 2.742 1.021a9.582 9.582 0 0 1 2.496-.336 9.554 9.554 0 0 1 2.496.336c1.906-1.291 2.742-1.021 2.742-1.021.545 1.372.203 2.387.099 2.64.64.696 1.024 1.587 1.024 2.675 0 3.833-2.33 4.675-4.552 4.922.355.308.675.916.675 1.846 0 1.334-.012 2.41-.012 2.737 0 .267.178.577.687.479C19.146 20.115 22 16.379 22 11.974 22 6.465 17.535 2 12.026 2z"/></svg>
+                                GitHub
+                            </a>
+                            <a href="http://mosquito-tracker.vercel.app" target="_blank" rel="noopener" style="color: var(--color-accent-2); text-decoration: none; font-size: 0.875rem; display: inline-flex; align-items: center; gap: 0.25rem;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
+                                Live Demo
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Project 2: Emergency Resource Locator -->
+                    <div class="project-card" style="background: var(--color-card-bg); border-radius: 1rem; padding: 1.5rem; border: 1px solid var(--color-border); transition: transform 0.2s ease, box-shadow 0.2s ease;">
+                        <h3 style="margin: 0 0 0.75rem 0; font-size: 1.25rem; color: var(--color-global-text);">Emergency Resource Locator</h3>
+                        <p style="font-size: 0.95rem; color: var(--color-secondary); margin-bottom: 1rem; line-height: 1.6;">A platform that helps users quickly find nearby hospitals, shelters, pharmacies, and emergency services during crises. Features interactive maps with live location, scenario-specific instructions for Florida disasters (floods, hurricanes, tornadoes).</p>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
+                            <span style="background: var(--color-tag-bg); color: var(--color-tag-text); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem;">React Native</span>
+                            <span style="background: var(--color-tag-bg); color: var(--color-tag-text); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem;">JavaScript</span>
+                            <span style="background: var(--color-tag-bg); color: var(--color-tag-text); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem;">Leaflet.js</span>
+                            <span style="background: var(--color-tag-bg); color: var(--color-tag-text); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem;">Vite</span>
+                        </div>
+                        <div style="display: flex; gap: 1rem;">
+                            <a href="https://devpost.com/software/emergency-resource-locator" target="_blank" rel="noopener" style="color: var(--color-accent-2); text-decoration: none; font-size: 0.875rem; display: inline-flex; align-items: center; gap: 0.25rem;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm7.5-6.923c-.67.204-1.335.82-1.887 1.855A7.97 7.97 0 0 0 5.145 4H7.5V1.077zM4.09 4a9.267 9.267 0 0 1 .64-1.539 6.7 6.7 0 0 1 .597-.933A7.025 7.025 0 0 0 2.255 4H4.09zm-.582 3.5c.03-.877.138-1.718.312-2.5H1.674a6.958 6.958 0 0 0-.656 2.5h2.49zM4.847 5a12.5 12.5 0 0 0-.338 2.5H7.5V5H4.847zM8.5 5v2.5h2.99a12.495 12.495 0 0 0-.337-2.5H8.5zM4.51 8.5a12.5 12.5 0 0 0 .337 2.5H7.5V8.5H4.51zm3.99 0V11h2.653c.187-.765.306-1.608.338-2.5H8.5zM5.145 12c.138.386.295.744.468 1.068.552 1.035 1.218 1.65 1.887 1.855V12H5.145zm.182 2.472a6.696 6.696 0 0 1-.597-.933A9.268 9.268 0 0 1 4.09 12H2.255a7.024 7.024 0 0 0 3.072 2.472zM3.82 11a13.652 13.652 0 0 1-.312-2.5h-2.49c.062.89.291 1.733.656 2.5H3.82zm6.853 3.472A7.024 7.024 0 0 0 13.745 12H11.91a9.27 9.27 0 0 1-.64 1.539 6.688 6.688 0 0 1-.597.933zM8.5 12v2.923c.67-.204 1.335-.82 1.887-1.855.173-.324.33-.682.468-1.068H8.5zm3.68-1h2.146c.365-.767.594-1.61.656-2.5h-2.49a13.65 13.65 0 0 1-.312 2.5zm2.802-3.5a6.959 6.959 0 0 0-.656-2.5H12.18c.174.782.282 1.623.312 2.5h2.49zM11.27 2.461c.247.464.462.98.64 1.539h1.835a7.024 7.024 0 0 0-3.072-2.472c.218.284.418.598.597.933zM10.855 4a7.966 7.966 0 0 0-.468-1.068C9.835 1.897 9.17 1.282 8.5 1.077V4h2.355z"/></svg>
+                                Devpost
+                            </a>
+                            <a href="https://emergency-resource-locator-two.vercel.app/" target="_blank" rel="noopener" style="color: var(--color-accent-2); text-decoration: none; font-size: 0.875rem; display: inline-flex; align-items: center; gap: 0.25rem;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
+                                Live Demo
+                            </a>
+                        </div>
+                    </div>
+                    
+                </div>
             </div>
         </section>
     </main>
