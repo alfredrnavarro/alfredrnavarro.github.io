@@ -1631,59 +1631,67 @@ html {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 1;
+    z-index: -1;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* The Glowing Portal */
+/* The Glowing Portal - Vertical Rift/Crack */
 .upside-down-portal {
     position: absolute;
-    width: 200px;
-    height: 280px;
-    background: radial-gradient(ellipse at center, 
-        #ff4400 0%,
-        #cc2200 15%,
-        #991100 30%,
-        #660800 50%,
-        #330400 70%,
+    width: 60px;
+    height: 350px;
+    background: linear-gradient(180deg,
+        transparent 0%,
+        rgba(255, 150, 50, 0.3) 10%,
+        rgba(255, 120, 30, 0.8) 30%,
+        #ff8833 45%,
+        #ffaa55 50%,
+        #ff8833 55%,
+        rgba(255, 120, 30, 0.8) 70%,
+        rgba(255, 150, 50, 0.3) 90%,
         transparent 100%);
-    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    border-radius: 50% 50% 50% 50% / 5% 5% 5% 5%;
     animation: portalPulse 2s ease-in-out infinite, portalGlow 3s ease-in-out infinite;
     box-shadow: 
-        0 0 60px 30px rgba(255, 68, 0, 0.6),
-        0 0 120px 60px rgba(204, 34, 0, 0.4),
-        0 0 200px 100px rgba(153, 17, 0, 0.3),
-        inset 0 0 60px 20px rgba(255, 100, 50, 0.5);
+        0 0 30px 15px rgba(255, 136, 51, 0.5),
+        0 0 60px 30px rgba(255, 100, 30, 0.3),
+        0 0 100px 50px rgba(255, 80, 20, 0.2),
+        inset 0 0 30px 10px rgba(255, 200, 150, 0.6);
     z-index: 10;
 }
 
 .upside-down-portal::before {
     content: '';
     position: absolute;
-    top: 10%;
-    left: 10%;
-    width: 80%;
-    height: 80%;
-    background: radial-gradient(ellipse at center,
-        rgba(255, 200, 150, 0.8) 0%,
-        rgba(255, 100, 50, 0.6) 30%,
-        transparent 70%);
-    border-radius: 50%;
+    top: 5%;
+    left: 15%;
+    width: 70%;
+    height: 90%;
+    background: linear-gradient(180deg,
+        transparent 0%,
+        rgba(255, 220, 180, 0.9) 20%,
+        #ffcc99 40%,
+        #ffddaa 50%,
+        #ffcc99 60%,
+        rgba(255, 220, 180, 0.9) 80%,
+        transparent 100%);
+    border-radius: 50% 50% 50% 50% / 3% 3% 3% 3%;
     animation: portalCore 1.5s ease-in-out infinite;
+    filter: blur(2px);
 }
 
 .upside-down-portal::after {
     content: '';
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
+    top: -20%;
+    left: -100%;
+    width: 300%;
+    height: 140%;
     background: 
-        radial-gradient(ellipse at center, transparent 30%, rgba(255, 50, 0, 0.1) 50%, transparent 70%);
+        radial-gradient(ellipse at center, rgba(255, 150, 80, 0.15) 0%, transparent 50%);
     animation: portalRays 4s linear infinite;
 }
 
@@ -1695,17 +1703,17 @@ html {
 @keyframes portalGlow {
     0%, 100% { 
         box-shadow: 
-            0 0 60px 30px rgba(255, 68, 0, 0.6),
-            0 0 120px 60px rgba(204, 34, 0, 0.4),
-            0 0 200px 100px rgba(153, 17, 0, 0.3),
-            inset 0 0 60px 20px rgba(255, 100, 50, 0.5);
+            0 0 30px 15px rgba(255, 136, 51, 0.5),
+            0 0 60px 30px rgba(255, 100, 30, 0.3),
+            0 0 100px 50px rgba(255, 80, 20, 0.2),
+            inset 0 0 30px 10px rgba(255, 200, 150, 0.6);
     }
     50% { 
         box-shadow: 
-            0 0 80px 40px rgba(255, 68, 0, 0.8),
-            0 0 160px 80px rgba(204, 34, 0, 0.5),
-            0 0 250px 120px rgba(153, 17, 0, 0.4),
-            inset 0 0 80px 30px rgba(255, 100, 50, 0.7);
+            0 0 40px 20px rgba(255, 136, 51, 0.7),
+            0 0 80px 40px rgba(255, 100, 30, 0.4),
+            0 0 120px 60px rgba(255, 80, 20, 0.3),
+            inset 0 0 40px 15px rgba(255, 200, 150, 0.8);
     }
 }
 
@@ -1719,46 +1727,35 @@ html {
     100% { transform: rotate(360deg); }
 }
 
-/* Organic Tentacle/Vine */
+/* Organic Tentacle/Vine - Squiggly SVG-based */
 .portal-tentacle {
     position: absolute;
-    background: linear-gradient(var(--tentacle-angle, 180deg),
-        transparent 0%,
-        #1a0808 5%,
-        #2d1010 15%,
-        #3d1515 30%,
-        #4d1a1a 50%,
-        #3d1515 70%,
-        #2d1010 85%,
-        #1a0808 95%,
-        transparent 100%);
-    border-radius: 50%;
-    transform-origin: var(--origin-x, 50%) var(--origin-y, 0%);
-    animation: tentacleGrow var(--grow-duration, 2s) ease-out forwards,
-               tentacleWave var(--wave-duration, 4s) ease-in-out infinite;
-    animation-delay: var(--delay, 0s), var(--delay, 0s);
-    box-shadow: 
-        inset 2px 0 4px rgba(80, 20, 20, 0.5),
-        inset -2px 0 4px rgba(80, 20, 20, 0.5),
-        0 0 10px rgba(100, 30, 30, 0.3);
+    pointer-events: none;
     z-index: 5;
 }
 
+.portal-tentacle svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.portal-tentacle path {
+    fill: none;
+    stroke: #2d1010;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 3px rgba(100, 30, 30, 0.5));
+    animation: tentacleGrow var(--grow-duration, 2s) ease-out forwards;
+}
+
+.portal-tentacle path.glow {
+    stroke: rgba(150, 50, 30, 0.3);
+    filter: blur(3px);
+}
+
 .portal-tentacle::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(90deg,
-        transparent 0%,
-        rgba(150, 50, 50, 0.2) 30%,
-        rgba(200, 80, 80, 0.3) 50%,
-        rgba(150, 50, 50, 0.2) 70%,
-        transparent 100%);
-    border-radius: inherit;
-    animation: tentacleShine 3s ease-in-out infinite;
+    display: none;
 }
 
 /* Tentacle segments for organic look */
@@ -1788,14 +1785,14 @@ html {
 
 @keyframes tentacleGrow {
     0% {
-        transform: scale(0) rotate(var(--rotation, 0deg));
+        stroke-dashoffset: var(--path-length, 1000);
         opacity: 0;
     }
-    30% {
+    20% {
         opacity: 0.9;
     }
     100% {
-        transform: scale(1) rotate(var(--rotation, 0deg));
+        stroke-dashoffset: 0;
         opacity: 1;
     }
 }
@@ -1831,7 +1828,7 @@ html {
         rgba(100, 30, 30, 0.4) 100%);
     border-radius: 50%;
     pointer-events: none;
-    z-index: 1;
+    z-index: -1;
     animation: sporeFloat var(--float-duration, 8s) ease-in-out infinite;
     box-shadow: 0 0 6px 2px rgba(200, 50, 50, 0.3);
 }
@@ -1891,7 +1888,7 @@ html {
             rgba(30, 0, 0, 0.6) 70%,
             rgba(40, 0, 0, 0.8) 100%);
     pointer-events: none;
-    z-index: 0;
+    z-index: -2;
     animation: overlayPulse 3s ease-in-out infinite;
 }
 

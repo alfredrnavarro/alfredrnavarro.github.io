@@ -620,103 +620,168 @@ class UpsideDownMode {
     }
 
     createTentacles() {
-        // Create tentacles spreading in all directions from center
-        // All positioned relative to center (50%, 50%)
+        // Create squiggly tentacles using SVG paths
         const tentacleConfigs = [
-            // Top tentacles - spreading upward
-            { angle: -90, length: 500, width: 25, x: 50, y: 50, delay: 0 },
-            { angle: -75, length: 450, width: 20, x: 50, y: 50, delay: 0.2 },
-            { angle: -105, length: 480, width: 22, x: 50, y: 50, delay: 0.1 },
-            { angle: -60, length: 400, width: 16, x: 50, y: 50, delay: 0.4 },
-            { angle: -120, length: 420, width: 18, x: 50, y: 50, delay: 0.3 },
-            { angle: -85, length: 380, width: 14, x: 50, y: 50, delay: 0.5 },
-            { angle: -95, length: 390, width: 15, x: 50, y: 50, delay: 0.45 },
+            // Top tentacles
+            { angle: -90, length: 400, x: 50, y: 50, delay: 0 },
+            { angle: -75, length: 350, x: 50, y: 50, delay: 0.2 },
+            { angle: -105, length: 380, x: 50, y: 50, delay: 0.1 },
+            { angle: -60, length: 320, x: 50, y: 50, delay: 0.4 },
+            { angle: -120, length: 340, x: 50, y: 50, delay: 0.3 },
+            { angle: -85, length: 300, x: 50, y: 50, delay: 0.5 },
+            { angle: -95, length: 310, x: 50, y: 50, delay: 0.45 },
             
-            // Bottom tentacles - spreading downward
-            { angle: 90, length: 480, width: 24, x: 50, y: 50, delay: 0.1 },
-            { angle: 75, length: 420, width: 20, x: 50, y: 50, delay: 0.25 },
-            { angle: 105, length: 440, width: 21, x: 50, y: 50, delay: 0.15 },
-            { angle: 60, length: 380, width: 15, x: 50, y: 50, delay: 0.5 },
-            { angle: 120, length: 400, width: 17, x: 50, y: 50, delay: 0.4 },
+            // Bottom tentacles (roots)
+            { angle: 90, length: 300, x: 50, y: 50, delay: 0.1 },
+            { angle: 75, length: 280, x: 50, y: 50, delay: 0.25 },
+            { angle: 105, length: 290, x: 50, y: 50, delay: 0.15 },
+            { angle: 60, length: 250, x: 50, y: 50, delay: 0.5 },
+            { angle: 120, length: 260, x: 50, y: 50, delay: 0.4 },
             
-            // Left tentacles - spreading left
-            { angle: 180, length: 450, width: 22, x: 50, y: 50, delay: 0.2 },
-            { angle: 165, length: 400, width: 18, x: 50, y: 50, delay: 0.35 },
-            { angle: -165, length: 420, width: 19, x: 50, y: 50, delay: 0.3 },
-            { angle: 150, length: 350, width: 14, x: 50, y: 50, delay: 0.55 },
-            { angle: -150, length: 360, width: 15, x: 50, y: 50, delay: 0.5 },
+            // Left tentacles
+            { angle: 180, length: 350, x: 50, y: 50, delay: 0.2 },
+            { angle: 165, length: 320, x: 50, y: 50, delay: 0.35 },
+            { angle: -165, length: 340, x: 50, y: 50, delay: 0.3 },
+            { angle: 150, length: 280, x: 50, y: 50, delay: 0.55 },
+            { angle: -150, length: 290, x: 50, y: 50, delay: 0.5 },
             
-            // Right tentacles - spreading right
-            { angle: 0, length: 460, width: 23, x: 50, y: 50, delay: 0.15 },
-            { angle: 15, length: 410, width: 18, x: 50, y: 50, delay: 0.3 },
-            { angle: -15, length: 400, width: 17, x: 50, y: 50, delay: 0.35 },
-            { angle: 30, length: 340, width: 13, x: 50, y: 50, delay: 0.6 },
-            { angle: -30, length: 350, width: 14, x: 50, y: 50, delay: 0.55 },
+            // Right tentacles
+            { angle: 0, length: 360, x: 50, y: 50, delay: 0.15 },
+            { angle: 15, length: 330, x: 50, y: 50, delay: 0.3 },
+            { angle: -15, length: 320, x: 50, y: 50, delay: 0.35 },
+            { angle: 30, length: 270, x: 50, y: 50, delay: 0.6 },
+            { angle: -30, length: 280, x: 50, y: 50, delay: 0.55 },
             
-            // Diagonal corner tentacles
-            { angle: -45, length: 520, width: 20, x: 50, y: 50, delay: 0.25 },
-            { angle: -135, length: 500, width: 19, x: 50, y: 50, delay: 0.3 },
-            { angle: 45, length: 490, width: 18, x: 50, y: 50, delay: 0.35 },
-            { angle: 135, length: 510, width: 21, x: 50, y: 50, delay: 0.2 },
+            // Diagonal tentacles
+            { angle: -45, length: 400, x: 50, y: 50, delay: 0.25 },
+            { angle: -135, length: 380, x: 50, y: 50, delay: 0.3 },
+            { angle: 45, length: 370, x: 50, y: 50, delay: 0.35 },
+            { angle: 135, length: 390, x: 50, y: 50, delay: 0.2 },
         ];
 
         tentacleConfigs.forEach(config => {
-            this.createTentacle(config);
+            this.createSquigglyTentacle(config);
         });
     }
 
-    createTentacle(config) {
+    createSquigglyTentacle(config) {
         const tentacle = document.createElement('div');
         tentacle.className = 'portal-tentacle';
         
-        // Position from center of screen
-        tentacle.style.left = `${config.x}%`;
-        tentacle.style.top = `${config.y}%`;
-        tentacle.style.width = `${config.width}px`;
-        tentacle.style.height = `${config.length}px`;
+        // Calculate size based on length
+        const size = config.length * 2;
+        tentacle.style.width = `${size}px`;
+        tentacle.style.height = `${size}px`;
+        tentacle.style.left = `calc(${config.x}% - ${size/2}px)`;
+        tentacle.style.top = `calc(${config.y}% - ${size/2}px)`;
         
-        // Set CSS custom properties for animation
-        tentacle.style.setProperty('--rotation', `${config.angle}deg`);
-        tentacle.style.setProperty('--delay', `${config.delay}s`);
-        tentacle.style.setProperty('--grow-duration', `${1.5 + Math.random() * 1}s`);
-        tentacle.style.setProperty('--wave-duration', `${3 + Math.random() * 2}s`);
+        // Create SVG with squiggly path
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('viewBox', `0 0 ${size} ${size}`);
         
-        // Calculate gradient angle based on tentacle direction
-        const gradientAngle = config.angle + 90;
-        tentacle.style.setProperty('--tentacle-angle', `${gradientAngle}deg`);
+        // Generate squiggly path
+        const path = this.generateSquigglyPath(size/2, size/2, config.angle, config.length);
+        const pathLength = path.getTotalLength ? 1000 : 1000;
         
-        // Set transform origin based on angle
-        if (config.angle >= -90 && config.angle <= 90) {
-            tentacle.style.setProperty('--origin-x', '50%');
-            tentacle.style.setProperty('--origin-y', '0%');
-        } else {
-            tentacle.style.setProperty('--origin-x', '50%');
-            tentacle.style.setProperty('--origin-y', '100%');
-        }
+        // Main tentacle path
+        const mainPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        mainPath.setAttribute('d', path);
+        mainPath.setAttribute('stroke-width', `${8 + Math.random() * 6}`);
+        mainPath.style.strokeDasharray = pathLength;
+        mainPath.style.strokeDashoffset = pathLength;
+        mainPath.style.setProperty('--path-length', pathLength);
+        mainPath.style.setProperty('--grow-duration', `${1.5 + Math.random() * 1}s`);
+        mainPath.style.animationDelay = `${config.delay}s`;
         
-        // Add organic segments
-        const segmentCount = Math.floor(config.length / 40);
-        for (let i = 0; i < segmentCount; i++) {
-            const segment = document.createElement('div');
-            segment.className = 'tentacle-segment';
-            segment.style.top = `${(i / segmentCount) * 100}%`;
-            segment.style.opacity = 0.3 + Math.random() * 0.3;
-            tentacle.appendChild(segment);
-        }
+        // Glow path (thicker, blurred)
+        const glowPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        glowPath.setAttribute('d', path);
+        glowPath.setAttribute('class', 'glow');
+        glowPath.setAttribute('stroke-width', `${16 + Math.random() * 8}`);
+        glowPath.style.strokeDasharray = pathLength;
+        glowPath.style.strokeDashoffset = pathLength;
+        glowPath.style.setProperty('--path-length', pathLength);
+        glowPath.style.setProperty('--grow-duration', `${1.5 + Math.random() * 1}s`);
+        glowPath.style.animationDelay = `${config.delay}s`;
         
-        // Add small branch tentacles
+        svg.appendChild(glowPath);
+        svg.appendChild(mainPath);
+        
+        // Add smaller branch tentacles
         const branchCount = 2 + Math.floor(Math.random() * 3);
         for (let i = 0; i < branchCount; i++) {
-            const branch = document.createElement('div');
-            branch.className = 'tentacle-branch';
-            branch.style.top = `${20 + i * 25}%`;
-            branch.style.left = Math.random() > 0.5 ? '-6px' : `${config.width - 2}px`;
-            branch.style.transform = `rotate(${Math.random() > 0.5 ? -30 : 30}deg)`;
-            branch.style.animationDelay = `${Math.random() * 2}s`;
-            tentacle.appendChild(branch);
+            const branchAngle = config.angle + (Math.random() - 0.5) * 60;
+            const branchLength = config.length * (0.2 + Math.random() * 0.3);
+            const startDist = config.length * (0.3 + Math.random() * 0.5);
+            
+            // Calculate branch start point along main tentacle
+            const startX = size/2 + Math.cos(config.angle * Math.PI / 180) * startDist;
+            const startY = size/2 + Math.sin(config.angle * Math.PI / 180) * startDist;
+            
+            const branchPath = this.generateSquigglyPathFromPoint(startX, startY, branchAngle, branchLength);
+            
+            const branch = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            branch.setAttribute('d', branchPath);
+            branch.setAttribute('stroke-width', `${3 + Math.random() * 3}`);
+            branch.style.strokeDasharray = pathLength;
+            branch.style.strokeDashoffset = pathLength;
+            branch.style.setProperty('--path-length', pathLength);
+            branch.style.setProperty('--grow-duration', `${2 + Math.random() * 1}s`);
+            branch.style.animationDelay = `${config.delay + 0.5 + i * 0.2}s`;
+            
+            svg.appendChild(branch);
         }
         
+        tentacle.appendChild(svg);
         this.portalContainer.appendChild(tentacle);
+    }
+
+    generateSquigglyPath(startX, startY, angle, length) {
+        const rad = angle * Math.PI / 180;
+        const segments = 6 + Math.floor(Math.random() * 4);
+        const segmentLength = length / segments;
+        
+        let path = `M ${startX} ${startY}`;
+        let currentX = startX;
+        let currentY = startY;
+        
+        for (let i = 0; i < segments; i++) {
+            // Add randomness to direction
+            const wobble = (Math.random() - 0.5) * 0.5;
+            const segAngle = rad + wobble;
+            
+            // Calculate control points for curve
+            const cp1Dist = segmentLength * 0.5;
+            const cp2Dist = segmentLength * 0.8;
+            
+            const perpAngle = segAngle + Math.PI / 2;
+            const curveAmount = (Math.random() - 0.5) * 40;
+            
+            const cp1X = currentX + Math.cos(segAngle) * cp1Dist + Math.cos(perpAngle) * curveAmount;
+            const cp1Y = currentY + Math.sin(segAngle) * cp1Dist + Math.sin(perpAngle) * curveAmount;
+            
+            const cp2X = currentX + Math.cos(segAngle) * cp2Dist + Math.cos(perpAngle) * curveAmount * 0.5;
+            const cp2Y = currentY + Math.sin(segAngle) * cp2Dist + Math.sin(perpAngle) * curveAmount * 0.5;
+            
+            const endX = currentX + Math.cos(segAngle) * segmentLength;
+            const endY = currentY + Math.sin(segAngle) * segmentLength;
+            
+            path += ` C ${cp1X} ${cp1Y}, ${cp2X} ${cp2Y}, ${endX} ${endY}`;
+            
+            currentX = endX;
+            currentY = endY;
+        }
+        
+        return path;
+    }
+
+    generateSquigglyPathFromPoint(startX, startY, angle, length) {
+        return this.generateSquigglyPath(startX, startY, angle, length);
+    }
+
+    createTentacle(config) {
+        // Legacy method - now using createSquigglyTentacle
+        this.createSquigglyTentacle(config);
     }
 
     createSpores() {
