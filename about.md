@@ -35,11 +35,7 @@
 
 
 
-Hi I am Alfred Ramon Navarro, a student focusing on Machine Learning and Hardware at the University of Florida.
-
-I am a devoted Computer Engineering at the University of Florida, where I’m building a strong foundation in hardware, software, and problem-solving, I take a great interest in software development, robotics, and business. I am a proud member of the Southern Scholarship Foundation, and Data Science and Informatics.
-
-I'm a member of SHPE (Society of Hispanic Professional Engineers) and enjoy going to the gym, playing the piano, and enjoy many social activities.
+Hi, I’m Alfred Ramon Navarro, a Computer Engineering student at the University of Florida with a focus on machine learning and hardware. I’m building a strong foundation across hardware, software, and problem-solving, with particular interests in software development, robotics, and the business side of technology. I’m a proud member of the Southern Scholarship Foundation, Data Science and Informatics, and SHPE (Society of Hispanic Professional Engineers). Outside of academics I enjoy weightlifting, playing the piano, pickleball, and love to travel anywhere and everywhere, while also taking a keen interest in Hollywood acting and movie production.
 ---
 
 ## Leadership
