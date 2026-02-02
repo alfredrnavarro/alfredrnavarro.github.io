@@ -36,3 +36,10 @@ Hi I am Alfred Ramon Navarro, a student focusing on Machine Learning and Hardwar
 I am a devoted Computer Engineering at the University of Florida, where I’m building a strong foundation in hardware, software, and problem-solving, I take a great interest in software development, robotics, and business. I am a proud member of the Southern Scholarship Foundation, and Data Science and Informatics.
 
 I'm a member of SHPE (Society of Hispanic Professional Engineers) and enjoy going to the gym, playing the piano, and enjoy many social activities.
+---
+
+## Leadership
+
+### Social Chair — Southern Scholarship Foundation
+
+As Social Chair for the Southern Scholarship Foundation, I led initiatives that strengthened community engagement through inclusive event planning, clear communication, and disciplined budget management. I organized and promoted multicultural events and fundraisers, managed semester budgets, and collaborated closely with other leaders to maximize student involvement. This role strengthened my skills in leadership, strategic communication, event execution, and stakeholder collaboration.
