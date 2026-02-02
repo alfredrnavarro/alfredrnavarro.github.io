@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Navarro - Portfolio</title>
-    <meta name="description" content="DPhil student at Oxford studying Machine Learning and AI Safety">
+    <title>Experience - A Navarro</title>
+    <meta name="description" content="Experience by Alfred Navarro - Machine Learning and Hardware student at the University of Florida">
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,7 +28,7 @@
         <div class="header-grid">
             <!-- Logo -->
             <div class="header-logo">
-                <a href="#" class="group flex items-center">
+                <a href="index.html" class="group flex items-center">
                     <svg aria-hidden="true" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 2.5rem; height: 2.5rem;">
                         <title>Logo</title>
                         <defs>
@@ -46,12 +46,14 @@
 
             <!-- Title -->
             <div class="header-title">
-                <span class="text-xl font-bold sm:text-2xl">A Navarro</span>
+                <a href="index.html" style="text-decoration: none; color: inherit;">
+                    <span class="text-xl font-bold sm:text-2xl">A Navarro</span>
+                </a>
             </div>
 
             <!-- Desktop Navigation -->
             <nav class="mobile-nav-menu header-nav" id="navigation-menu">
-                <a href="#about">About</a>
+                <a href="index.html#about">About</a>
                 <a href="projects.html">Projects</a>
                 <a href="experience.html">Experience</a>
             </nav>
@@ -83,20 +85,59 @@
 
     <!-- Main Content -->
     <main class="mx-auto max-w-3xl px-4 sm:px-8">
-        <!-- About Section -->
-        <section id="about" class="mb-16">
-            <div class="prose" id="about-content">
-                <div class="loading-spinner">Loading about content...</div>
+        <!-- Experience Section -->
+        <section id="experience" class="mb-16">
+            <div class="prose" id="experience-content">
+                <h1>Experience</h1>
+
+                <div class="timeline">
+
+                    <div class="timeline-item">
+                        <span class="timeline-dot"></span>
+                        <div class="timeline-header">
+                            <span class="timeline-org">University of Florida</span>
+                            <span class="timeline-role">Bachelors in Computer Engineering</span>
+                            <span class="timeline-dates">Aug 2025 – <strong class="text-accent">Present</strong></span>
+                        </div>
+                        <div class="timeline-desc">GPA: 4.0</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <span class="timeline-dot"></span>
+                        <div class="timeline-header">
+                            <span class="timeline-org">Island TV</span>
+                            <span class="timeline-role">Production Intern</span>
+                            <span class="timeline-dates">Jun 2024 – Aug 2024</span>
+                        </div>
+                        <div class="timeline-meta">Miami, FL • On-Site</div>
+                        <div class="timeline-desc">Assisted the TV company on set and helped to edit and create content.</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <span class="timeline-dot"></span>
+                        <div class="timeline-header">
+                            <span class="timeline-org">Coding and Design Club</span>
+                            <span class="timeline-role">Teacher</span>
+                            <span class="timeline-dates">Aug 2022 – Jun 2025</span>
+                        </div>
+                        <div class="timeline-meta">Parkland, FL • On-Site</div>
+                        <div class="timeline-desc">Shared my overall knowledge of JavaScript and Circuitry to a class of +10 students.</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <span class="timeline-dot"></span>
+                        <div class="timeline-header">
+                            <span class="timeline-org">Physics Club</span>
+                            <span class="timeline-role">Co-Treasurer</span>
+                            <span class="timeline-dates">Aug 2023 – Jun 2025</span>
+                        </div>
+                        <div class="timeline-meta">Parkland, FL • On-site</div>
+                        <div class="timeline-desc">Responsible for the club's money and disbursement such as collecting dues, funding physics competitions, and funding projects</div>
+                    </div>
+
+                </div>
             </div>
         </section>
-
-        <!-- News Section -->
-        <!-- <section id="news" class="mb-16">
-            <div class="prose" id="news-content">
-                <div class="loading-spinner">Loading news content...</div>
-            </div>
-        </section> -->
-
     </main>
 
     <!-- Footer -->
