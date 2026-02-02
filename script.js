@@ -567,6 +567,9 @@ class UpsideDownMode {
         // Create organic tentacles spreading from portal
         this.createTentacles();
         
+        // Create dark edge tentacles
+        this.createEdgeTentacles();
+        
         // Create floating spores
         this.createSpores();
         
@@ -807,6 +810,125 @@ class UpsideDownMode {
             document.body.appendChild(spore);
             this.spores.push(spore);
         }
+    }
+
+    createEdgeTentacles() {
+        // Create dark tentacles along all edges of the screen
+        const edges = [
+            // Top edge - tentacles hanging down
+            { edge: 'top', count: 12 },
+            // Bottom edge - tentacles reaching up
+            { edge: 'bottom', count: 10 },
+            // Left edge - tentacles reaching right
+            { edge: 'left', count: 8 },
+            // Right edge - tentacles reaching left
+            { edge: 'right', count: 8 },
+        ];
+
+        edges.forEach(({ edge, count }) => {
+            for (let i = 0; i < count; i++) {
+                this.createEdgeTentacle(edge, i, count);
+            }
+        });
+    }
+
+    createEdgeTentacle(edge, index, total) {
+        const tentacle = document.createElement('div');
+        tentacle.className = 'edge-tentacle';
+        
+        // Determine position and angle based on edge
+        let x, y, angle, length;
+        const spread = 100 / (total + 1);
+        const position = spread * (index + 1);
+        
+        switch (edge) {
+            case 'top':
+                x = position;
+                y = 0;
+                angle = 90 + (Math.random() - 0.5) * 40; // Pointing down with variance
+                length = 80 + Math.random() * 120;
+                break;
+            case 'bottom':
+                x = position;
+                y = 100;
+                angle = -90 + (Math.random() - 0.5) * 40; // Pointing up with variance
+                length = 60 + Math.random() * 100;
+                break;
+            case 'left':
+                x = 0;
+                y = position;
+                angle = 0 + (Math.random() - 0.5) * 40; // Pointing right with variance
+                length = 60 + Math.random() * 100;
+                break;
+            case 'right':
+                x = 100;
+                y = position;
+                angle = 180 + (Math.random() - 0.5) * 40; // Pointing left with variance
+                length = 60 + Math.random() * 100;
+                break;
+        }
+        
+        const size = length * 2;
+        tentacle.style.width = `${size}px`;
+        tentacle.style.height = `${size}px`;
+        tentacle.style.left = `calc(${x}% - ${size/2}px)`;
+        tentacle.style.top = `calc(${y}% - ${size/2}px)`;
+        
+        // Create SVG
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('viewBox', `0 0 ${size} ${size}`);
+        
+        // Generate squiggly path
+        const path = this.generateSquigglyPath(size/2, size/2, angle, length);
+        const pathLength = 1000;
+        
+        // Main dark path
+        const mainPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        mainPath.setAttribute('d', path);
+        mainPath.setAttribute('stroke', '#0a0505');
+        mainPath.setAttribute('stroke-width', `${10 + Math.random() * 8}`);
+        mainPath.setAttribute('fill', 'none');
+        mainPath.setAttribute('stroke-linecap', 'round');
+        mainPath.style.strokeDasharray = pathLength;
+        mainPath.style.strokeDashoffset = pathLength;
+        mainPath.style.setProperty('--path-length', pathLength);
+        mainPath.style.setProperty('--grow-duration', `${1 + Math.random() * 1.5}s`);
+        mainPath.style.animationDelay = `${Math.random() * 0.8}s`;
+        mainPath.style.animation = `tentacleGrow var(--grow-duration) ease-out forwards`;
+        mainPath.style.filter = 'drop-shadow(0 0 2px rgba(0, 0, 0, 0.8))';
+        
+        svg.appendChild(mainPath);
+        
+        // Add smaller branches
+        const branchCount = 1 + Math.floor(Math.random() * 3);
+        for (let i = 0; i < branchCount; i++) {
+            const branchAngle = angle + (Math.random() - 0.5) * 80;
+            const branchLength = length * (0.2 + Math.random() * 0.3);
+            const startDist = length * (0.3 + Math.random() * 0.4);
+            
+            const startX = size/2 + Math.cos(angle * Math.PI / 180) * startDist;
+            const startY = size/2 + Math.sin(angle * Math.PI / 180) * startDist;
+            
+            const branchPathD = this.generateSquigglyPath(startX, startY, branchAngle, branchLength);
+            
+            const branch = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            branch.setAttribute('d', branchPathD);
+            branch.setAttribute('stroke', '#0a0505');
+            branch.setAttribute('stroke-width', `${4 + Math.random() * 4}`);
+            branch.setAttribute('fill', 'none');
+            branch.setAttribute('stroke-linecap', 'round');
+            branch.style.strokeDasharray = pathLength;
+            branch.style.strokeDashoffset = pathLength;
+            branch.style.setProperty('--path-length', pathLength);
+            branch.style.setProperty('--grow-duration', `${1.5 + Math.random() * 1}s`);
+            branch.style.animationDelay = `${0.5 + Math.random() * 0.8}s`;
+            branch.style.animation = `tentacleGrow var(--grow-duration) ease-out forwards`;
+            
+            svg.appendChild(branch);
+        }
+        
+        tentacle.appendChild(svg);
+        this.portalContainer.appendChild(tentacle);
     }
 
     createEmbers() {
