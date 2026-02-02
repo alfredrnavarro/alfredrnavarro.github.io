@@ -1642,7 +1642,8 @@ html {
 .upside-down-mode .timeline-org,
 .upside-down-mode .timeline-role,
 .upside-down-mode .project-card h3,
-.upside-down-mode .projects-grid h3 {
+.upside-down-mode .projects-grid h3,
+.upside-down-mode .gators-text {
     background: linear-gradient(135deg, #cc2222 0%, #ff4444 100%) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
