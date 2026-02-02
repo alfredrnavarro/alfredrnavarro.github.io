@@ -1560,3 +1560,39 @@ html {
     transform: translateY(-4px);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
 }
+
+/* ===================================
+   Grandfather Clock Button
+   =================================== */
+#grandfather-clock {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 1.5rem;
+    width: 32px;
+    height: 48px;
+    padding: 0;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border-outer);
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--color-secondary);
+    opacity: 0.6;
+    transition: opacity 0.2s ease, transform 0.2s ease, color 0.2s ease;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+#grandfather-clock:hover {
+    opacity: 1;
+    color: var(--color-primary);
+    transform: scale(1.1);
+}
+
+#grandfather-clock svg {
+    width: 20px;
+    height: 30px;
+}
