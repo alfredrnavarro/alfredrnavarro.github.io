@@ -525,9 +525,10 @@ prefersReducedMotion.addEventListener('change', () => {
 class UpsideDownMode {
     constructor() {
         this.isActive = false;
-        this.vinesContainer = null;
+        this.portalContainer = null;
         this.overlay = null;
         this.spores = [];
+        this.embers = [];
         this.init();
     }
 
@@ -555,16 +556,22 @@ class UpsideDownMode {
         this.overlay.className = 'upside-down-overlay';
         document.body.appendChild(this.overlay);
         
-        // Create vines container
-        this.vinesContainer = document.createElement('div');
-        this.vinesContainer.className = 'upside-down-vines';
-        document.body.appendChild(this.vinesContainer);
+        // Create portal container
+        this.portalContainer = document.createElement('div');
+        this.portalContainer.className = 'upside-down-portal-container';
+        document.body.appendChild(this.portalContainer);
         
-        // Create vines
-        this.createVines();
+        // Create the glowing portal
+        this.createPortal();
+        
+        // Create organic tentacles spreading from portal
+        this.createTentacles();
         
         // Create floating spores
         this.createSpores();
+        
+        // Create rising embers
+        this.createEmbers();
     }
 
     deactivate() {
@@ -577,10 +584,10 @@ class UpsideDownMode {
             this.overlay = null;
         }
         
-        // Remove vines
-        if (this.vinesContainer && this.vinesContainer.parentNode) {
-            this.vinesContainer.parentNode.removeChild(this.vinesContainer);
-            this.vinesContainer = null;
+        // Remove portal container
+        if (this.portalContainer && this.portalContainer.parentNode) {
+            this.portalContainer.parentNode.removeChild(this.portalContainer);
+            this.portalContainer = null;
         }
         
         // Remove spores
@@ -590,39 +597,129 @@ class UpsideDownMode {
             }
         });
         this.spores = [];
+        
+        // Clear ember interval
+        if (this.emberInterval) {
+            clearInterval(this.emberInterval);
+            this.emberInterval = null;
+        }
+        
+        // Remove remaining embers
+        this.embers.forEach(ember => {
+            if (ember && ember.parentNode) {
+                ember.parentNode.removeChild(ember);
+            }
+        });
+        this.embers = [];
     }
 
-    createVines() {
-        const vineCount = 12;
+    createPortal() {
+        const portal = document.createElement('div');
+        portal.className = 'upside-down-portal';
+        this.portalContainer.appendChild(portal);
+    }
+
+    createTentacles() {
+        // Create tentacles spreading in all directions from center
+        const tentacleConfigs = [
+            // Top tentacles
+            { angle: -90, length: 500, width: 25, x: 50, y: 50, delay: 0 },
+            { angle: -70, length: 450, width: 20, x: 55, y: 48, delay: 0.2 },
+            { angle: -110, length: 480, width: 22, x: 45, y: 48, delay: 0.1 },
+            { angle: -60, length: 400, width: 16, x: 60, y: 50, delay: 0.4 },
+            { angle: -120, length: 420, width: 18, x: 40, y: 50, delay: 0.3 },
+            { angle: -80, length: 380, width: 14, x: 52, y: 46, delay: 0.5 },
+            { angle: -100, length: 390, width: 15, x: 48, y: 46, delay: 0.45 },
+            
+            // Bottom tentacles
+            { angle: 90, length: 480, width: 24, x: 50, y: 55, delay: 0.1 },
+            { angle: 70, length: 420, width: 20, x: 55, y: 54, delay: 0.25 },
+            { angle: 110, length: 440, width: 21, x: 45, y: 54, delay: 0.15 },
+            { angle: 60, length: 380, width: 15, x: 58, y: 52, delay: 0.5 },
+            { angle: 120, length: 400, width: 17, x: 42, y: 52, delay: 0.4 },
+            
+            // Side tentacles (left)
+            { angle: 180, length: 450, width: 22, x: 45, y: 50, delay: 0.2 },
+            { angle: 160, length: 400, width: 18, x: 44, y: 55, delay: 0.35 },
+            { angle: -160, length: 420, width: 19, x: 44, y: 45, delay: 0.3 },
+            { angle: 150, length: 350, width: 14, x: 42, y: 58, delay: 0.55 },
+            { angle: -150, length: 360, width: 15, x: 42, y: 42, delay: 0.5 },
+            
+            // Side tentacles (right)
+            { angle: 0, length: 460, width: 23, x: 55, y: 50, delay: 0.15 },
+            { angle: 20, length: 410, width: 18, x: 56, y: 54, delay: 0.3 },
+            { angle: -20, length: 400, width: 17, x: 56, y: 46, delay: 0.35 },
+            { angle: 30, length: 340, width: 13, x: 58, y: 56, delay: 0.6 },
+            { angle: -30, length: 350, width: 14, x: 58, y: 44, delay: 0.55 },
+            
+            // Diagonal corner tentacles
+            { angle: -45, length: 520, width: 20, x: 58, y: 45, delay: 0.25 },
+            { angle: -135, length: 500, width: 19, x: 42, y: 45, delay: 0.3 },
+            { angle: 45, length: 490, width: 18, x: 58, y: 55, delay: 0.35 },
+            { angle: 135, length: 510, width: 21, x: 42, y: 55, delay: 0.2 },
+        ];
+
+        tentacleConfigs.forEach(config => {
+            this.createTentacle(config);
+        });
+    }
+
+    createTentacle(config) {
+        const tentacle = document.createElement('div');
+        tentacle.className = 'portal-tentacle';
         
-        for (let i = 0; i < vineCount; i++) {
-            const vine = document.createElement('div');
-            vine.className = 'vine';
-            
-            // Random horizontal position
-            vine.style.left = `${Math.random() * 100}%`;
-            
-            // Random delay for staggered effect
-            vine.style.animationDelay = `${Math.random() * 2}s`;
-            
-            // Random width variation
-            vine.style.width = `${2 + Math.random() * 3}px`;
-            
-            // Add some tendrils
-            const tendrilCount = 3 + Math.floor(Math.random() * 4);
-            for (let j = 0; j < tendrilCount; j++) {
-                const tendril = document.createElement('div');
-                tendril.className = `vine-tendril ${Math.random() > 0.5 ? 'left' : 'right'}`;
-                tendril.style.top = `${15 + j * 20}%`;
-                vine.appendChild(tendril);
-            }
-            
-            this.vinesContainer.appendChild(vine);
+        // Position from center of screen
+        tentacle.style.left = `${config.x}%`;
+        tentacle.style.top = `${config.y}%`;
+        tentacle.style.width = `${config.width}px`;
+        tentacle.style.height = `${config.length}px`;
+        
+        // Set CSS custom properties for animation
+        tentacle.style.setProperty('--rotation', `${config.angle}deg`);
+        tentacle.style.setProperty('--delay', `${config.delay}s`);
+        tentacle.style.setProperty('--grow-duration', `${1.5 + Math.random() * 1}s`);
+        tentacle.style.setProperty('--wave-duration', `${3 + Math.random() * 2}s`);
+        
+        // Calculate gradient angle based on tentacle direction
+        const gradientAngle = config.angle + 90;
+        tentacle.style.setProperty('--tentacle-angle', `${gradientAngle}deg`);
+        
+        // Set transform origin based on angle
+        if (config.angle >= -90 && config.angle <= 90) {
+            tentacle.style.setProperty('--origin-x', '50%');
+            tentacle.style.setProperty('--origin-y', '0%');
+        } else {
+            tentacle.style.setProperty('--origin-x', '50%');
+            tentacle.style.setProperty('--origin-y', '100%');
         }
+        
+        // Add organic segments
+        const segmentCount = Math.floor(config.length / 40);
+        for (let i = 0; i < segmentCount; i++) {
+            const segment = document.createElement('div');
+            segment.className = 'tentacle-segment';
+            segment.style.top = `${(i / segmentCount) * 100}%`;
+            segment.style.opacity = 0.3 + Math.random() * 0.3;
+            tentacle.appendChild(segment);
+        }
+        
+        // Add small branch tentacles
+        const branchCount = 2 + Math.floor(Math.random() * 3);
+        for (let i = 0; i < branchCount; i++) {
+            const branch = document.createElement('div');
+            branch.className = 'tentacle-branch';
+            branch.style.top = `${20 + i * 25}%`;
+            branch.style.left = Math.random() > 0.5 ? '-6px' : `${config.width - 2}px`;
+            branch.style.transform = `rotate(${Math.random() > 0.5 ? -30 : 30}deg)`;
+            branch.style.animationDelay = `${Math.random() * 2}s`;
+            tentacle.appendChild(branch);
+        }
+        
+        this.portalContainer.appendChild(tentacle);
     }
 
     createSpores() {
-        const sporeCount = 20;
+        const sporeCount = 30;
         
         for (let i = 0; i < sporeCount; i++) {
             const spore = document.createElement('div');
@@ -633,17 +730,52 @@ class UpsideDownMode {
             spore.style.top = `${Math.random() * 100}%`;
             
             // Random size
-            const size = 2 + Math.random() * 4;
+            const size = 3 + Math.random() * 6;
             spore.style.width = `${size}px`;
             spore.style.height = `${size}px`;
             
-            // Random animation delay
+            // Random animation
+            spore.style.setProperty('--float-duration', `${6 + Math.random() * 6}s`);
             spore.style.animationDelay = `${Math.random() * 8}s`;
-            spore.style.animationDuration = `${6 + Math.random() * 4}s`;
             
             document.body.appendChild(spore);
             this.spores.push(spore);
         }
+    }
+
+    createEmbers() {
+        // Continuously create rising embers from the portal
+        this.emberInterval = setInterval(() => {
+            if (!this.isActive) return;
+            
+            const ember = document.createElement('div');
+            ember.className = 'portal-ember';
+            
+            // Position near center (portal area)
+            ember.style.left = `${45 + Math.random() * 10}%`;
+            ember.style.top = `${45 + Math.random() * 10}%`;
+            
+            // Random properties
+            const size = 2 + Math.random() * 4;
+            ember.style.width = `${size}px`;
+            ember.style.height = `${size}px`;
+            ember.style.setProperty('--rise-duration', `${2 + Math.random() * 2}s`);
+            ember.style.setProperty('--drift', `${-30 + Math.random() * 60}px`);
+            
+            this.portalContainer.appendChild(ember);
+            this.embers.push(ember);
+            
+            // Remove ember after animation
+            setTimeout(() => {
+                if (ember.parentNode) {
+                    ember.parentNode.removeChild(ember);
+                }
+                const index = this.embers.indexOf(ember);
+                if (index > -1) {
+                    this.embers.splice(index, 1);
+                }
+            }, 4000);
+        }, 150);
     }
 }
 
