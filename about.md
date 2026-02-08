@@ -36,10 +36,29 @@
 
 
 Hi, I’m Alfred Ramon Navarro, a Computer Engineering student at the University of Florida with a focus on machine learning and hardware. I’m building a strong foundation across hardware, software, and problem-solving, with particular interests in software development, robotics, and the business side of technology. I’m a proud member of the Southern Scholarship Foundation, Data Science and Informatics, and SHPE (Society of Hispanic Professional Engineers). Outside of academics I enjoy weightlifting, playing the piano, pickleball, and love to travel anywhere and everywhere, while also taking a keen interest in Hollywood acting and movie production.
----
+
 
 ## Leadership
+
+### Event Coordinator — Data Science and Informatics
+
+As an Event Coordinator for Data Science and Informatics at the University of Florida, I organize and execute recurring events focused on career readiness and data science, collaborate with the executive board, manage event logistics, and promote General Body Meetings to drive student engagement and participation.
 
 ### Social Chair — Southern Scholarship Foundation
 
 As Social Chair for the Southern Scholarship Foundation, I led initiatives that strengthened community engagement through inclusive event planning, clear communication, and disciplined budget management. I organized and promoted multicultural events and fundraisers, managed semester budgets, and collaborated closely with other leaders to maximize student involvement. This role strengthened my skills in leadership, strategic communication, event execution, and stakeholder collaboration.
+
+## Previous Leadership
+
+### Teacher / General Member — Coding and Design Club
+**Parkland, Florida** | Aug 2022 – Jun 2025
+
+- Started off as a general member attending weekly meetings and learning how to code.
+- Taught computer science and computer engineering to students with Minecraft Redstone.
+- Shared my overall knowledge of JavaScript and Circuitry to a class of +10 students.
+
+### Co-Treasurer — Physics Club
+**Parkland, Florida** | Aug 2023 – Jun 2025
+
+- Responsible for assigning and creating dues on the district eStore and editing the club constitution.
+- Responsible for the club's money and disbursement, including collecting dues, funding physics competitions, and funding projects: rockets, bridges, catapults, etc.

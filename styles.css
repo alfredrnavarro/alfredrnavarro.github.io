@@ -688,10 +688,11 @@ body::before {
 
 /* Hover 'b' styling */
 .hover-b {
-    transition: color 0.2s ease;
+    transition: none;
 }
 .hover-b:hover {
     color: var(--color-primary-light);
+    transition: color 0.2s ease;
 }
 
 /* ===================================

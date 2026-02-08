@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alfred Navarro - Portfolio</title>
-    <meta name="description" content="Come see Alfred's portfolio">
+    <title>News - Alfred Navarro</title>
+    <meta name="description" content="News and updates from Alfred Navarro">
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,7 +28,7 @@
         <div class="header-grid">
             <!-- Logo -->
             <div class="header-logo">
-                <a href="#" class="group flex items-center">
+                <a href="index.html" class="group flex items-center">
                     <svg aria-hidden="true" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 2.5rem; height: 2.5rem;">
                         <title>Logo</title>
                         <defs>
@@ -46,13 +46,15 @@
 
             <!-- Title -->
             <div class="header-title">
-                <span class="text-xl font-bold sm:text-2xl">Alfred Navarro</span>
+                <a href="index.html" style="text-decoration: none; color: inherit;">
+                    <span class="text-xl font-bold sm:text-2xl">Alfred Navarro</span>
+                </a>
             </div>
 
             <!-- Desktop Navigation -->
             <nav class="mobile-nav-menu header-nav" id="navigation-menu">
-                <a href="#about">About</a>
-                <a href="news.html">News</a>
+                <a href="index.html#about">About</a>
+                <a href="news.html" class="active">News</a>
                 <a href="projects.html">Projects</a>
                 <a href="experience.html">Experience</a>
             </nav>
@@ -84,20 +86,13 @@
 
     <!-- Main Content -->
     <main class="mx-auto max-w-3xl px-4 sm:px-8">
-        <!-- About Section -->
-        <section id="about" class="mb-16">
-            <div class="prose" id="about-content">
-                <div class="loading-spinner">Loading about content...</div>
+        <!-- News Section -->
+        <section id="news" class="mb-16">
+            <div class="prose">
+                <h1>News</h1>
+                <p style="font-size: 1.5rem; color: var(--color-secondary); text-align: center; margin-top: 4rem;">Coming Soon!</p>
             </div>
         </section>
-
-        <!-- News Section -->
-        <!-- <section id="news" class="mb-16">
-            <div class="prose" id="news-content">
-                <div class="loading-spinner">Loading news content...</div>
-            </div>
-        </section> -->
-
     </main>
 
     <!-- Footer -->

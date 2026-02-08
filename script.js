@@ -341,9 +341,9 @@ class MarkdownLoader {
         // Convert links
         html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="cactus-link">$1</a>');
 
-        // Convert unordered lists
+        // Convert unordered lists - wrap consecutive <li> elements in <ul>
         html = html.replace(/^\s*- (.+)$/gm, '<li>$1</li>');
-        html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+        html = html.replace(/((?:<li>.*<\/li>\n?)+)/g, '<ul>$1</ul>');
 
         // Convert paragraphs (split by double newlines)
         const paragraphs = html.split(/\n\s*\n/);
