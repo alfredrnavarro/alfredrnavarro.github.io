@@ -52,15 +52,18 @@ class ThemeManager {
 class MobileNavigation {
     constructor() {
         this.menuOpen = false;
+        this.toggleTime = 0;
         this.init();
     }
 
     init() {
         const mobileButton = document.getElementById('toggle-navigation-menu');
         const header = document.getElementById('main-header');
-        
+
         if (mobileButton && header) {
-            mobileButton.addEventListener('click', () => {
+            // Use both click and touchend for reliable mobile response
+            mobileButton.addEventListener('click', (e) => {
+                e.stopPropagation();
                 this.toggleMenu(header, mobileButton);
             });
         }
@@ -75,23 +78,17 @@ class MobileNavigation {
             });
         });
 
-        // Close menu when clicking outside (mobile)
+        // Close menu when clicking/tapping outside
         document.addEventListener('click', (e) => {
-            if (this.menuOpen && 
-                !e.target.closest('#main-header') && 
+            // Guard: ignore if menu was just toggled (prevents open-then-immediately-close)
+            if (Date.now() - this.toggleTime < 300) return;
+            if (this.menuOpen &&
+                !e.target.closest('#main-header') &&
+                !e.target.closest('#navigation-menu') &&
                 header && mobileButton) {
                 this.toggleMenu(header, mobileButton);
             }
         });
-
-        // Handle touch events for better mobile interaction
-        document.addEventListener('touchstart', (e) => {
-            if (this.menuOpen && 
-                !e.target.closest('#main-header') && 
-                header && mobileButton) {
-                this.toggleMenu(header, mobileButton);
-            }
-        }, { passive: true });
 
         // Handle escape key to close menu
         document.addEventListener('keydown', (e) => {
@@ -103,19 +100,18 @@ class MobileNavigation {
 
     toggleMenu(header, button) {
         this.menuOpen = !this.menuOpen;
-        
+        this.toggleTime = Date.now();
+
         if (this.menuOpen) {
             header.classList.add('menu-open');
             document.body.classList.add('menu-open');
-            // Prevent background scrolling on mobile
             document.body.style.overflow = 'hidden';
         } else {
             header.classList.remove('menu-open');
             document.body.classList.remove('menu-open');
-            // Restore background scrolling
             document.body.style.overflow = '';
         }
-        
+
         button.setAttribute('aria-expanded', this.menuOpen.toString());
     }
 }
@@ -550,7 +546,10 @@ class UpsideDownMode {
     activate() {
         this.isActive = true;
         document.body.classList.add('upside-down-mode');
-        
+
+        // Recolor floating icon extrusions to dark red
+        this.recolorExtrusions({ r: 140, g: 30, b: 30 });
+
         // Create overlay
         this.overlay = document.createElement('div');
         this.overlay.className = 'upside-down-overlay';
@@ -580,7 +579,10 @@ class UpsideDownMode {
     deactivate() {
         this.isActive = false;
         document.body.classList.remove('upside-down-mode');
-        
+
+        // Restore floating icon extrusion colors
+        updateExtrusionTheme();
+
         // Remove overlay
         if (this.overlay && this.overlay.parentNode) {
             this.overlay.parentNode.removeChild(this.overlay);
@@ -965,9 +967,109 @@ class UpsideDownMode {
             }, 4000);
         }, 150);
     }
+
+    recolorExtrusions(baseColor) {
+        document.querySelectorAll('.floating-icon').forEach(icon => {
+            const layers = icon.querySelectorAll('.extrusion-layer svg');
+            const count = layers.length;
+            layers.forEach((svg, i) => {
+                const distFromEdge = Math.min(i, count - 1 - i);
+                const darkenFactor = 1 - ((1 - distFromEdge / (count / 2)) * 0.35);
+                const r = Math.round(baseColor.r * darkenFactor);
+                const g = Math.round(baseColor.g * darkenFactor);
+                const b = Math.round(baseColor.b * darkenFactor);
+                svg.style.color = `rgb(${r}, ${g}, ${b})`;
+            });
+        });
+    }
 }
 
 // Initialize Upside Down Mode
 document.addEventListener('DOMContentLoaded', () => {
     new UpsideDownMode();
+});
+
+// ===================================
+// Floating Icons 3D Extrusion
+// ===================================
+class FloatingIcons3D {
+    constructor() {
+        this.layerCount = 8;
+        this.layerSpacing = 2; // px between layers
+        this.init();
+    }
+
+    init() {
+        const icons = document.querySelectorAll('.floating-icon');
+        icons.forEach(icon => this.extrudeIcon(icon));
+    }
+
+    extrudeIcon(iconEl) {
+        const svg = iconEl.querySelector(':scope > svg');
+        if (!svg) return;
+
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        const baseColor = isDark
+            ? { r: 185, g: 190, b: 200 }
+            : { r: 210, g: 215, b: 220 };
+
+        const totalDepth = this.layerCount * this.layerSpacing;
+        const halfDepth = totalDepth / 2;
+
+        svg.style.transform = `translateZ(${halfDepth}px)`;
+
+        const fragment = document.createDocumentFragment();
+
+        for (let i = 0; i < this.layerCount; i++) {
+            const layer = document.createElement('div');
+            layer.className = 'extrusion-layer';
+
+            const clonedSvg = svg.cloneNode(true);
+            clonedSvg.style.transform = '';
+
+            // Darken layers toward the middle for shading
+            const distFromEdge = Math.min(i, this.layerCount - 1 - i);
+            const darkenFactor = 1 - ((1 - distFromEdge / (this.layerCount / 2)) * 0.35);
+            const r = Math.round(baseColor.r * darkenFactor);
+            const g = Math.round(baseColor.g * darkenFactor);
+            const b = Math.round(baseColor.b * darkenFactor);
+
+            clonedSvg.style.color = `rgb(${r}, ${g}, ${b})`;
+            clonedSvg.style.filter = 'none';
+
+            const z = halfDepth - (i * this.layerSpacing);
+            layer.style.transform = `translateZ(${z}px)`;
+            layer.appendChild(clonedSvg);
+
+            fragment.appendChild(layer);
+        }
+
+        iconEl.insertBefore(fragment, svg);
+    }
+}
+
+// Update extrusion colors on theme change
+function updateExtrusionTheme() {
+    document.querySelectorAll('.floating-icon').forEach(icon => {
+        icon.querySelectorAll('.extrusion-layer').forEach(l => l.remove());
+        // Reset front SVG transform so extrudeIcon can reapply it
+        const svg = icon.querySelector(':scope > svg');
+        if (svg) svg.style.transform = '';
+    });
+    new FloatingIcons3D();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    new FloatingIcons3D();
+
+    // Listen for theme changes
+    const observer = new MutationObserver(mutations => {
+        for (const m of mutations) {
+            if (m.attributeName === 'data-theme') {
+                updateExtrusionTheme();
+                break;
+            }
+        }
+    });
+    observer.observe(document.documentElement, { attributes: true });
 });

@@ -1949,3 +1949,187 @@ html {
     stroke-linecap: round;
     stroke-linejoin: round;
 }
+
+/* ===================================
+   Floating 3D Icons - Wii U Style
+   =================================== */
+.floating-icons-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+}
+
+.floating-icon {
+    position: absolute;
+    transform-style: preserve-3d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    will-change: transform;
+    animation:
+        iconSpin3D var(--spin-duration, 60s) ease-in-out infinite,
+        iconBob var(--bob-duration, 30s) ease-in-out infinite;
+    animation-delay: var(--spin-delay, 0s), var(--bob-delay, 0s);
+}
+
+/* 3D icon styling - no token background */
+.floating-icon::before {
+    display: none;
+}
+
+/* Front face SVG */
+.floating-icon > svg {
+    width: 100%;
+    height: 100%;
+    color: rgb(210, 215, 220);
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08));
+}
+
+/* Extrusion layers */
+.floating-icon .extrusion-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.floating-icon .extrusion-layer svg {
+    width: 100%;
+    height: 100%;
+}
+
+[data-theme="dark"] .floating-icon > svg {
+    color: rgb(185, 190, 200);
+    filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.15));
+}
+
+/* Upside Down / Clock Mode - dark red icons */
+.upside-down-mode .floating-icon > svg {
+    color: rgb(140, 30, 30);
+    filter: drop-shadow(0 4px 16px rgba(120, 0, 0, 0.3));
+}
+
+.upside-down-mode .floating-icon .extrusion-layer svg {
+    color: rgb(100, 20, 20);
+}
+
+/* Individual icon positions - spread across screen, gentle oscillation */
+.floating-icon.icon-github {
+    left: 3%; top: 6%; width: 48px; height: 48px;
+    --spin-duration: 70s; --spin-delay: 0s; --tilt-x: 10deg; --y-from: -35deg; --y-to: 30deg;
+    --bob-duration: 16s; --bob-delay: 0s;
+}
+.floating-icon.icon-instagram {
+    left: 14%; top: 40%; width: 36px; height: 36px;
+    --spin-duration: 80s; --spin-delay: -12s; --tilt-x: -8deg; --y-from: -25deg; --y-to: 40deg;
+    --bob-duration: 20s; --bob-delay: -9s;
+}
+.floating-icon.icon-vscode {
+    left: 5%; top: 65%; width: 42px; height: 42px;
+    --spin-duration: 75s; --spin-delay: -25s; --tilt-x: 12deg; --y-from: -40deg; --y-to: 25deg;
+    --bob-duration: 15s; --bob-delay: -14s;
+}
+.floating-icon.icon-python {
+    left: 12%; top: 82%; width: 38px; height: 38px;
+    --spin-duration: 90s; --spin-delay: -8s; --tilt-x: -6deg; --y-from: -20deg; --y-to: 45deg;
+    --bob-duration: 19s; --bob-delay: -5s;
+}
+.floating-icon.icon-code {
+    left: 10%; top: 22%; width: 30px; height: 30px;
+    --spin-duration: 65s; --spin-delay: -18s; --tilt-x: 15deg; --y-from: -30deg; --y-to: 35deg;
+    --bob-duration: 17s; --bob-delay: -20s;
+}
+.floating-icon.icon-git {
+    left: 16%; top: 14%; width: 32px; height: 32px;
+    --spin-duration: 85s; --spin-delay: -35s; --tilt-x: -12deg; --y-from: -45deg; --y-to: 20deg;
+    --bob-duration: 21s; --bob-delay: -17s;
+}
+.floating-icon.icon-html {
+    left: 7%; top: 50%; width: 34px; height: 34px;
+    --spin-duration: 72s; --spin-delay: -5s; --tilt-x: 8deg; --y-from: -25deg; --y-to: 40deg;
+    --bob-duration: 18s; --bob-delay: -3s;
+}
+.floating-icon.icon-database {
+    left: 13%; top: 75%; width: 36px; height: 36px;
+    --spin-duration: 88s; --spin-delay: -42s; --tilt-x: -10deg; --y-from: -35deg; --y-to: 30deg;
+    --bob-duration: 20s; --bob-delay: -22s;
+}
+
+/* Right side - spread inward */
+.floating-icon.icon-linkedin {
+    right: 4%; top: 10%; width: 44px; height: 44px;
+    --spin-duration: 68s; --spin-delay: -15s; --tilt-x: -7deg; --y-from: -30deg; --y-to: 35deg;
+    --bob-duration: 18s; --bob-delay: -11s;
+}
+.floating-icon.icon-twitter {
+    right: 15%; top: 30%; width: 34px; height: 34px;
+    --spin-duration: 92s; --spin-delay: -22s; --tilt-x: 11deg; --y-from: -25deg; --y-to: 40deg;
+    --bob-duration: 16s; --bob-delay: -7s;
+}
+.floating-icon.icon-email {
+    right: 6%; top: 52%; width: 40px; height: 40px;
+    --spin-duration: 76s; --spin-delay: -30s; --tilt-x: -14deg; --y-from: -40deg; --y-to: 25deg;
+    --bob-duration: 21s; --bob-delay: -18s;
+}
+.floating-icon.icon-terminal {
+    right: 12%; top: 70%; width: 35px; height: 35px;
+    --spin-duration: 70s; --spin-delay: -38s; --tilt-x: 9deg; --y-from: -30deg; --y-to: 35deg;
+    --bob-duration: 17s; --bob-delay: -25s;
+}
+.floating-icon.icon-react {
+    right: 3%; top: 86%; width: 38px; height: 38px;
+    --spin-duration: 82s; --spin-delay: -10s; --tilt-x: -5deg; --y-from: -35deg; --y-to: 30deg;
+    --bob-duration: 19s; --bob-delay: -2s;
+}
+.floating-icon.icon-js {
+    right: 16%; top: 18%; width: 30px; height: 30px;
+    --spin-duration: 60s; --spin-delay: -28s; --tilt-x: 13deg; --y-from: -20deg; --y-to: 45deg;
+    --bob-duration: 22s; --bob-delay: -15s;
+}
+.floating-icon.icon-css {
+    right: 8%; top: 42%; width: 32px; height: 32px;
+    --spin-duration: 95s; --spin-delay: -6s; --tilt-x: -11deg; --y-from: -40deg; --y-to: 25deg;
+    --bob-duration: 15s; --bob-delay: -10s;
+}
+.floating-icon.icon-cloud {
+    right: 14%; top: 60%; width: 36px; height: 36px;
+    --spin-duration: 74s; --spin-delay: -45s; --tilt-x: 7deg; --y-from: -30deg; --y-to: 35deg;
+    --bob-duration: 20s; --bob-delay: -28s;
+}
+
+/* Oscillating 3D rotation - rocks back and forth under 180deg */
+@keyframes iconSpin3D {
+    0%, 100% {
+        transform: rotateX(var(--tilt-x, 10deg)) rotateY(var(--y-from, -60deg));
+    }
+    50% {
+        transform: rotateX(var(--tilt-x, 10deg)) rotateY(var(--y-to, 60deg));
+    }
+}
+
+/* Very slow vertical bob */
+@keyframes iconBob {
+    0%, 100% {
+        translate: 0 0 0;
+    }
+    50% {
+        translate: 0 -12px 0;
+    }
+}
+
+/* Responsive - hide on smaller screens */
+@media (max-width: 1100px) {
+    .floating-icons-container {
+        display: none;
+    }
+}
