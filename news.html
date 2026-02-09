@@ -139,12 +139,68 @@
     </header>
 
     <!-- Main Content -->
-    <main class="mx-auto max-w-3xl px-4 sm:px-8">
+    <main class="mx-auto max-w-5xl px-4 sm:px-8">
         <!-- News Section -->
         <section id="news" class="mb-16">
             <div class="prose">
-                <h1>News</h1>
-                <p style="font-size: 1.5rem; color: var(--color-secondary); text-align: center; margin-top: 4rem;">Coming Soon!</p>
+                <h1 style="max-width: 960px; margin-left: auto; margin-right: auto;">News</h1>
+
+                <!-- News Grid -->
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; margin-top: 2rem; max-width: 960px; margin-left: auto; margin-right: auto;">
+
+                    <!-- News 1: Event Coordinator at DSI -->
+                    <div style="background: var(--color-card-bg); border-radius: 0.85rem; padding: 1rem; border: 1px solid var(--color-border); transition: transform 0.2s ease, box-shadow 0.2s ease;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem;">
+                            <span style="font-size: 0.65rem; color: var(--color-secondary);">Feb 2026</span>
+                        </div>
+                        <h3 style="margin: 0 0 0.5rem 0; font-size: 0.95rem; color: var(--color-global-text); line-height: 1.3;">New Position: Event Coordinator</h3>
+                        <p style="font-size: 0.75rem; color: var(--color-secondary); margin-bottom: 0.6rem; line-height: 1.5;">Started a new position as Event Coordinator at Data Science &amp; Informatics at the University of Florida.</p>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.35rem;">
+                            <span style="background: var(--color-tag-bg); color: var(--color-tag-text); padding: 0.15rem 0.5rem; border-radius: 9999px; font-size: 0.6rem;">Leadership</span>
+                            <span style="background: var(--color-tag-bg); color: var(--color-tag-text); padding: 0.15rem 0.5rem; border-radius: 9999px; font-size: 0.6rem;">DSI</span>
+                        </div>
+                    </div>
+
+                    <!-- News 2: Social Chair at SSF -->
+                    <div style="background: var(--color-card-bg); border-radius: 0.85rem; padding: 1rem; border: 1px solid var(--color-border); transition: transform 0.2s ease, box-shadow 0.2s ease;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem;">
+                            <span style="font-size: 0.65rem; color: var(--color-secondary);">Jan 2026</span>
+                        </div>
+                        <h3 style="margin: 0 0 0.5rem 0; font-size: 0.95rem; color: var(--color-global-text); line-height: 1.3;">New Position: Social Chair</h3>
+                        <p style="font-size: 0.75rem; color: var(--color-secondary); margin-bottom: 0.6rem; line-height: 1.5;">Started a new position as Social Chair at Southern Scholarship Foundation.</p>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.35rem;">
+                            <span style="background: var(--color-tag-bg); color: var(--color-tag-text); padding: 0.15rem 0.5rem; border-radius: 9999px; font-size: 0.6rem;">Leadership</span>
+                            <span style="background: var(--color-tag-bg); color: var(--color-tag-text); padding: 0.15rem 0.5rem; border-radius: 9999px; font-size: 0.6rem;">SSF</span>
+                        </div>
+                    </div>
+
+                    <!-- News 3: NVIDIA Deep Learning Certification -->
+                    <div style="background: var(--color-card-bg); border-radius: 0.85rem; padding: 1rem; border: 1px solid var(--color-border); transition: transform 0.2s ease, box-shadow 0.2s ease;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem;">
+                            <span style="font-size: 0.65rem; color: var(--color-secondary);">Nov 2025</span>
+                        </div>
+                        <h3 style="margin: 0 0 0.5rem 0; font-size: 0.95rem; color: var(--color-global-text); line-height: 1.3;">NVIDIA: Getting Started with Deep Learning</h3>
+                        <p style="font-size: 0.75rem; color: var(--color-secondary); margin-bottom: 0.6rem; line-height: 1.5;">Obtained a new certification: Getting Started with Deep Learning from NVIDIA Deep Learning Institute.</p>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.35rem;">
+                            <span style="background: var(--color-tag-bg); color: var(--color-tag-text); padding: 0.15rem 0.5rem; border-radius: 9999px; font-size: 0.6rem;">Certification</span>
+                            <span style="background: var(--color-tag-bg); color: var(--color-tag-text); padding: 0.15rem 0.5rem; border-radius: 9999px; font-size: 0.6rem;">NVIDIA</span>
+                        </div>
+                    </div>
+
+                    <!-- News 4: NVIDIA Accelerated Data Science Certification -->
+                    <div style="background: var(--color-card-bg); border-radius: 0.85rem; padding: 1rem; border: 1px solid var(--color-border); transition: transform 0.2s ease, box-shadow 0.2s ease;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem;">
+                            <span style="font-size: 0.65rem; color: var(--color-secondary);">Nov 2025</span>
+                        </div>
+                        <h3 style="margin: 0 0 0.5rem 0; font-size: 0.95rem; color: var(--color-global-text); line-height: 1.3;">NVIDIA: Fundamentals of Accelerated Data Science</h3>
+                        <p style="font-size: 0.75rem; color: var(--color-secondary); margin-bottom: 0.6rem; line-height: 1.5;">Obtained a new certification: Fundamentals of Accelerated Data Science from NVIDIA.</p>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.35rem;">
+                            <span style="background: var(--color-tag-bg); color: var(--color-tag-text); padding: 0.15rem 0.5rem; border-radius: 9999px; font-size: 0.6rem;">Certification</span>
+                            <span style="background: var(--color-tag-bg); color: var(--color-tag-text); padding: 0.15rem 0.5rem; border-radius: 9999px; font-size: 0.6rem;">NVIDIA</span>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </section>
     </main>
@@ -170,7 +226,6 @@
             </svg>
         </button>
         <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
-            <p class="gators-text" style="font-weight: 600; background: linear-gradient(135deg, #0066ff, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 1.125rem;">🐊 GO GATORS 🐊</p>
             <p style="color: var(--color-secondary); font-size: 0.875rem;">© 2026 Alfred Navarro. Built with passion.</p>
         </div>
     </footer>
