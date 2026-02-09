@@ -2009,7 +2009,7 @@ html {
 }
 
 [data-theme="dark"] .floating-icon > svg {
-    color: rgb(185, 190, 200);
+    color: rgb(100, 105, 115);
     filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.15));
 }
 
