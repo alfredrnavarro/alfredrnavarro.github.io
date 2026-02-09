@@ -369,7 +369,7 @@ body::before {
     transform: translateX(-50%) translateY(-1px);
 }
 
-@media (min-width: 640px) {
+@media (min-width: 769px) {
     #main-header {
         padding: 0.625rem 1.5rem;
     }
@@ -479,7 +479,7 @@ body::before {
 }
 
 /* Mobile navigation */
-@media (max-width: 640px) {
+@media (max-width: 768px) {
     .header-grid {
         display: flex;
         align-items: center;
@@ -625,7 +625,7 @@ body::before {
     pointer-events: none;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
     #toggle-navigation-menu {
         display: flex;
     }
