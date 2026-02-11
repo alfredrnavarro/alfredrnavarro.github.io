@@ -105,11 +105,9 @@ class MobileNavigation {
         if (this.menuOpen) {
             header.classList.add('menu-open');
             document.body.classList.add('menu-open');
-            document.body.style.overflow = 'hidden';
         } else {
             header.classList.remove('menu-open');
             document.body.classList.remove('menu-open');
-            document.body.style.overflow = '';
         }
 
         button.setAttribute('aria-expanded', this.menuOpen.toString());
