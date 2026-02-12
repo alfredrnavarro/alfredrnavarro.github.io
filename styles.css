@@ -23,6 +23,9 @@ html {
 :root {
     /* Light theme - Apple-inspired colors */
     --color-global-bg: #f5f5f7;
+    --color-global-gradient:
+        radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.9) 0%, transparent 60%),
+        linear-gradient(180deg, #ffffff 0%, #d6d6db 50%, #bbbbc2 100%);
     --color-global-text: #1d1d1f;
     --color-primary: #007aff;
     --color-primary-light: #5ac8fa;
@@ -93,6 +96,9 @@ html {
 /* Dark theme colors - Apple Dark Mode */
 [data-theme="dark"] {
     --color-global-bg: #000000;
+    --color-global-gradient:
+        radial-gradient(ellipse at 50% 0%, rgba(40,40,45,0.7) 0%, transparent 60%),
+        linear-gradient(180deg, #1a1a1e 0%, #0a0a0c 50%, #000000 100%);
     --color-global-text: #f5f5f7;
     --color-primary: #0a84ff;
     --color-primary-light: #64d2ff;
@@ -156,7 +162,8 @@ body {
     line-height: 1.47059;
     margin: 0;
     padding: 0;
-    background: var(--color-global-bg);
+    background: var(--color-global-gradient, var(--color-global-bg));
+    background-attachment: fixed;
     color: var(--color-global-text);
     padding-top: 7rem;
     min-height: 100vh;
@@ -205,7 +212,7 @@ body::before {
 }
 
 /* Utility classes */
-.bg-global-bg { background-color: var(--color-global-bg); }
+.bg-global-bg { background: var(--color-global-gradient, var(--color-global-bg)); background-attachment: fixed; }
 .text-global-text { color: var(--color-global-text); }
 .text-accent { color: var(--color-accent); }
 .text-accent-2 { color: var(--color-accent-2); }
@@ -1575,7 +1582,7 @@ html {
     border-radius: 6px;
     cursor: pointer;
     color: var(--color-secondary);
-    opacity: 0.6;
+    opacity: 0.35;
     transition: opacity 0.2s ease, transform 0.2s ease, color 0.2s ease;
     z-index: 100;
     display: flex;
@@ -1599,7 +1606,8 @@ html {
 /* ===================================
    Upside Down Mode (Stranger Things)
    =================================== */
-.upside-down-mode {
+.upside-down-mode main,
+.upside-down-mode footer {
     animation: upsideDownPulse 4s ease-in-out infinite;
 }
 
