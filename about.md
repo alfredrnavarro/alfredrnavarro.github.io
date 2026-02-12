@@ -50,15 +50,15 @@ As Social Chair for the Southern Scholarship Foundation, I led initiatives that 
 
 ## Previous Leadership
 
+### Co-Treasurer — Physics Club
+**Parkland, Florida** | Aug 2023 – Jun 2025
+
+- Responsible for assigning and creating dues on the district eStore and editing the club constitution.
+- Responsible for the club's money and disbursement, including collecting dues, funding physics competitions, and funding projects: rockets, bridges, catapults, etc.
+
 ### Teacher / General Member — Coding and Design Club
 **Parkland, Florida** | Aug 2022 – Jun 2025
 
 - Started off as a general member attending weekly meetings and learning how to code.
 - Taught computer science and computer engineering to students with Minecraft Redstone.
 - Shared my overall knowledge of JavaScript and Circuitry to a class of +10 students.
-
-### Co-Treasurer — Physics Club
-**Parkland, Florida** | Aug 2023 – Jun 2025
-
-- Responsible for assigning and creating dues on the district eStore and editing the club constitution.
-- Responsible for the club's money and disbursement, including collecting dues, funding physics competitions, and funding projects: rockets, bridges, catapults, etc.

@@ -363,74 +363,8 @@ class MarkdownLoader {
     }
 }
 
-// Hover effect for letter 'b' and 'B'
-(function() {
-    function applyBHoverEffect(root) {
-        const targetRoot = root || document.body;
-        if (!targetRoot) return;
-
-        const walker = document.createTreeWalker(
-            targetRoot,
-            NodeFilter.SHOW_TEXT,
-            {
-                acceptNode(node) {
-                    const value = node.nodeValue;
-                    if (!value || (value.indexOf('b') === -1 && value.indexOf('B') === -1)) {
-                        return NodeFilter.FILTER_REJECT;
-                    }
-                    const parent = node.parentNode;
-                    if (!parent) return NodeFilter.FILTER_REJECT;
-                    const tag = parent.nodeName;
-                    if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'NOSCRIPT') {
-                        return NodeFilter.FILTER_REJECT;
-                    }
-                    if (parent.classList && parent.classList.contains('hover-b')) {
-                        return NodeFilter.FILTER_REJECT;
-                    }
-                    return NodeFilter.FILTER_ACCEPT;
-                }
-            }
-        );
-
-        const nodesToProcess = [];
-        let current;
-        while ((current = walker.nextNode())) {
-            nodesToProcess.push(current);
-        }
-
-        nodesToProcess.forEach((textNode) => {
-            const text = textNode.nodeValue;
-            const fragment = document.createDocumentFragment();
-            let buffer = '';
-
-            for (let i = 0; i < text.length; i++) {
-                const ch = text[i];
-                if (ch === 'b' || ch === 'B') {
-                    if (buffer) {
-                        fragment.appendChild(document.createTextNode(buffer));
-                        buffer = '';
-                    }
-                    const span = document.createElement('span');
-                    span.className = 'hover-b';
-                    span.textContent = ch;
-                    fragment.appendChild(span);
-                } else {
-                    buffer += ch;
-                }
-            }
-
-            if (buffer) {
-                fragment.appendChild(document.createTextNode(buffer));
-            }
-
-            if (textNode.parentNode) {
-                textNode.parentNode.replaceChild(fragment, textNode);
-            }
-        });
-    }
-
-    window.applyBHoverEffect = applyBHoverEffect;
-})();
+// applyBHoverEffect disabled
+window.applyBHoverEffect = function() {};
 
 // Initialize all functionality when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {

@@ -694,8 +694,7 @@ body::before {
     transition: none;
 }
 .hover-b:hover {
-    color: var(--color-primary-light);
-    transition: color 0.2s ease;
+    transition: none;
 }
 
 /* ===================================
