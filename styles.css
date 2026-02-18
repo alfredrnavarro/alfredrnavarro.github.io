@@ -87,6 +87,10 @@ html {
     --logo-2: var(--color-primary-light);
     --logo-3: var(--color-accent-2);
     
+    /* Tags */
+    --color-tag-bg: rgba(0, 122, 255, 0.08);
+    --color-tag-text: #555;
+
     /* Button specific */
     --button-bg: rgba(0, 122, 255, 0.12);
     --button-bg-hover: rgba(0, 122, 255, 0.18);
@@ -150,6 +154,10 @@ html {
         rgba(255, 55, 95, 0.04) 100%
     );
     
+    /* Tags dark */
+    --color-tag-bg: rgba(10, 132, 255, 0.15);
+    --color-tag-text: #a0a0a5;
+
     /* Button specific dark */
     --button-bg: rgba(10, 132, 255, 0.15);
     --button-bg-hover: rgba(10, 132, 255, 0.25);
@@ -731,6 +739,14 @@ body::before {
 .prose h2 { font-size: 1.875rem; }
 .prose h3 { font-size: 1.375rem; }
 .prose h4 { font-size: 1.125rem; }
+
+/* Reset prose gradient for card titles that set their own color inline */
+.prose h3[style] {
+    background: none;
+    -webkit-background-clip: unset;
+    -webkit-text-fill-color: unset;
+    background-clip: unset;
+}
 
 .prose p {
     margin-bottom: 1.5rem;
