@@ -1487,6 +1487,11 @@ button:focus-visible {
    Mobile Optimizations
    =================================== */
 @media (max-width: 640px) {
+    /* Fix iOS Safari background not updating on theme change */
+    body {
+        background: var(--color-global-bg) !important;
+    }
+
     .title {
         font-size: 1.5rem;
     }
@@ -1584,9 +1589,78 @@ html {
     }
 }
 
-.project-card:hover {
+.project-card:hover,
+.news-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* ===================================
+   News Grid
+   =================================== */
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    margin-top: 2rem;
+}
+
+@media (max-width: 960px) {
+    .news-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .news-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+/* ===================================
+   Mobile Compact Cards
+   =================================== */
+@media (max-width: 640px) {
+    .project-card,
+    .news-card {
+        cursor: pointer;
+    }
+
+    /* Compact project cards - smaller image, hide details */
+    .project-card:not(.expanded) > :first-child img {
+        height: 100px !important;
+    }
+
+    .project-card:not(.expanded) > h3 ~ * {
+        display: none !important;
+    }
+
+    /* Compact news cards - smaller image, hide details */
+    .news-card:not(.expanded) > img {
+        height: 80px !important;
+    }
+
+    .news-card:not(.expanded) > img + div {
+        display: none !important;
+    }
+
+    .news-card:not(.expanded) > h3 ~ * {
+        display: none !important;
+    }
+
+    /* Expand/collapse chevron indicator */
+    .project-card > h3::after,
+    .news-card > h3::after {
+        content: ' \25BE';
+        font-size: 0.7em;
+        color: var(--color-secondary);
+    }
+
+    .project-card.expanded > h3::after,
+    .news-card.expanded > h3::after {
+        content: ' \25B4';
+    }
 }
 
 /* ===================================

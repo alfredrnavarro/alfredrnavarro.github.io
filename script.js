@@ -366,6 +366,33 @@ class MarkdownLoader {
 // applyBHoverEffect disabled
 window.applyBHoverEffect = function() {};
 
+// Mobile card expand/collapse
+class MobileCardExpander {
+    constructor() {
+        this.mql = window.matchMedia('(max-width: 640px)');
+        this.init();
+    }
+
+    init() {
+        const cards = document.querySelectorAll('.project-card, .news-card');
+        cards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                if (!this.mql.matches) return;
+                // If expanded and clicking a link, let the link work
+                if (card.classList.contains('expanded') && e.target.closest('a')) return;
+                e.preventDefault();
+                card.classList.toggle('expanded');
+            });
+        });
+
+        this.mql.addEventListener('change', () => {
+            if (!this.mql.matches) {
+                document.querySelectorAll('.expanded').forEach(el => el.classList.remove('expanded'));
+            }
+        });
+    }
+}
+
 // Initialize all functionality when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize all components
@@ -378,6 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     new LazyImageLoader();
     new MarkdownLoader();
+    new MobileCardExpander();
     
     // Apply hover effect to all 'b' letters on initial content
     if (typeof window.applyBHoverEffect === 'function') {
