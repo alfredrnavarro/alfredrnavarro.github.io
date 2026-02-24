@@ -1488,8 +1488,12 @@ button:focus-visible {
    =================================== */
 @media (max-width: 640px) {
     /* Fix iOS Safari background not updating on theme change */
+    html {
+        background-color: var(--color-global-bg);
+    }
     body {
         background: var(--color-global-bg) !important;
+        background-attachment: scroll !important;
     }
 
     .title {
