@@ -843,11 +843,11 @@ body::before {
     box-shadow: var(--glass-shadow-hover);
 }
 
-.about-avatar {
+.about-avatar-frame {
     width: 140px;
     height: 140px;
     border-radius: 20px;
-    object-fit: cover;
+    overflow: hidden;
     flex-shrink: 0;
     border: 2px solid var(--glass-border);
     box-shadow: 0 8px 24px rgba(0, 122, 255, 0.12);
@@ -856,10 +856,19 @@ body::before {
     z-index: 1;
 }
 
-.about-avatar:hover {
+.about-avatar-frame:hover {
     transform: scale(1.05) rotate(2deg);
     border-color: var(--color-primary);
     box-shadow: 0 12px 32px rgba(0, 122, 255, 0.2);
+}
+
+.about-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 18%;
+    transform: scale(1.45);
+    transform-origin: center 25%;
 }
 
 .about-header-content {
@@ -883,7 +892,7 @@ body::before {
         padding: 1.5rem;
     }
     
-    .about-avatar {
+    .about-avatar-frame {
         width: 120px;
         height: 120px;
     }
