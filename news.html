@@ -21,6 +21,182 @@
             }
         })();
     </script>
+    <style>
+        /* ── Filter bar ─────────────────────────────────────────────────────── */
+        .news-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+            margin-bottom: 1.5rem;
+        }
+        .news-filter-btn {
+            padding: 0.3rem 0.85rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid var(--color-border);
+            background: var(--button-bg);
+            color: var(--color-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .news-filter-btn:hover {
+            background: var(--button-bg-hover);
+            color: var(--color-global-text);
+        }
+        .news-filter-btn.active {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: #fff;
+        }
+
+        /* ── Clickable card ─────────────────────────────────────────────────── */
+        .news-card[data-categories] {
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+        }
+        .news-card[data-categories]:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 28px rgba(0,0,0,0.13);
+        }
+        .news-hidden { display: none !important; }
+
+        /* ── Modal overlay ──────────────────────────────────────────────────── */
+        .news-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 2rem 1rem;
+            overflow-y: auto;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+        .news-modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* ── Modal box ──────────────────────────────────────────────────────── */
+        .news-modal {
+            background: var(--color-card-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 1rem;
+            padding: 0;
+            max-width: 580px;
+            width: 100%;
+            position: relative;
+            transform: scale(0.96) translateY(10px);
+            transition: transform 0.25s cubic-bezier(0.23,1,0.32,1);
+            box-shadow: 0 24px 64px rgba(0,0,0,0.28);
+            overflow: hidden;
+        }
+        .news-modal-overlay.active .news-modal {
+            transform: scale(1) translateY(0);
+        }
+
+        /* ── Modal image ────────────────────────────────────────────────────── */
+        .news-modal-img {
+            width: 100%;
+            height: 230px;
+            object-fit: cover;
+            display: block;
+        }
+        .news-modal-img.has-bg {
+            object-fit: contain;
+            padding: 2rem;
+        }
+
+        /* ── Close button ───────────────────────────────────────────────────── */
+        .news-modal-close {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: rgba(0,0,0,0.45);
+            border: none;
+            border-radius: 50%;
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #fff;
+            font-size: 0.85rem;
+            line-height: 1;
+            transition: background 0.15s;
+            font-family: inherit;
+            z-index: 10;
+        }
+        .news-modal-close:hover { background: rgba(0,0,0,0.7); }
+
+        /* ── Modal content ──────────────────────────────────────────────────── */
+        .news-modal-content {
+            padding: 1.4rem 1.75rem 1.75rem;
+        }
+        .news-modal-date {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin: 0 0 0.4rem;
+        }
+        .news-modal-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--color-global-text);
+            margin: 0 0 1rem;
+            line-height: 1.25;
+        }
+        .news-modal-body {
+            font-size: 0.95rem;
+            color: var(--color-global-text);
+            line-height: 1.8;
+            margin: 0 0 1.4rem;
+            white-space: pre-line;
+            opacity: 0.85;
+        }
+
+        /* ── Related links ──────────────────────────────────────────────────── */
+        .news-modal-links-section {
+            border: 1px solid var(--color-border);
+            border-radius: 0.6rem;
+            padding: 0.8rem 1rem 0.6rem;
+        }
+        .news-modal-links-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-secondary);
+            margin: 0 0 0.6rem;
+        }
+        .news-modal-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--color-primary);
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 500;
+            padding: 0.35rem 0;
+            transition: opacity 0.15s;
+        }
+        .news-modal-link:hover { opacity: 0.7; }
+        .news-modal-link + .news-modal-link {
+            border-top: 1px solid var(--color-border);
+            margin-top: 0.2rem;
+            padding-top: 0.5rem;
+        }
+    </style>
 </head>
 <body class="bg-global-bg text-global-text antialiased">
     <!-- Floating 3D Icons -->
@@ -145,14 +321,26 @@
             <div class="prose">
                 <h1 style="max-width: 1100px; margin-left: auto; margin-right: auto;">News</h1>
 
+                <!-- Filter Bar -->
+                <div class="news-filters" style="max-width: 1100px; margin-left: auto; margin-right: auto;">
+                    <button class="news-filter-btn active" data-filter="all">All</button>
+                    <button class="news-filter-btn" data-filter="competition">Competition</button>
+                    <button class="news-filter-btn" data-filter="awards">Awards</button>
+                    <button class="news-filter-btn" data-filter="leadership">Leadership</button>
+                    <button class="news-filter-btn" data-filter="internship">Internship</button>
+                </div>
+
                 <!-- News Grid -->
                 <div class="news-grid" style="max-width: 1100px; margin-left: auto; margin-right: auto;">
 
-                    <!-- News: NASA Article Feature -->
-                    <div class="news-card" style="background: var(--color-card-bg); border-radius: 0.85rem; padding: 1rem; border: 1px solid var(--color-border); transition: transform 0.2s ease, box-shadow 0.2s ease;">
-                        <a href="https://science.nasa.gov/get-involved/citizen-science/nasa-data-hackathon-inspires-community-action/" target="_blank" rel="noopener" style="display: block; margin: -1rem -1rem 0.75rem -1rem;">
+                    <!-- NASA Article Feature -->
+                    <div class="news-card"
+                         data-categories="awards"
+                         data-modal-id="nasa-press"
+                         style="background: var(--color-card-bg); border-radius: 0.85rem; padding: 1rem; border: 1px solid var(--color-border);">
+                        <div style="display: block; margin: -1rem -1rem 0.75rem -1rem;">
                             <img src="assets/nasa-logo.svg" alt="NASA" style="width: 100%; height: 175px; object-fit: contain; background: #0b3d91; border-radius: 0.85rem 0.85rem 0 0; padding: 1.5rem;">
-                        </a>
+                        </div>
                         <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem;">
                             <span style="font-size: 0.65rem; color: var(--color-secondary);">Mar 2026</span>
                         </div>
@@ -164,8 +352,11 @@
                         </div>
                     </div>
 
-                    <!-- News: Dean's List Fall 2025 -->
-                    <div class="news-card" style="background: var(--color-card-bg); border-radius: 0.85rem; padding: 1rem; border: 1px solid var(--color-border); transition: transform 0.2s ease, box-shadow 0.2s ease;">
+                    <!-- Dean's List -->
+                    <div class="news-card"
+                         data-categories="awards"
+                         data-modal-id="deans-list"
+                         style="background: var(--color-card-bg); border-radius: 0.85rem; padding: 1rem; border: 1px solid var(--color-border);">
                         <img src="assets/deans-list-certificate.jpg" alt="UF HWCOE Dean's List Certificate" style="width: calc(100% + 2rem); margin: -1rem -1rem 0.75rem -1rem; height: 175px; object-fit: cover; border-radius: 0.85rem 0.85rem 0 0;">
                         <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem;">
                             <span style="font-size: 0.65rem; color: var(--color-secondary);">Feb 2026</span>
@@ -178,8 +369,11 @@
                         </div>
                     </div>
 
-                    <!-- News 1: NASA EMERGE Data Hackathon Winner -->
-                    <div class="news-card" style="background: var(--color-card-bg); border-radius: 0.85rem; padding: 1rem; border: 1px solid var(--color-border); transition: transform 0.2s ease, box-shadow 0.2s ease;">
+                    <!-- NASA EMERGE 1st Place -->
+                    <div class="news-card"
+                         data-categories="competition awards"
+                         data-modal-id="nasa-emerge"
+                         style="background: var(--color-card-bg); border-radius: 0.85rem; padding: 1rem; border: 1px solid var(--color-border);">
                         <img src="assets/news-mosquito.png" alt="NASA EMERGE Data Hackathon" style="width: calc(100% + 2rem); margin: -1rem -1rem 0.75rem -1rem; height: 175px; object-fit: cover; border-radius: 0.85rem 0.85rem 0 0;">
                         <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem;">
                             <span style="font-size: 0.65rem; color: var(--color-secondary);">Feb 2026</span>
@@ -192,8 +386,11 @@
                         </div>
                     </div>
 
-                    <!-- News 2: Event Coordinator at DSI -->
-                    <div class="news-card" style="background: var(--color-card-bg); border-radius: 0.85rem; padding: 1rem; border: 1px solid var(--color-border); transition: transform 0.2s ease, box-shadow 0.2s ease;">
+                    <!-- Event Coordinator at DSI -->
+                    <div class="news-card"
+                         data-categories="leadership"
+                         data-modal-id="dsi-coordinator"
+                         style="background: var(--color-card-bg); border-radius: 0.85rem; padding: 1rem; border: 1px solid var(--color-border);">
                         <img src="assets/news-dsi-logo.png" alt="Event Coordinator at DSI" style="width: calc(100% + 2rem); margin: -1rem -1rem 0.75rem -1rem; height: 175px; object-fit: cover; border-radius: 0.85rem 0.85rem 0 0;">
                         <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem;">
                             <span style="font-size: 0.65rem; color: var(--color-secondary);">Feb 2026</span>
@@ -206,8 +403,11 @@
                         </div>
                     </div>
 
-                    <!-- News 2: Social Chair at SSF -->
-                    <div class="news-card" style="background: var(--color-card-bg); border-radius: 0.85rem; padding: 1rem; border: 1px solid var(--color-border); transition: transform 0.2s ease, box-shadow 0.2s ease;">
+                    <!-- Social Chair at SSF -->
+                    <div class="news-card"
+                         data-categories="leadership"
+                         data-modal-id="ssf-chair"
+                         style="background: var(--color-card-bg); border-radius: 0.85rem; padding: 1rem; border: 1px solid var(--color-border);">
                         <img src="assets/news-ssf-logo.png" alt="Social Chair at SSF" style="width: calc(100% + 2rem); margin: -1rem -1rem 0.75rem -1rem; height: 175px; object-fit: cover; border-radius: 0.85rem 0.85rem 0 0;">
                         <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem;">
                             <span style="font-size: 0.65rem; color: var(--color-secondary);">Jan 2026</span>
@@ -220,9 +420,12 @@
                         </div>
                     </div>
 
-                    <!-- News 3: NVIDIA Deep Learning Certification -->
-                    <div class="news-card" style="background: var(--color-card-bg); border-radius: 0.85rem; padding: 1rem; border: 1px solid var(--color-border); transition: transform 0.2s ease, box-shadow 0.2s ease;">
-                        <img src="assets/news-nvidia.jpg" alt="NVIDIA Deep Learning Certification" style="width: calc(100% + 2rem); margin: -1rem -1rem 0.75rem -1rem; height: 175px; object-fit: cover; border-radius: 0.85rem 0.85rem 0 0;">
+                    <!-- NVIDIA Deep Learning -->
+                    <div class="news-card"
+                         data-categories="awards"
+                         data-modal-id="nvidia-dl"
+                         style="background: var(--color-card-bg); border-radius: 0.85rem; padding: 1rem; border: 1px solid var(--color-border);">
+                        <img src="assets/news-nvidia-dl.png" alt="NVIDIA Deep Learning Certification" style="width: calc(100% + 2rem); margin: -1rem -1rem 0.75rem -1rem; height: 175px; object-fit: cover; border-radius: 0.85rem 0.85rem 0 0;">
                         <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem;">
                             <span style="font-size: 0.65rem; color: var(--color-secondary);">Nov 2025</span>
                         </div>
@@ -234,9 +437,12 @@
                         </div>
                     </div>
 
-                    <!-- News 4: NVIDIA Accelerated Data Science Certification -->
-                    <div class="news-card" style="background: var(--color-card-bg); border-radius: 0.85rem; padding: 1rem; border: 1px solid var(--color-border); transition: transform 0.2s ease, box-shadow 0.2s ease;">
-                        <img src="assets/news-nvidia.jpg" alt="NVIDIA Accelerated Data Science Certification" style="width: calc(100% + 2rem); margin: -1rem -1rem 0.75rem -1rem; height: 175px; object-fit: cover; border-radius: 0.85rem 0.85rem 0 0;">
+                    <!-- NVIDIA Data Science -->
+                    <div class="news-card"
+                         data-categories="awards"
+                         data-modal-id="nvidia-ds"
+                         style="background: var(--color-card-bg); border-radius: 0.85rem; padding: 1rem; border: 1px solid var(--color-border);">
+                        <img src="assets/news-nvidia-ds.png" alt="NVIDIA Accelerated Data Science Certification" style="width: calc(100% + 2rem); margin: -1rem -1rem 0.75rem -1rem; height: 175px; object-fit: cover; border-radius: 0.85rem 0.85rem 0 0;">
                         <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem;">
                             <span style="font-size: 0.65rem; color: var(--color-secondary);">Nov 2025</span>
                         </div>
@@ -279,5 +485,172 @@
     </footer>
 
     <script src="script.js"></script>
+
+    <!-- News Modal -->
+    <div class="news-modal-overlay" id="news-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="news-modal" id="news-modal">
+            <button class="news-modal-close" id="news-modal-close" aria-label="Close">✕</button>
+            <img class="news-modal-img" id="modal-img" src="" alt="">
+            <div class="news-modal-content">
+                <p class="news-modal-date" id="modal-date"></p>
+                <h2 class="news-modal-title" id="modal-title"></h2>
+                <p class="news-modal-body" id="modal-body"></p>
+                <div class="news-modal-links-section" id="modal-links-section">
+                    <p class="news-modal-links-label">Related Links</p>
+                    <div id="modal-links"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // ── News data ─────────────────────────────────────────────────────────────
+    const NEWS_DATA = {
+        'nasa-press': {
+            title: 'Featured on NASA: Data Hackathon Inspires Community Action',
+            date: 'Mar 2026',
+            img: 'assets/nasa-logo.svg',
+            imgBg: '#0b3d91',
+            body: `NASA published a feature article spotlighting our Mosquito Tracker project following our 1st-place win in the App Improvement Track at NASA's EMERGE Data Hackathon.\n\nThe article highlights how citizen-science tools can be reimagined for real-world impact — showcasing our offline-first redesign of the GLOBE Observer app with client-side WebP compression and IndexedDB-backed data sync that keeps working in areas with no connectivity.\n\nThe piece celebrates how student teams can leverage open NASA datasets to drive community action in environmental monitoring and public health.`,
+            links: [
+                { label: 'NASA Article', url: 'https://science.nasa.gov/get-involved/citizen-science/nasa-data-hackathon-inspires-community-action/' },
+                { label: 'GitHub — Mosquito Tracker', url: 'https://github.com/matheusmaldaner/MosquitoTracker' },
+                { label: 'Live Demo', url: 'http://mosquito-tracker.vercel.app' }
+            ]
+        },
+        'deans-list': {
+            title: "UF Herbert Wertheim College of Engineering Dean's List",
+            date: 'Feb 2026',
+            img: 'assets/deans-list-certificate.jpg',
+            body: `Recognized on the UF Herbert Wertheim College of Engineering Dean's List for Fall 2025. This honor is awarded to undergraduate students who achieve a semester GPA of 3.5 or higher while enrolled in at least 12 credit hours of graded coursework.\n\nThis recognition reflects a strong semester balancing coursework in computer science, data structures, and engineering fundamentals while also contributing to student organizations and research.`,
+            links: [
+                { label: "Download Certificate", url: 'assets/deans-list-certificate.jpg', download: 'Deans_List_Certificate_Alfred_Navarro.jpg' },
+                { label: 'UF HWCOE', url: 'https://www.eng.ufl.edu/' }
+            ]
+        },
+        'nasa-emerge': {
+            title: '1st Place: NASA EMERGE Data Hackathon',
+            date: 'Feb 2026',
+            img: 'assets/news-mosquito.png',
+            body: `Won 1st place in the App Improvement Track at NASA's geoEMERGE Data Hackathon — competing against teams from universities across the country.\n\nOur team built Mosquito Tracker, an ultra-light redesign of NASA's GLOBE Observer app built for offline-first field use. Key features include client-side WebP image compression (cutting bandwidth usage ~70%), IndexedDB-backed observation queuing, and background sync when connectivity returns.\n\nBuilt with Astro, Svelte, TypeScript, and Service Workers. Presented to a panel of NASA scientists and data engineers.`,
+            links: [
+                { label: 'Devpost', url: 'https://devpost.com/software/app-improvement-track' },
+                { label: 'GitHub — Mosquito Tracker', url: 'https://github.com/matheusmaldaner/MosquitoTracker' },
+                { label: 'Live Demo', url: 'http://mosquito-tracker.vercel.app' },
+                { label: 'NASA Article', url: 'https://science.nasa.gov/get-involved/citizen-science/nasa-data-hackathon-inspires-community-action/' }
+            ]
+        },
+        'dsi-coordinator': {
+            title: 'New Position: Event Coordinator at DSI',
+            date: 'Feb 2026',
+            img: 'assets/news-dsi-logo.png',
+            body: `Joined Data Science & Informatics (DSI) at the University of Florida as Event Coordinator. DSI is the largest data-focused student organization at UF, connecting students with industry professionals, research opportunities, and technical skill-building events.\n\nIn this role I plan and execute workshops, networking nights, and speaker sessions — working closely with the executive board to grow DSI's reach across campus and attract top industry sponsors.`,
+            links: [
+                { label: 'DSI at UF', url: 'https://www.dsiufl.org/' }
+            ]
+        },
+        'ssf-chair': {
+            title: 'New Position: Social Chair at SSF',
+            date: 'Jan 2026',
+            img: 'assets/news-ssf-logo.png',
+            body: `Elected as Social Chair at the Southern Scholarship Foundation (SSF), a merit and need-based scholarship house at the University of Florida providing housing and community for high-achieving students.\n\nAs Social Chair I plan and coordinate social events, community outreach activities, and house bonding experiences — fostering the relationships and culture that make SSF a unique home away from home for its scholars.`,
+            links: [
+                { label: 'Southern Scholarship Foundation', url: 'https://southernscholarship.org/' }
+            ]
+        },
+        'nvidia-dl': {
+            title: 'NVIDIA: Getting Started with Deep Learning',
+            date: 'Nov 2025',
+            img: 'assets/news-nvidia-dl.png',
+            body: `Earned the NVIDIA Deep Learning Institute (DLI) certificate in "Getting Started with Deep Learning." The course covers the fundamentals of modern deep neural networks through hands-on GPU-accelerated labs.\n\nTopics included image classification with convolutional neural networks (CNNs), transfer learning from pretrained models, data augmentation strategies, and deploying models with NVIDIA's TensorRT. All labs were run on NVIDIA DGX cloud infrastructure.`,
+            links: [
+                { label: 'NVIDIA Deep Learning Institute', url: 'https://www.nvidia.com/en-us/training/' }
+            ]
+        },
+        'nvidia-ds': {
+            title: 'NVIDIA: Fundamentals of Accelerated Data Science',
+            date: 'Nov 2025',
+            img: 'assets/news-nvidia-ds.png',
+            body: `Earned the NVIDIA Deep Learning Institute (DLI) certificate in "Fundamentals of Accelerated Data Science." The course focuses on GPU-accelerated data science workflows using the RAPIDS ecosystem.\n\nTopics included GPU-accelerated DataFrames with cuDF (mirroring pandas API), machine learning at GPU speed with cuML, and graph analytics with cuGraph — enabling data science pipelines orders of magnitude faster than CPU-only approaches.`,
+            links: [
+                { label: 'NVIDIA Deep Learning Institute', url: 'https://www.nvidia.com/en-us/training/' }
+            ]
+        }
+    };
+
+    // ── Filter logic ──────────────────────────────────────────────────────────
+    const filterBtns = document.querySelectorAll('.news-filter-btn');
+    const newsCards  = document.querySelectorAll('.news-card[data-categories]');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const filter = btn.dataset.filter;
+            newsCards.forEach(card => {
+                const cats = card.dataset.categories.split(' ');
+                card.classList.toggle('news-hidden', filter !== 'all' && !cats.includes(filter));
+            });
+        });
+    });
+
+    // ── Modal logic ───────────────────────────────────────────────────────────
+    const overlay   = document.getElementById('news-modal-overlay');
+    const closeBtn  = document.getElementById('news-modal-close');
+
+    function openModal(id) {
+        const d = NEWS_DATA[id];
+        if (!d) return;
+
+        // Image
+        const imgEl = document.getElementById('modal-img');
+        imgEl.src = d.img || '';
+        imgEl.alt = d.title;
+        imgEl.style.background = d.imgBg || '';
+        imgEl.classList.toggle('has-bg', !!d.imgBg);
+        imgEl.style.display = d.img ? 'block' : 'none';
+
+        document.getElementById('modal-date').textContent  = d.date;
+        document.getElementById('modal-title').textContent = d.title;
+        document.getElementById('modal-body').textContent  = d.body;
+
+        const linksEl = document.getElementById('modal-links');
+        const section = document.getElementById('modal-links-section');
+        linksEl.innerHTML = '';
+        if (d.links && d.links.length) {
+            section.style.display = '';
+            d.links.forEach(l => {
+                const a = document.createElement('a');
+                a.href = l.url;
+                a.className = 'news-modal-link';
+                if (l.download) {
+                    a.download = l.download;
+                    a.innerHTML = `<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>${l.label}`;
+                } else {
+                    a.target = '_blank';
+                    a.rel = 'noopener';
+                    a.innerHTML = `<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>${l.label}`;
+                }
+                linksEl.appendChild(a);
+            });
+        } else {
+            section.style.display = 'none';
+        }
+        overlay.classList.add('active');
+        overlay.scrollTop = 0;
+    }
+
+    function closeModal() {
+        overlay.classList.remove('active');
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    newsCards.forEach(card => {
+        card.addEventListener('click', () => openModal(card.dataset.modalId));
+    });
+    </script>
 </body>
 </html>
