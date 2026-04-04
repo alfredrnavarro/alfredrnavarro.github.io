@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Resource Locator - Alfred Navarro</title>
+    <meta name="description" content="Emergency Resource Locator — Interactive map for finding nearby emergency services during crises. Built at UF SwampHacks XI.">
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        (function() {
+            try {
+                var saved = localStorage.getItem('theme');
+                var theme = saved === 'dark' || saved === 'light' ? saved : 'light';
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
+    <style>
+        .project-hero {
+            width: 100%;
+            max-height: 360px;
+            object-fit: cover;
+            border-radius: 1rem;
+            display: block;
+            margin-bottom: 2rem;
+            box-shadow: var(--glass-shadow);
+        }
+        .project-article {
+            max-width: 740px;
+            margin: 0 auto;
+            padding: 0 1.5rem 4rem;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--color-accent);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            transition: opacity 0.15s;
+        }
+        .back-link:hover { opacity: 0.7; }
+        .project-meta-line {
+            font-size: 0.8rem;
+            color: var(--color-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.5rem;
+        }
+        .project-title {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--color-global-text);
+            margin-bottom: 0.75rem;
+            line-height: 1.1;
+        }
+        .event-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            background: var(--color-tag-bg);
+            color: var(--color-accent-2);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.3rem 0.85rem;
+            border-radius: 9999px;
+            margin-bottom: 1.25rem;
+            letter-spacing: 0.02em;
+        }
+        .project-intro {
+            font-size: 1.05rem;
+            color: var(--color-secondary);
+            line-height: 1.65;
+            margin-bottom: 2.5rem;
+        }
+        .section-heading {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--color-global-text);
+            margin: 2rem 0 0.75rem;
+            letter-spacing: -0.01em;
+        }
+        .prose-body {
+            font-size: 0.925rem;
+            color: var(--color-secondary);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+        .tag-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+            margin-bottom: 1.5rem;
+        }
+        .tag {
+            background: var(--color-tag-bg);
+            color: var(--color-tag-text);
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .links-row {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--color-border);
+        }
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            background: var(--button-bg);
+            border: 1px solid var(--button-border);
+            color: var(--color-accent-2);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 0.6rem;
+            transition: background 0.15s;
+        }
+        .project-link:hover { background: var(--button-bg-hover); }
+        .divider {
+            border: none;
+            border-top: 1px solid var(--color-border);
+            margin: 1.75rem 0;
+        }
+    </style>
+</head>
+<body class="bg-global-bg text-global-text antialiased">
+
+    <!-- Fixed Header -->
+    <header id="main-header" class="group">
+        <div class="header-grid">
+            <div class="header-logo">
+                <a href="../index.html" class="group flex items-center">
+                    <svg aria-hidden="true" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 2.5rem; height: 2.5rem;">
+                        <title>Logo</title>
+                        <defs>
+                            <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#0066ff"/>
+                                <stop offset="50%" style="stop-color:#3b82f6"/>
+                                <stop offset="100%" style="stop-color:#60a5fa"/>
+                            </linearGradient>
+                        </defs>
+                        <rect x="4" y="4" width="32" height="32" rx="8" fill="url(#logoGradient)"/>
+                        <text x="20" y="27" font-family="Inter, sans-serif" font-size="18" font-weight="700" fill="white" text-anchor="middle">A</text>
+                    </svg>
+                </a>
+            </div>
+            <div class="header-title">
+                <a href="../index.html" style="text-decoration: none; color: inherit;">
+                    <span class="text-xl font-bold sm:text-2xl">Alfred Navarro</span>
+                </a>
+            </div>
+            <nav class="mobile-nav-menu header-nav" id="navigation-menu">
+                <a href="../index.html#about">About</a>
+                <a href="../news.html">News</a>
+                <a href="../projects.html" class="active">Projects</a>
+                <a href="../experience.html">Experience</a>
+            </nav>
+            <div class="header-controls">
+                <button id="theme-toggle" aria-label="Switch to dark theme">
+                    <svg class="sun-icon h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                    </svg>
+                    <svg class="moon-icon h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                    </svg>
+                </button>
+                <button id="toggle-navigation-menu" aria-expanded="false" aria-label="Toggle navigation menu">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="mx-auto max-w-5xl px-4 sm:px-8">
+        <article class="project-article">
+
+            <a href="../projects.html" class="back-link">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                Back to Projects
+            </a>
+
+            <img src="../assets/emergency-resource-locator.png" alt="Emergency Resource Locator" class="project-hero">
+
+            <p class="project-meta-line">UF SwampHacks XI · 2025</p>
+            <h1 class="project-title">Emergency Resource Locator</h1>
+            <div class="event-badge">🐊 UF SwampHacks XI</div>
+
+            <p class="project-intro">
+                An interactive map that helps people quickly find nearby emergency services and critical resources during active crises — hospitals, shelters, pharmacies, and more — all in one place.
+            </p>
+
+            <hr class="divider">
+
+            <h2 class="section-heading">The Problem</h2>
+            <p class="prose-body">
+                During emergencies, people scramble across multiple apps and websites to locate hospitals, shelters, fire stations, and pharmacies. Every second counts, and fragmented information costs lives. Emergency Resource Locator consolidates these into a single, fast-loading map view.
+            </p>
+
+            <hr class="divider">
+
+            <h2 class="section-heading">How It Works</h2>
+            <p class="prose-body">
+                The app uses the browser's Geolocation API to detect the user's position, then renders nearby emergency resources on an interactive Leaflet.js map. Resources are color-coded by type, and clicking a marker shows contact info and directions. The interface is intentionally minimal — designed to work under stress with no learning curve.
+            </p>
+            <p class="prose-body">
+                Built in 24 hours at SwampHacks XI, the project prioritized speed of use over feature breadth. The React Native web target and Vite build system kept iteration cycles fast throughout the hackathon.
+            </p>
+
+            <hr class="divider">
+
+            <h2 class="section-heading">Tech Stack</h2>
+            <div class="tag-row">
+                <span class="tag">React Native</span>
+                <span class="tag">JavaScript</span>
+                <span class="tag">Leaflet.js</span>
+                <span class="tag">Vite</span>
+                <span class="tag">Geolocation API</span>
+                <span class="tag">OpenStreetMap</span>
+            </div>
+
+            <div class="links-row">
+                <a href="https://devpost.com/software/emergency-resource-locator" target="_blank" rel="noopener" class="project-link">
+                    <svg width="15" height="15" fill="currentColor" viewBox="0 0 16 16"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm7.5-6.923c-.67.204-1.335.82-1.887 1.855A7.97 7.97 0 0 0 5.145 4H7.5V1.077zM4.09 4a9.267 9.267 0 0 1 .64-1.539 6.7 6.7 0 0 1 .597-.933A7.025 7.025 0 0 0 2.255 4H4.09zm-.582 3.5c.03-.877.138-1.718.312-2.5H1.674a6.958 6.958 0 0 0-.656 2.5h2.49zM4.847 5a12.5 12.5 0 0 0-.338 2.5H7.5V5H4.847zM8.5 5v2.5h2.99a12.495 12.495 0 0 0-.337-2.5H8.5zM4.51 8.5a12.5 12.5 0 0 0 .337 2.5H7.5V8.5H4.51zm3.99 0V11h2.653c.187-.765.306-1.608.338-2.5H8.5zM5.145 12c.138.386.295.744.468 1.068.552 1.035 1.218 1.65 1.887 1.855V12H5.145zm.182 2.472a6.696 6.696 0 0 1-.597-.933A9.268 9.268 0 0 1 4.09 12H2.255a7.024 7.024 0 0 0 3.072 2.472zM3.82 11a13.652 13.652 0 0 1-.312-2.5h-2.49c.062.89.291 1.733.656 2.5H3.82zm6.853 3.472A7.024 7.024 0 0 0 13.745 12H11.91a9.27 9.27 0 0 1-.64 1.539 6.688 6.688 0 0 1-.597.933zM8.5 12v2.923c.67-.204 1.335-.82 1.887-1.855.173-.324.33-.682.468-1.068H8.5zm3.68-1h2.146c.365-.767.594-1.61.656-2.5h-2.49a13.65 13.65 0 0 1-.312 2.5zm2.802-3.5a6.959 6.959 0 0 0-.656-2.5H12.18c.174.782.282 1.623.312 2.5h2.49zM11.27 2.461c.247.464.462.98.64 1.539h1.835a7.024 7.024 0 0 0-3.072-2.472c.218.284.418.598.597.933zM10.855 4a7.966 7.966 0 0 0-.468-1.068C9.835 1.897 9.17 1.282 8.5 1.077V4h2.355z"/></svg>
+                    Devpost
+                </a>
+                <a href="https://emergency-resource-locator-two.vercel.app/" target="_blank" rel="noopener" class="project-link">
+                    <svg width="15" height="15" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
+                    Live Demo
+                </a>
+            </div>
+
+        </article>
+    </main>
+
+    <footer class="mx-auto max-w-3xl px-4 sm:px-8 py-12 text-center">
+        <p style="color: var(--color-secondary); font-size: 0.875rem;">© 2026 Alfred Navarro. Built with passion.</p>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>
