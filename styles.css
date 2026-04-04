@@ -605,13 +605,13 @@ body::before {
     transform: scale(0.95);
 }
 
-/* Theme icon visibility */
+/* Theme icon visibility — :root defaults first, then [data-theme] overrides (same specificity, later wins) */
+:root .sun-icon { display: none; }
+:root .moon-icon { display: block; }
 [data-theme="dark"] .sun-icon { display: block; }
 [data-theme="dark"] .moon-icon { display: none; }
 [data-theme="light"] .sun-icon { display: none; }
 [data-theme="light"] .moon-icon { display: block; }
-:root .sun-icon { display: none; }
-:root .moon-icon { display: block; }
 
 /* Mobile menu toggle - Liquid Glass */
 #toggle-navigation-menu {

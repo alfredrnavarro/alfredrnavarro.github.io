@@ -412,15 +412,17 @@ document.addEventListener('DOMContentLoaded', () => {
         window.applyBHoverEffect(document.body);
     }
 
-    // Replace header inline SVG with favicon image (no HTML edit required)
+    // Replace header inline SVG logo with favicon image (no HTML edit required)
     (function replaceHeaderSvgWithFavicon() {
         try {
-            const logoSvgEl = document.querySelector('#main-header svg');
+            const logoSvgEl = document.querySelector('.header-logo svg');
             if (logoSvgEl && logoSvgEl.parentNode) {
                 const img = document.createElement('img');
                 img.src = 'assets/favicon.ico';
                 img.alt = 'A Navarro logo';
-                img.className = logoSvgEl.getAttribute('class') || 'me-3 h-10 w-6 sm:me-3 sm:h-20 sm:w-12';
+                img.style.width = '2.5rem';
+                img.style.height = '2.5rem';
+                img.style.borderRadius = '0.5rem';
                 logoSvgEl.parentNode.replaceChild(img, logoSvgEl);
             }
         } catch (e) {
