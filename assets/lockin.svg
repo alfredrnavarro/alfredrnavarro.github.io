@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="LockIN">
+  <defs>
+    <linearGradient id="lockinBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#92E6DB"/>
+      <stop offset="1" stop-color="#5BCCC2"/>
+    </linearGradient>
+  </defs>
+  <!-- shackle: dark outline then light metal fill -->
+  <path d="M72 96 V70 a38 38 0 0 1 76 0 V96" fill="none" stroke="#1E3A38" stroke-width="26" stroke-linecap="round"/>
+  <path d="M72 96 V70 a38 38 0 0 1 76 0 V96" fill="none" stroke="#DDE4E6" stroke-width="13" stroke-linecap="round"/>
+  <!-- body -->
+  <rect x="42" y="88" width="136" height="104" rx="22" fill="url(#lockinBody)" stroke="#1E3A38" stroke-width="9"/>
+  <!-- specular highlight -->
+  <circle cx="68" cy="112" r="8" fill="#ffffff" opacity="0.9"/>
+  <!-- blush -->
+  <ellipse cx="66" cy="150" rx="12" ry="7" fill="#F5AE99"/>
+  <ellipse cx="154" cy="150" rx="12" ry="7" fill="#F5AE99"/>
+  <!-- eyes -->
+  <circle cx="84" cy="130" r="14" fill="#12302E"/>
+  <circle cx="136" cy="130" r="14" fill="#12302E"/>
+  <circle cx="79" cy="124" r="4.5" fill="#ffffff"/>
+  <circle cx="131" cy="124" r="4.5" fill="#ffffff"/>
+  <!-- smile -->
+  <path d="M102 132 q8 9 16 0" fill="none" stroke="#12302E" stroke-width="4.5" stroke-linecap="round"/>
+  <!-- keyhole -->
+  <circle cx="110" cy="160" r="9" fill="#12302E"/>
+  <path d="M105 165 L115 165 L118 181 L102 181 Z" fill="#12302E"/>
+</svg>

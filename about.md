@@ -5,7 +5,6 @@
   <div class="about-header-content">
     <h1 class="title">Hi I'm Alfred!</h1>
     <div class="about-socials" style="display:flex;gap:1.25rem;align-items:center;flex-wrap:wrap;margin-top:0.5rem;">
-
   <a href="https://github.com/alfredrnavarro" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.5rem;text-decoration:none;color:var(--color-accent-2);">
     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" aria-hidden="true" style="width:20px;height:20px;opacity:0.9;" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.026 2c-5.509 0-9.974 4.465-9.974 9.974 0 4.406 2.857 8.145 6.821 9.465.499.09.679-.217.679-.481 0-.237-.008-.865-.011-1.696-2.775.602-3.361-1.338-3.361-1.338-.452-1.152-1.107-1.459-1.107-1.459-.905-.619.069-.605.069-.605 1.002.07 1.527 1.028 1.527 1.028.89 1.524 2.336 1.084 2.902.829.091-.645.351-1.085.635-1.334-2.214-.251-4.542-1.107-4.542-4.93 0-1.087.389-1.979 1.024-2.675-.101-.253-.446-1.268.099-2.64 0 0 .837-.269 2.742 1.021a9.582 9.582 0 0 1 2.496-.336 9.554 9.554 0 0 1 2.496.336c1.906-1.291 2.742-1.021 2.742-1.021.545 1.372.203 2.387.099 2.64.64.696 1.024 1.587 1.024 2.675 0 3.833-2.33 4.675-4.552 4.922.355.308.675.916.675 1.846 0 1.334-.012 2.41-.012 2.737 0 .267.178.577.687.479C19.146 20.115 22 16.379 22 11.974 22 6.465 17.535 2 12.026 2z"></path></svg>
     <span>GitHub</span>
@@ -24,7 +23,6 @@
     <svg role="img" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true" style="width:20px;height:20px;opacity:0.9;" xmlns="http://www.w3.org/2000/svg"><path d="M6.002 1.61L0 12.004 6.002 22.39h11.996L24 12.004 17.998 1.61zm1.593 4.084h3.947c3.605 0 6.276 1.695 6.276 6.31 0 4.436-3.21 6.302-6.456 6.302H7.595zm2.517 2.449v7.714h1.241c2.646 0 3.862-1.55 3.862-3.861.009-2.569-1.096-3.853-3.767-3.853Z"/></svg>
     <span>Devpost</span>
   </a>
-  
   <!-- hidden: twitter
   <a href="https://x.com/therealalfredn" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.5rem;text-decoration:none;color:var(--color-accent-2);">
     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-twitter-x" viewBox="0 0 16 16" id="Twitter-X--Streamline-Bootstrap" style="width:20px;height:20px;opacity:0.9;"><path d="M12.6 0.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867 -5.07 -4.425 5.07H0.316l5.733 -6.57L0 0.75h5.063l3.495 4.633L12.601 0.75Zm-0.86 13.028h1.36L4.323 2.145H2.865z" stroke-width="1"></path></svg>
@@ -37,7 +35,7 @@
   </a>
   <a href="https://docs.google.com/document/d/1lWDqa3rsre1nqLrPkBcGigCVPgLw51PnhJecE3vQpQc/edit?tab=t.0" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.5rem;text-decoration:none;color:var(--color-accent-2);">
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="width:20px;height:20px;opacity:0.9;"><path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5L9.5 0H4zM9 1v3.5A1.5 1.5 0 0 0 10.5 6H14v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h6z"/><path d="M4.5 12a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zm0-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zm0-2a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"/></svg>
-  <span>CV</span>
+  <span>Resume</span>
   </a>
     </div>
   </div>
@@ -50,9 +48,9 @@ Hi, I’m Alfred Ramon Navarro, a Computer Engineering student at the University
 
 ## Leadership
 
-### Event Coordinator — Data Science and Informatics
+### Treasurer — Data Science and Informatics
 
-As an Event Coordinator for Data Science and Informatics at the University of Florida, I organize and execute recurring events focused on career readiness and data science, collaborate with the executive board, manage event logistics, and promote General Body Meetings to drive student engagement and participation.
+As Treasurer for Data Science and Informatics at the University of Florida, I manage a club budget exceeding $10,000, overseeing funding allocation across club events and programs. I lead a team of sponsorship coordinators, securing and maintaining sponsorships from companies including VYSPAR and NVIDIA through direct outreach, and partner directly with the Artificial Intelligence and Informatics Research Institute (AIIRI) to coordinate budgeting and program planning.
 
 ### Social Chair — Southern Scholarship Foundation
 
@@ -60,15 +58,11 @@ As Social Chair for the Southern Scholarship Foundation, I led initiatives that 
 
 ## Previous Leadership
 
+### Event Coordinator — Data Science and Informatics
+**Gainesville, Florida** | Feb 2026 – May 2026
+
 ### Co-Treasurer — Physics Club
 **Parkland, Florida** | Aug 2023 – Jun 2025
 
-- Responsible for assigning and creating dues on the district eStore and editing the club constitution.
-- Responsible for the club's money and disbursement, including collecting dues, funding physics competitions, and funding projects: rockets, bridges, catapults, etc.
-
 ### Teacher / General Member — Coding and Design Club
 **Parkland, Florida** | Aug 2022 – Jun 2025
-
-- Started off as a general member attending weekly meetings and learning how to code.
-- Taught computer science and computer engineering to students with Minecraft Redstone.
-- Shared my overall knowledge of JavaScript and Circuitry to a class of +10 students.
