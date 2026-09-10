@@ -14,7 +14,7 @@
         (function() {
             try {
                 var saved = localStorage.getItem('theme');
-                var theme = saved === 'dark' || saved === 'light' ? saved : 'light';
+                var theme = ['dark', 'light', 'cyber', 'cyber-light'].indexOf(saved) !== -1 ? saved : 'light';
                 document.documentElement.setAttribute('data-theme', theme);
             } catch (e) {
                 document.documentElement.setAttribute('data-theme', 'light');
@@ -168,6 +168,18 @@
                     </svg>
                     <svg class="moon-icon h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                    </svg>
+                </button>
+
+                <!-- Neural Link Theme -->
+                <button id="cyber-toggle" aria-pressed="false" aria-label="Activate neural link theme" title="Neural link">
+                    <svg class="nl-icon h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        <path class="nl-ring" d="M12 2.6 20 7.3v9.4L12 21.4 4 16.7V7.3Z"></path>
+                        <path class="nl-spoke" d="M12 12 20 7.3M12 12v9.4M12 12 4 7.3"></path>
+                        <circle class="nl-node" cx="20" cy="7.3" r="1.7" fill="currentColor" stroke="none"></circle>
+                        <circle class="nl-node" cx="12" cy="21.4" r="1.7" fill="currentColor" stroke="none"></circle>
+                        <circle class="nl-node" cx="4" cy="7.3" r="1.7" fill="currentColor" stroke="none"></circle>
+                        <circle class="nl-core" cx="12" cy="12" r="2.7" fill="currentColor" stroke="none"></circle>
                     </svg>
                 </button>
                 <button id="toggle-navigation-menu" aria-expanded="false" aria-label="Toggle navigation menu">

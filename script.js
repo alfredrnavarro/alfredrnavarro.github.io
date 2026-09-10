@@ -1,50 +1,105 @@
 // Theme management
+// Two independent axes: light/dark, and normal/neural-link. The sun-moon
+// button flips the first, the chip flips the second, so each of the four
+// combinations is reachable and neither button undoes the other.
 class ThemeManager {
     constructor() {
-        this.theme = localStorage.getItem('theme') || 'light';
+        const saved = localStorage.getItem('theme');
+        const theme = ['light', 'dark', 'cyber', 'cyber-light'].includes(saved) ? saved : 'light';
+        this.dark = theme === 'dark' || theme === 'cyber';
+        this.cyber = theme.indexOf('cyber') === 0;
         this.init();
     }
 
+    get theme() {
+        if (this.cyber) return this.dark ? 'cyber' : 'cyber-light';
+        return this.dark ? 'dark' : 'light';
+    }
+
     init() {
-        // Set initial theme
-        this.setTheme(this.theme);
-        
-        // Add event listener to theme toggle button
+        this.apply();
+
         const themeToggle = document.getElementById('theme-toggle');
         if (themeToggle) {
-            themeToggle.addEventListener('click', () => this.toggleTheme());
+            themeToggle.addEventListener('click', () => this.toggleMode());
+        }
+
+        const cyberToggle = document.getElementById('cyber-toggle');
+        if (cyberToggle) {
+            cyberToggle.addEventListener('click', () => this.toggleCyber());
         }
     }
 
-    setTheme(theme) {
-        this.theme = theme;
-        document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
-        
-        // Update theme toggle button aria-label
+    apply() {
+        document.documentElement.setAttribute('data-theme', this.theme);
+        localStorage.setItem('theme', this.theme);
+
+        // The sun/moon button always offers the opposite of the current mode
+        const nextMode = this.dark ? 'light' : 'dark';
         const themeToggle = document.getElementById('theme-toggle');
         if (themeToggle) {
-            themeToggle.setAttribute('aria-label', 
-                theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'
-            );
-            // Update icon visibility explicitly to avoid any flash
+            themeToggle.setAttribute('aria-label', `Switch to ${nextMode} theme`);
             const sun = themeToggle.querySelector('.sun-icon');
             const moon = themeToggle.querySelector('.moon-icon');
             if (sun && moon) {
-                if (theme === 'dark') {
-                    sun.style.display = 'block';
-                    moon.style.display = 'none';
-                } else {
-                    sun.style.display = 'none';
-                    moon.style.display = 'block';
-                }
+                sun.style.display = nextMode === 'light' ? 'block' : 'none';
+                moon.style.display = nextMode === 'dark' ? 'block' : 'none';
             }
+        }
+
+        const cyberToggle = document.getElementById('cyber-toggle');
+        if (cyberToggle) {
+            cyberToggle.setAttribute('aria-pressed', this.cyber.toString());
+            cyberToggle.setAttribute('aria-label',
+                this.cyber ? 'Deactivate neural link theme' : 'Activate neural link theme');
         }
     }
 
-    toggleTheme() {
-        const newTheme = this.theme === 'light' ? 'dark' : 'light';
-        this.setTheme(newTheme);
+    toggleMode() {
+        this.dark = !this.dark;
+        this.apply();
+    }
+
+    toggleCyber() {
+        this.cyber = !this.cyber;
+        this.apply();
+        if (this.cyber) this.playGlitch();
+    }
+
+    playGlitch() {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        if (document.querySelector('.cyber-glitch')) return;
+
+        const neons = ['#00e5ff', '#b14aff', '#ff2bd6', '#6c4cff', '#fcee0a'];
+        const overlay = document.createElement('div');
+        overlay.className = 'cyber-glitch';
+
+        // Bands at pseudo-random heights, each slammed a different distance
+        for (let i = 0; i < 7; i++) {
+            const slice = document.createElement('div');
+            slice.className = 'cyber-glitch-slice';
+            const dir = i % 2 === 0 ? 1 : -1;
+            slice.style.setProperty('--top', `${4 + i * 13 + Math.random() * 6}%`);
+            slice.style.setProperty('--h', `${2 + Math.random() * 7}%`);
+            slice.style.setProperty('--dx', `${dir * (18 + Math.random() * 45)}px`);
+            slice.style.setProperty('--c', neons[i % neons.length]);
+            slice.style.setProperty('--delay', `${Math.random() * 90}ms`);
+            overlay.appendChild(slice);
+        }
+
+        const dots = document.createElement('div');
+        dots.className = 'cyber-glitch-dots';
+        const wipe = document.createElement('div');
+        wipe.className = 'cyber-glitch-wipe';
+        overlay.append(dots, wipe);
+
+        document.body.classList.add('cyber-glitching');
+        document.body.appendChild(overlay);
+
+        window.setTimeout(() => {
+            overlay.remove();
+            document.body.classList.remove('cyber-glitching');
+        }, 780);
     }
 }
 
@@ -496,10 +551,20 @@ class FloatingIcons3D {
         const svg = iconEl.querySelector(':scope > svg');
         if (!svg) return;
 
-        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-        const baseColor = isDark
-            ? { r: 185, g: 190, b: 200 }
-            : { r: 210, g: 215, b: 220 };
+        const theme = document.documentElement.getAttribute('data-theme');
+        const isCyber = theme === 'cyber' || theme === 'cyber-light';
+        const baseColor = theme === 'cyber'
+            ? { r: 0, g: 229, b: 255 }
+            : theme === 'cyber-light'
+                ? { r: 0, g: 137, b: 168 }
+                : theme === 'dark'
+                    ? { r: 185, g: 190, b: 200 }
+                    : { r: 210, g: 215, b: 220 };
+
+        // The CSS glow uses currentColor, so the front face carries the neon
+        svg.style.color = isCyber
+            ? `rgb(${baseColor.r}, ${baseColor.g}, ${baseColor.b})`
+            : '';
 
         const totalDepth = this.layerCount * this.layerSpacing;
         const halfDepth = totalDepth / 2;
