@@ -1,18 +1,13 @@
-// Theme management
-// Two independent axes: light/dark, and normal/neural-link. The sun-moon
-// button flips the first, the chip flips the second, so each of the four
-// combinations is reachable and neither button undoes the other.
+// Theme management: night (dark, the default) and parchment (light)
 class ThemeManager {
     constructor() {
         const saved = localStorage.getItem('theme');
-        const theme = ['light', 'dark', 'cyber', 'cyber-light'].includes(saved) ? saved : 'light';
-        this.dark = theme === 'dark' || theme === 'cyber';
-        this.cyber = theme.indexOf('cyber') === 0;
+        // Anyone who had the old neural-link themes saved lands on the matching mode
+        this.dark = saved !== 'light' && saved !== 'cyber-light';
         this.init();
     }
 
     get theme() {
-        if (this.cyber) return this.dark ? 'cyber' : 'cyber-light';
         return this.dark ? 'dark' : 'light';
     }
 
@@ -22,11 +17,6 @@ class ThemeManager {
         const themeToggle = document.getElementById('theme-toggle');
         if (themeToggle) {
             themeToggle.addEventListener('click', () => this.toggleMode());
-        }
-
-        const cyberToggle = document.getElementById('cyber-toggle');
-        if (cyberToggle) {
-            cyberToggle.addEventListener('click', () => this.toggleCyber());
         }
     }
 
@@ -46,60 +36,11 @@ class ThemeManager {
                 moon.style.display = nextMode === 'dark' ? 'block' : 'none';
             }
         }
-
-        const cyberToggle = document.getElementById('cyber-toggle');
-        if (cyberToggle) {
-            cyberToggle.setAttribute('aria-pressed', this.cyber.toString());
-            cyberToggle.setAttribute('aria-label',
-                this.cyber ? 'Deactivate neural link theme' : 'Activate neural link theme');
-        }
     }
 
     toggleMode() {
         this.dark = !this.dark;
         this.apply();
-    }
-
-    toggleCyber() {
-        this.cyber = !this.cyber;
-        this.apply();
-        if (this.cyber) this.playGlitch();
-    }
-
-    playGlitch() {
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-        if (document.querySelector('.cyber-glitch')) return;
-
-        const neons = ['#00e5ff', '#b14aff', '#ff2bd6', '#6c4cff', '#fcee0a'];
-        const overlay = document.createElement('div');
-        overlay.className = 'cyber-glitch';
-
-        // Bands at pseudo-random heights, each slammed a different distance
-        for (let i = 0; i < 7; i++) {
-            const slice = document.createElement('div');
-            slice.className = 'cyber-glitch-slice';
-            const dir = i % 2 === 0 ? 1 : -1;
-            slice.style.setProperty('--top', `${4 + i * 13 + Math.random() * 6}%`);
-            slice.style.setProperty('--h', `${2 + Math.random() * 7}%`);
-            slice.style.setProperty('--dx', `${dir * (18 + Math.random() * 45)}px`);
-            slice.style.setProperty('--c', neons[i % neons.length]);
-            slice.style.setProperty('--delay', `${Math.random() * 90}ms`);
-            overlay.appendChild(slice);
-        }
-
-        const dots = document.createElement('div');
-        dots.className = 'cyber-glitch-dots';
-        const wipe = document.createElement('div');
-        wipe.className = 'cyber-glitch-wipe';
-        overlay.append(dots, wipe);
-
-        document.body.classList.add('cyber-glitching');
-        document.body.appendChild(overlay);
-
-        window.setTimeout(() => {
-            overlay.remove();
-            document.body.classList.remove('cyber-glitching');
-        }, 780);
     }
 }
 
@@ -467,24 +408,6 @@ document.addEventListener('DOMContentLoaded', () => {
         window.applyBHoverEffect(document.body);
     }
 
-    // Replace header inline SVG logo with favicon image (no HTML edit required)
-    (function replaceHeaderSvgWithFavicon() {
-        try {
-            const logoSvgEl = document.querySelector('.header-logo svg');
-            if (logoSvgEl && logoSvgEl.parentNode) {
-                const img = document.createElement('img');
-                img.src = 'assets/favicon.ico';
-                img.alt = 'A Navarro logo';
-                img.style.width = '2.5rem';
-                img.style.height = '2.5rem';
-                img.style.borderRadius = '0.5rem';
-                logoSvgEl.parentNode.replaceChild(img, logoSvgEl);
-            }
-        } catch (e) {
-            // Fail silently if replacement not possible
-            console.warn('Logo replacement failed:', e);
-        }
-    })();
     
     // Add loading state management
     document.body.classList.add('loaded');
@@ -532,97 +455,278 @@ prefersReducedMotion.addEventListener('change', () => {
     }
 });
 
-// ===================================
-// Floating Icons 3D Extrusion
-// ===================================
-class FloatingIcons3D {
-    constructor() {
-        this.layerCount = 8;
-        this.layerSpacing = 2; // px between layers
-        this.init();
+
+// Occult side rails: an astrolabe, a column of planetary glyphs and a
+// candle down each edge of the page. Purely decorative; CSS only shows
+// them on screens wide enough to have empty margins.
+(function buildSideRails() {
+    const ticks = [];
+    for (let i = 0; i < 36; i++) {
+        const a = (i / 36) * Math.PI * 2;
+        const r2 = i % 3 === 0 ? 39 : 42.5;
+        ticks.push(`M${(50 + 46 * Math.cos(a)).toFixed(2)} ${(50 + 46 * Math.sin(a)).toFixed(2)}L${(50 + r2 * Math.cos(a)).toFixed(2)} ${(50 + r2 * Math.sin(a)).toFixed(2)}`);
     }
 
-    init() {
-        const icons = document.querySelectorAll('.floating-icon');
-        icons.forEach(icon => this.extrudeIcon(icon));
+    const astrolabe = `
+        <svg class="rail-astrolabe" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+            <g class="rail-wheel">
+                <circle cx="50" cy="50" r="48" stroke-width="0.8"/>
+                <circle cx="50" cy="50" r="46" stroke-width="0.4"/>
+                <path d="${ticks.join('')}" stroke-width="0.6"/>
+                <circle cx="50" cy="50" r="36" stroke-width="0.5"/>
+            </g>
+            <g class="rail-rete">
+                <circle cx="50" cy="50" r="27" stroke-width="0.5" stroke-dasharray="1.5 2.5"/>
+                <rect x="31" y="31" width="38" height="38" stroke-width="0.6"/>
+                <rect x="31" y="31" width="38" height="38" stroke-width="0.6" transform="rotate(45 50 50)"/>
+                <circle cx="50" cy="50" r="9" stroke-width="0.6"/>
+                <path d="M50 4v12M50 84v12M4 50h12M84 50h12" stroke-width="0.6"/>
+            </g>
+            <circle cx="50" cy="50" r="2" fill="currentColor" stroke="none"/>
+        </svg>`;
+
+    const candle = (id) => `
+        <svg class="rail-candle" viewBox="0 0 40 110" fill="none">
+            <defs>
+                <radialGradient id="${id}">
+                    <stop offset="0%" stop-color="#ffd890" stop-opacity="0.55"/>
+                    <stop offset="100%" stop-color="#ffb347" stop-opacity="0"/>
+                </radialGradient>
+            </defs>
+            <circle class="rail-candle-glow" cx="20" cy="30" r="20" fill="url(#${id})"/>
+            <g class="rail-flame">
+                <path d="M20 18c3 5 5 8 5 12a5 5 0 0 1-10 0c0-4 2-7 5-12z" fill="#f2b04e"/>
+                <path d="M20 25c1.6 2.6 2.5 4 2.5 6a2.5 2.5 0 0 1-5 0c0-2 .9-3.4 2.5-6z" fill="#fff1c6"/>
+            </g>
+            <path d="M20 36v4" stroke="#2b2116" stroke-width="1"/>
+            <path d="M14 40h12v52H14z" fill="#d8c8a2"/>
+            <path d="M14 40h12v6c-1.5 0-1.5 5-3 5s-1-3-2.5-3-1 7-3 7-1.5-6-3.5-6z" fill="#efe4c8"/>
+            <path d="M14 40v52" stroke="rgba(0,0,0,0.25)" stroke-width="2"/>
+            <path d="M6 94h28l-3 5H9z" fill="currentColor" opacity="0.85"/>
+            <ellipse cx="20" cy="99.5" rx="13" ry="2" fill="currentColor" opacity="0.6"/>
+            <path d="M34 95c4 0 4 6 0 6" stroke="currentColor" stroke-width="1.2"/>
+        </svg>`;
+
+    // Text presentation selector keeps the glyphs from turning into emoji
+    const glyphs = (list) => list
+        .map((g) => `<span class="rail-seg"></span><span class="rail-glyph">${g}︎</span>`)
+        .join('') + '<span class="rail-seg"></span>';
+
+    const rails = [
+        ['side-rail-left', ['☉', '☽', '☿', '♀', '♂'], 'rail-glow-l'],
+        ['side-rail-right', ['♃', '♄', '♅', '♆', '☄'], 'rail-glow-r'],
+    ];
+
+    rails.forEach(([cls, list, glowId]) => {
+        const rail = document.createElement('div');
+        rail.className = `side-rail ${cls}`;
+        rail.setAttribute('aria-hidden', 'true');
+        rail.innerHTML = astrolabe + `<div class="rail-column">${glyphs(list)}</div>` + candle(glowId);
+        document.body.appendChild(rail);
+    });
+})();
+
+// Occult cursor: a small spinning sigil on the pointer, a lamplight halo
+// that trails it, brass embers shed as it moves, and a green pulse with
+// sparks and a rising planetary glyph on click. Particles live on one
+// fixed canvas whose loop only runs while something is still moving.
+// Mouse and trackpad only; skipped for touch and reduced motion.
+(function occultCursor() {
+    const fine = window.matchMedia('(pointer: fine)').matches;
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!fine || still) return;
+
+    const halo = document.createElement('div');
+    halo.id = 'cursor-glow';
+    const sigil = document.createElement('div');
+    sigil.className = 'cursor-sigil';
+    sigil.innerHTML = `
+        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor">
+            <g class="cursor-sigil-outer">
+                <circle cx="20" cy="20" r="17" stroke-width="1" stroke-dasharray="2 2.6"/>
+                <path d="M20 0.5v5M20 34.5v5M0.5 20h5M34.5 20h5" stroke-width="1.2"/>
+            </g>
+            <g class="cursor-sigil-inner">
+                <circle cx="20" cy="20" r="11" stroke-width="0.8"/>
+                <path d="M20 12.5 26.5 23.75H13.5Z" stroke-width="0.9" stroke-linejoin="round"/>
+            </g>
+            <circle cx="20" cy="20" r="1.6" fill="currentColor" stroke="none"/>
+        </svg>`;
+    const canvas = document.createElement('canvas');
+    canvas.className = 'cursor-embers';
+    [halo, sigil, canvas].forEach((el) => el.setAttribute('aria-hidden', 'true'));
+    document.body.append(canvas, halo, sigil);
+
+    const ctx = canvas.getContext('2d');
+    let dpr = 1, w = 0, h = 0;
+    function resize() {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        w = window.innerWidth;
+        h = window.innerHeight;
+        canvas.width = w * dpr;
+        canvas.height = h * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const CLICKABLE = 'a, button, [role="button"], input, select, textarea, label, summary, .carousel-friend, #round-carousel';
+    const GLYPHS = ['☉', '☽', '☿', '♀', '♂', '♃', '♄'];
+    const MAX = 220;
+
+    let x = -400, y = -400;   // pointer
+    let hx = x, hy = y;       // halo, eased toward the pointer
+    let lastX = null, lastY = null;
+    let raf = 0;
+    let prev = 0;
+    const embers = [];
+    const pulses = [];
+    const glyphs = [];
+
+    const light = () => document.documentElement.getAttribute('data-theme') === 'light' &&
+        !document.body.classList.contains('has-hero');
+
+    function spawnEmber(px, py, green) {
+        if (embers.length >= MAX) embers.shift();
+        const a = Math.random() * Math.PI * 2;
+        const s = green ? 1.2 + Math.random() * 3.2 : 0.2 + Math.random() * 0.9;
+        const jitter = green ? 0 : 10;   // loose sparks, not a dotted line
+        embers.push({
+            x: px + (Math.random() - 0.5) * jitter,
+            y: py + (Math.random() - 0.5) * jitter,
+            vx: Math.cos(a) * s,
+            vy: Math.sin(a) * s - (green ? 0.6 : 0.35),
+            life: 0, max: green ? 0.55 + Math.random() * 0.4 : 0.6 + Math.random() * 0.6,
+            r: green ? 1 + Math.random() * 1.4 : 0.7 + Math.random() * 1.3,
+            green,
+        });
     }
 
-    extrudeIcon(iconEl) {
-        const svg = iconEl.querySelector(':scope > svg');
-        if (!svg) return;
+    function start() {
+        if (!raf) {
+            prev = performance.now();
+            raf = requestAnimationFrame(frame);
+        }
+    }
 
-        const theme = document.documentElement.getAttribute('data-theme');
-        const isCyber = theme === 'cyber' || theme === 'cyber-light';
-        const baseColor = theme === 'cyber'
-            ? { r: 0, g: 229, b: 255 }
-            : theme === 'cyber-light'
-                ? { r: 0, g: 137, b: 168 }
-                : theme === 'dark'
-                    ? { r: 185, g: 190, b: 200 }
-                    : { r: 210, g: 215, b: 220 };
+    function frame(now) {
+        const dt = Math.min((now - prev) / 1000, 0.05);
+        prev = now;
+        const k = dt * 60;   // frame-rate independent step
 
-        // The CSS glow uses currentColor, so the front face carries the neon
-        svg.style.color = isCyber
-            ? `rgb(${baseColor.r}, ${baseColor.g}, ${baseColor.b})`
-            : '';
+        hx += (x - hx) * Math.min(0.16 * k, 1);
+        hy += (y - hy) * Math.min(0.16 * k, 1);
+        halo.style.transform = `translate3d(${hx}px, ${hy}px, 0)`;
 
-        const totalDepth = this.layerCount * this.layerSpacing;
-        const halfDepth = totalDepth / 2;
+        ctx.clearRect(0, 0, w, h);
+        const onLight = light();
+        ctx.globalCompositeOperation = onLight ? 'source-over' : 'lighter';
 
-        svg.style.transform = `translateZ(${halfDepth}px)`;
-
-        const fragment = document.createDocumentFragment();
-
-        for (let i = 0; i < this.layerCount; i++) {
-            const layer = document.createElement('div');
-            layer.className = 'extrusion-layer';
-
-            const clonedSvg = svg.cloneNode(true);
-            clonedSvg.style.transform = '';
-
-            // Darken layers toward the middle for shading
-            const distFromEdge = Math.min(i, this.layerCount - 1 - i);
-            const darkenFactor = 1 - ((1 - distFromEdge / (this.layerCount / 2)) * 0.35);
-            const r = Math.round(baseColor.r * darkenFactor);
-            const g = Math.round(baseColor.g * darkenFactor);
-            const b = Math.round(baseColor.b * darkenFactor);
-
-            clonedSvg.style.color = `rgb(${r}, ${g}, ${b})`;
-            clonedSvg.style.filter = 'none';
-
-            const z = halfDepth - (i * this.layerSpacing);
-            layer.style.transform = `translateZ(${z}px)`;
-            layer.appendChild(clonedSvg);
-
-            fragment.appendChild(layer);
+        for (let i = embers.length - 1; i >= 0; i--) {
+            const p = embers[i];
+            p.life += dt;
+            const t = p.life / p.max;
+            if (t >= 1) { embers.splice(i, 1); continue; }
+            p.vx *= Math.pow(0.95, k);
+            p.vy = p.vy * Math.pow(0.95, k) - 0.035 * k;  // embers rise
+            p.x += p.vx * k;
+            p.y += p.vy * k;
+            const alpha = (1 - t) * (1 - t * 0.4);
+            const col = p.green
+                ? `hsla(135, 100%, ${onLight ? 32 : 66}%, `
+                : (onLight ? 'rgba(130, 92, 30, ' : `hsla(${38 + t * 8}, 85%, ${70 - t * 25}%, `);
+            ctx.fillStyle = col + (alpha * 0.22) + ')';
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r * 3.2, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = col + alpha + ')';
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fill();
         }
 
-        iconEl.insertBefore(fragment, svg);
+        for (let i = pulses.length - 1; i >= 0; i--) {
+            const p = pulses[i];
+            p.life += dt;
+            const t = p.life / 0.55;
+            if (t >= 1) { pulses.splice(i, 1); continue; }
+            const ease = 1 - Math.pow(1 - t, 3);
+            ctx.strokeStyle = `hsla(135, 100%, ${onLight ? 30 : 65}%, ${(1 - t) * 0.85})`;
+            ctx.lineWidth = 1.5 * (1 - t) + 0.5;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 6 + ease * 34, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.setLineDash([2, 4]);
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 4 + ease * 52, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.setLineDash([]);
+        }
+
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        for (let i = glyphs.length - 1; i >= 0; i--) {
+            const g = glyphs[i];
+            g.life += dt;
+            const t = g.life / 1.1;
+            if (t >= 1) { glyphs.splice(i, 1); continue; }
+            const alpha = t < 0.15 ? t / 0.15 : 1 - (t - 0.15) / 0.85;
+            ctx.font = `${16 + t * 6}px 'Segoe UI Symbol', 'Noto Sans Symbols', 'Apple Symbols', serif`;
+            ctx.fillStyle = `hsla(135, 100%, ${onLight ? 28 : 70}%, ${alpha * 0.9})`;
+            ctx.fillText(g.ch, g.x + Math.sin(t * 5) * 4, g.y - t * 46);
+        }
+
+        const settling = Math.abs(x - hx) + Math.abs(y - hy) > 0.5;
+        if (embers.length || pulses.length || glyphs.length || settling) {
+            raf = requestAnimationFrame(frame);
+        } else {
+            ctx.clearRect(0, 0, w, h);
+            raf = 0;
+        }
     }
-}
 
-// Update extrusion colors on theme change
-function updateExtrusionTheme() {
-    document.querySelectorAll('.floating-icon').forEach(icon => {
-        icon.querySelectorAll('.extrusion-layer').forEach(l => l.remove());
-        // Reset front SVG transform so extrudeIcon can reapply it
-        const svg = icon.querySelector(':scope > svg');
-        if (svg) svg.style.transform = '';
-    });
-    new FloatingIcons3D();
-}
+    window.addEventListener('pointermove', (e) => {
+        if (e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
+        x = e.clientX;
+        y = e.clientY;
+        sigil.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+        halo.classList.add('is-visible');
+        sigil.classList.add('is-visible');
 
-document.addEventListener('DOMContentLoaded', () => {
-    new FloatingIcons3D();
-
-    // Listen for theme changes
-    const observer = new MutationObserver(mutations => {
-        for (const m of mutations) {
-            if (m.attributeName === 'data-theme') {
-                updateExtrusionTheme();
-                break;
+        // Embers in proportion to distance travelled, along the path
+        if (lastX !== null) {
+            const dist = Math.hypot(x - lastX, y - lastY);
+            const n = Math.min(Math.floor(dist / 9 + Math.random() * 1.5), 4);
+            for (let i = 1; i <= n; i++) {
+                const f = (i - Math.random()) / n;
+                spawnEmber(lastX + (x - lastX) * f, lastY + (y - lastY) * f, false);
             }
         }
+        lastX = x;
+        lastY = y;
+        start();
+    }, { passive: true });
+
+    document.addEventListener('pointerover', (e) => {
+        const hot = !!(e.target.closest && e.target.closest(CLICKABLE));
+        sigil.classList.toggle('is-hovering', hot);
+        halo.classList.toggle('is-hovering', hot);
     });
-    observer.observe(document.documentElement, { attributes: true });
-});
+
+    document.addEventListener('pointerdown', (e) => {
+        if (e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
+        sigil.classList.add('is-pressed');
+        pulses.push({ x: e.clientX, y: e.clientY, life: 0 });
+        for (let i = 0; i < 14; i++) spawnEmber(e.clientX, e.clientY, true);
+        glyphs.push({ x: e.clientX, y: e.clientY - 14, life: 0, ch: GLYPHS[Math.floor(Math.random() * GLYPHS.length)] });
+        start();
+    });
+    document.addEventListener('pointerup', () => sigil.classList.remove('is-pressed'));
+
+    // Fade out when the pointer leaves the window
+    document.documentElement.addEventListener('pointerleave', () => {
+        halo.classList.remove('is-visible');
+        sigil.classList.remove('is-visible');
+        lastX = lastY = null;
+    });
+})();

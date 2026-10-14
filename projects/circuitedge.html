@@ -9,15 +9,15 @@
     <link rel="stylesheet" href="../styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     <script>
         (function() {
             try {
                 var saved = localStorage.getItem('theme');
-                var theme = ['dark', 'light', 'cyber', 'cyber-light'].indexOf(saved) !== -1 ? saved : 'light';
+                var theme = ['dark', 'light'].indexOf(saved) !== -1 ? saved : 'dark';
                 document.documentElement.setAttribute('data-theme', theme);
             } catch (e) {
-                document.documentElement.setAttribute('data-theme', 'light');
+                document.documentElement.setAttribute('data-theme', 'dark');
             }
         })();
     </script>
@@ -154,7 +154,16 @@
         <div class="header-grid">
             <div class="header-logo">
                 <a href="../index.html" class="group flex items-center">
-                    <img src="../assets/favicon.ico" alt="Alfred Navarro" style="width: 2.5rem; height: 2.5rem; border-radius: 0.5rem;">
+                    <svg aria-hidden="true" viewBox="0 0 40 40" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg" style="width: 2.5rem; height: 2.5rem; color: var(--color-primary);">
+                        <title>Alfred Navarro</title>
+                        <circle cx="20" cy="20" r="17" stroke-width="1"/>
+                        <circle cx="20" cy="20" r="14.5" stroke-width="0.5"/>
+                        <path d="M12.5 30.5 20 8.5 27.5 30.5" stroke-width="1.3" stroke-linejoin="miter"/>
+                        <path d="M9 24h22" stroke-width="1"/>
+                        <path d="M8 24l1.2-1.2 1.2 1.2-1.2 1.2zM29.6 24l1.2-1.2 1.2 1.2-1.2 1.2z" fill="currentColor" stroke="none"/>
+                        <circle cx="20" cy="5.6" r="1.1" fill="currentColor" stroke="none"/>
+                        <path d="M17 34.5h6" stroke-width="0.8"/>
+                    </svg>
                 </a>
             </div>
             <div class="header-title">
@@ -178,17 +187,6 @@
                     </svg>
                 </button>
 
-                <!-- Neural Link Theme -->
-                <button id="cyber-toggle" aria-pressed="false" aria-label="Activate neural link theme" title="Neural link">
-                    <svg class="nl-icon h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                        <path class="nl-ring" d="M12 2.6 20 7.3v9.4L12 21.4 4 16.7V7.3Z"></path>
-                        <path class="nl-spoke" d="M12 12 20 7.3M12 12v9.4M12 12 4 7.3"></path>
-                        <circle class="nl-node" cx="20" cy="7.3" r="1.7" fill="currentColor" stroke="none"></circle>
-                        <circle class="nl-node" cx="12" cy="21.4" r="1.7" fill="currentColor" stroke="none"></circle>
-                        <circle class="nl-node" cx="4" cy="7.3" r="1.7" fill="currentColor" stroke="none"></circle>
-                        <circle class="nl-core" cx="12" cy="12" r="2.7" fill="currentColor" stroke="none"></circle>
-                    </svg>
-                </button>
                 <button id="toggle-navigation-menu" aria-expanded="false" aria-label="Toggle navigation menu">
                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
