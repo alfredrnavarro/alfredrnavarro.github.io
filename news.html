@@ -7,6 +7,7 @@
     <meta name="description" content="News and updates from Alfred Navarro">
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="projector.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
@@ -266,6 +267,459 @@
             <div class="prose">
                 <h1 style="max-width: 1100px; margin-left: auto; margin-right: auto;">News</h1>
 
+                <div class="np-theater">
+                <!-- Shared shapes/gradients for the ghosts and candles -->
+                <svg class="np-defs" width="0" height="0" aria-hidden="true" focusable="false">
+                    <defs>
+                            <linearGradient id="ngh-fill" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0" stop-color="#020202" stop-opacity="0.97"/>
+                                <stop offset="0.68" stop-color="#040404" stop-opacity="0.9"/>
+                                <stop offset="1" stop-color="#060606" stop-opacity="0"/>
+                            </linearGradient>
+                            <linearGradient id="ngh-rim-fade" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0" stop-color="#ffcf87" stop-opacity="1"/>
+                                <stop offset="0.7" stop-color="#ffcf87" stop-opacity="0.5"/>
+                                <stop offset="1" stop-color="#ffcf87" stop-opacity="0"/>
+                            </linearGradient>
+                            <filter id="ngh-edge" x="-10%" y="-10%" width="120%" height="120%">
+                                <feGaussianBlur stdDeviation="0.8"/>
+                            </filter>
+                            <filter id="ngh-rim-blur" x="-20%" y="-20%" width="140%" height="140%">
+                                <feGaussianBlur stdDeviation="2.2"/>
+                            </filter>
+                            <filter id="ngh-eye-blur" x="-200%" y="-200%" width="500%" height="500%">
+                                <feGaussianBlur stdDeviation="2.4"/>
+                            </filter>
+                            <g id="ngh-fedora">
+                                <path d="M50 60 C 30 62, 20 68, 18 84 L 14 170 C 13 180, 16 186, 20 184 L 18 250 L 36 252 L 36 296 L 46 296 L 48 254 L 52 254 L 54 296 L 64 296 L 64 252 L 82 250 L 80 184 C 84 186, 87 180, 86 170 L 82 84 C 80 68, 70 62, 50 60 Z"/>
+                                <path d="M36 62 L50 76 L64 62 L60 55 L40 55 Z"/>
+                                <ellipse cx="50" cy="50" rx="12" ry="15"/>
+                                <ellipse cx="50" cy="38" rx="29" ry="5"/>
+                                <path d="M33 38 C 33 24, 40 18, 50 18 C 60 18, 67 24, 67 38 Z"/>
+                            </g>
+                            <g id="ngh-tophat">
+                                <path d="M50 64 C 34 66, 26 72, 24 86 L 21 176 C 20 184, 24 188, 27 186 L 26 262 L 38 264 L 38 296 L 47 296 L 48 266 L 52 266 L 53 296 L 62 296 L 62 264 L 74 262 L 73 186 C 76 188, 80 184, 79 176 L 76 86 C 74 72, 66 66, 50 64 Z"/>
+                                <path d="M76 184 L79.5 184 L86 296 L82.5 296 Z"/>
+                                <ellipse cx="50" cy="53" rx="11.5" ry="14.5"/>
+                                <ellipse cx="50" cy="40" rx="22" ry="4"/>
+                                <path d="M37 40 L35 8 Q50 4 65 8 L63 40 Z"/>
+                            </g>
+                            <g id="ngh-bowler">
+                                <path d="M50 62 C 32 64, 22 72, 20 90 L 18 230 L 34 232 L 35 296 L 46 296 L 48 236 L 52 236 L 54 296 L 65 296 L 66 232 L 82 230 L 80 90 C 78 72, 68 64, 50 62 Z"/>
+                                <ellipse cx="50" cy="51" rx="12" ry="15"/>
+                                <ellipse cx="50" cy="39" rx="22" ry="4"/>
+                                <path d="M35 39 C 35 22, 65 22, 65 39 Z"/>
+                            </g>
+                            <linearGradient id="npf-green" x1="0" y1="1" x2="0" y2="0">
+                                <stop offset="0" stop-color="#1c8a4a"/>
+                                <stop offset="0.35" stop-color="#3dff86"/>
+                                <stop offset="0.8" stop-color="#7dffa0" stop-opacity="0.85"/>
+                                <stop offset="1" stop-color="#b6ffcb" stop-opacity="0"/>
+                            </linearGradient>
+                            <linearGradient id="npf-warm" x1="0" y1="1" x2="0" y2="0">
+                                <stop offset="0" stop-color="#c2531a"/>
+                                <stop offset="0.35" stop-color="#ffb347"/>
+                                <stop offset="0.8" stop-color="#ffe2a0" stop-opacity="0.9"/>
+                                <stop offset="1" stop-color="#fff4d6" stop-opacity="0"/>
+                            </linearGradient>
+                            <radialGradient id="npf-glow-green" cx="0.5" cy="0.5" r="0.5">
+                                <stop offset="0" stop-color="#7dffa0" stop-opacity="0.45"/>
+                                <stop offset="0.45" stop-color="#7dffa0" stop-opacity="0.12"/>
+                                <stop offset="1" stop-color="#7dffa0" stop-opacity="0"/>
+                            </radialGradient>
+                            <radialGradient id="npf-glow-warm" cx="0.5" cy="0.5" r="0.5">
+                                <stop offset="0" stop-color="#ffd27a" stop-opacity="0.5"/>
+                                <stop offset="0.45" stop-color="#ffb347" stop-opacity="0.14"/>
+                                <stop offset="1" stop-color="#ffb347" stop-opacity="0"/>
+                            </radialGradient>
+                            <radialGradient id="npf-haze" cx="0.5" cy="0.5" r="0.5">
+                                <stop offset="0" stop-color="#aa9673" stop-opacity="0.16"/>
+                                <stop offset="1" stop-color="#aa9673" stop-opacity="0"/>
+                            </radialGradient>
+                            <linearGradient id="npf-wax" x1="0" y1="0" x2="1" y2="0">
+                                <stop offset="0" stop-color="#8f8470"/>
+                                <stop offset="0.35" stop-color="#efe6cf"/>
+                                <stop offset="0.7" stop-color="#d8ccb0"/>
+                                <stop offset="1" stop-color="#7a6f5c"/>
+                            </linearGradient>
+                            <linearGradient id="npf-blackwax" x1="0" y1="0" x2="1" y2="0">
+                                <stop offset="0" stop-color="#050505"/>
+                                <stop offset="0.4" stop-color="#2a2722"/>
+                                <stop offset="1" stop-color="#0a0a09"/>
+                            </linearGradient>
+                            <linearGradient id="npf-brass" x1="0" y1="0" x2="1" y2="0">
+                                <stop offset="0" stop-color="#4f3a12"/>
+                                <stop offset="0.4" stop-color="#e2c78a"/>
+                                <stop offset="0.65" stop-color="#b8924a"/>
+                                <stop offset="1" stop-color="#4f3a12"/>
+                            </linearGradient>
+                            <linearGradient id="npf-wood" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0" stop-color="#3a2c1c"/>
+                                <stop offset="1" stop-color="#0d0a07"/>
+                            </linearGradient>
+                            <linearGradient id="npf-bottle" x1="0" y1="0" x2="1" y2="0">
+                                <stop offset="0" stop-color="#030806"/>
+                                <stop offset="0.35" stop-color="#16382a"/>
+                                <stop offset="1" stop-color="#030806"/>
+                            </linearGradient>
+                            <linearGradient id="npf-liquor" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0" stop-color="#ffcf7a" stop-opacity="0.9"/>
+                                <stop offset="1" stop-color="#8a3d10" stop-opacity="0.9"/>
+                            </linearGradient>
+                            <filter id="npf-soft" x="-50%" y="-50%" width="200%" height="200%">
+                                <feGaussianBlur stdDeviation="3"/>
+                            </filter>
+                            <path id="npf-flame-shape" d="M0 0 C -5.5 -3, -6 -12, 0 -24 C 6 -12, 5.5 -3, 0 0 Z"/>
+                            <path id="npf-core-shape" d="M0 -1 C -2.4 -3, -2.6 -8, 0 -13 C 2.6 -8, 2.4 -3, 0 -1 Z"/>
+                    </defs>
+                </svg>
+                <div class="np-scene np-scene-l" aria-hidden="true">
+                    <svg viewBox="0 0 230 330">
+                        <ellipse cx="128" cy="322" rx="98" ry="5" fill="#000" opacity="0.45" filter="url(#npf-soft)"/>
+                        <g class="np-ghost np-ghost-back" style="animation-delay:1.2s"><g transform="translate(150 92) scale(0.7)"><ellipse class="npf-haze" cx="50" cy="120" rx="80" ry="150" fill="url(#npf-haze)"/><g class="ngh-rim"><use href="#ngh-bowler" fill="none" stroke="url(#ngh-rim-fade)" stroke-width="2.5" filter="url(#ngh-rim-blur)"/></g><use href="#ngh-bowler" fill="url(#ngh-fill)" filter="url(#ngh-edge)"/><g class="ngh-eyes" style="animation-delay:-2.0s"><g class="ngh-eye-glow" filter="url(#ngh-eye-blur)" fill="#ffffff"><ellipse cx="45" cy="51" rx="2.6" ry="1.9"/><ellipse cx="55" cy="51" rx="2.6" ry="1.9"/></g><ellipse cx="45" cy="51" rx="1.9" ry="1.3" fill="#ffffff"/><ellipse cx="55" cy="51" rx="1.9" ry="1.3" fill="#ffffff"/></g></g></g>
+                        <g class="np-ghost" style="animation-delay:0.0s"><g transform="translate(46 22) scale(0.98)"><ellipse class="npf-haze" cx="50" cy="120" rx="80" ry="150" fill="url(#npf-haze)"/><g class="ngh-rim"><use href="#ngh-fedora" fill="none" stroke="url(#ngh-rim-fade)" stroke-width="2.5" filter="url(#ngh-rim-blur)"/></g><use href="#ngh-fedora" fill="url(#ngh-fill)" filter="url(#ngh-edge)"/><g class="ngh-eyes" style="animation-delay:-0.0s"><g class="ngh-eye-glow" filter="url(#ngh-eye-blur)" fill="#ffffff"><ellipse cx="45" cy="50" rx="2.6" ry="1.9"/><ellipse cx="55" cy="50" rx="2.6" ry="1.9"/></g><ellipse cx="45" cy="50" rx="1.9" ry="1.3" fill="#ffffff"/><ellipse cx="55" cy="50" rx="1.9" ry="1.3" fill="#ffffff"/></g></g></g>
+                        <rect x="155" y="202" width="6" height="106" fill="url(#npf-wood)"/><path d="M140 318 Q158 300 176 318 Z" fill="url(#npf-wood)"/><ellipse cx="158" cy="318.5" rx="23" ry="3" fill="#0d0a07" stroke="#6b5124" stroke-width="0.6"/><rect x="112" y="198" width="92" height="5" fill="#120e09"/><ellipse cx="158" cy="198" rx="46" ry="7" fill="url(#npf-wood)" stroke="#8f7136" stroke-width="0.8"/><path d="M172 197 h14 v-30 q0 -6 -5 -9 v-16 h-4 v16 q-5 3 -5 9 z" fill="url(#npf-bottle)" stroke="#000" stroke-width="0.5"/><rect x="172" y="176" width="14" height="9" fill="#6b5124" opacity="0.8"/><path d="M174 194 v-24" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.2"/><rect x="176.7" y="142" width="4.6" height="4" fill="#4f3a12"/><path d="M136 176 L156 176 L146 188 Z" fill="url(#npf-liquor)" stroke="#fff0d2" stroke-opacity="0.55" stroke-width="0.6"/><path d="M146 188 v10" stroke="#fff0d2" stroke-opacity="0.5" stroke-width="0.8"/><ellipse cx="146" cy="197.5" rx="6" ry="1.2" fill="none" stroke="#fff0d2" stroke-opacity="0.5" stroke-width="0.6"/><circle cx="149" cy="179" r="1.6" fill="#3f6b2a"/><rect x="119" y="183" width="11" height="14" rx="1" fill="#fff0d2" fill-opacity="0.08" stroke="#fff0d2" stroke-opacity="0.45" stroke-width="0.6"/><rect x="119.5" y="190" width="10" height="7" fill="url(#npf-liquor)" opacity="0.8"/><rect x="156.5" y="177" width="7" height="20" rx="1.5" fill="url(#npf-blackwax)"/><path d="M162.5 178 q1.5 5 0 9 q-1.5 -4 0 -9z" fill="#2a2722"/><ellipse cx="160" cy="177" rx="3.5" ry="1.4" fill="#1d1b17"/><path d="M160 177 v-3" stroke="#111" stroke-width="0.9"/><circle class="npf-glow" cx="160" cy="167.5" r="23.4" fill="url(#npf-glow-green)" style="animation-delay:-0.2s"/><g transform="translate(160 174.5) scale(0.7)"><g class="npf-flame" style="animation-delay:-0.2s"><use href="#npf-flame-shape" fill="url(#npf-green)"/><use href="#npf-core-shape" fill="#eaffef"/></g></g>
+                        <path d="M8 322 L22 298 L36 322 M22 298 v24" stroke="#6b5124" stroke-width="2.4" fill="none" stroke-linecap="round"/><rect x="20.3" y="122" width="3.4" height="178" fill="url(#npf-brass)"/><ellipse cx="22" cy="123" rx="13" ry="3.4" fill="url(#npf-brass)" stroke="#3a2a0e" stroke-width="0.6"/><rect x="14.5" y="58" width="15" height="64" rx="2" fill="url(#npf-wax)"/><path d="M18 59 q2 9 0 15 q-2 -6 0 -15z M26.5 59 q1.5 6 0 10 q-1.5 -4 0 -10z" fill="#f4ecd8"/><ellipse cx="22" cy="58.5" rx="7.5" ry="1.8" fill="#e4d9bf"/><path d="M22 58 v-3.5" stroke="#1a1410" stroke-width="1"/><circle class="npf-glow" cx="22" cy="42.5" r="46" fill="url(#npf-glow-warm)" style="animation-delay:-0.6s"/><g transform="translate(22 55) scale(1.25)"><g class="npf-flame" style="animation-delay:-0.6s"><use href="#npf-flame-shape" fill="url(#npf-warm)"/><use href="#npf-core-shape" fill="#fff8e4"/></g></g>
+                    </svg>
+                </div>
+                <div class="np-scene np-scene-r" aria-hidden="true">
+                    <svg viewBox="0 0 230 330">
+                        <ellipse cx="128" cy="322" rx="98" ry="5" fill="#000" opacity="0.45" filter="url(#npf-soft)"/>
+                        <g class="np-ghost" style="animation-delay:0.7s"><g transform="translate(50 22) scale(0.98)"><ellipse class="npf-haze" cx="50" cy="120" rx="80" ry="150" fill="url(#npf-haze)"/><g class="ngh-rim"><use href="#ngh-tophat" fill="none" stroke="url(#ngh-rim-fade)" stroke-width="2.5" filter="url(#ngh-rim-blur)"/></g><use href="#ngh-tophat" fill="url(#ngh-fill)" filter="url(#ngh-edge)"/><g class="ngh-eyes" style="animation-delay:-1.2s"><g class="ngh-eye-glow" filter="url(#ngh-eye-blur)" fill="#ffffff"><ellipse cx="45.5" cy="54" rx="2.6" ry="1.9"/><ellipse cx="54.5" cy="54" rx="2.6" ry="1.9"/></g><ellipse cx="45.5" cy="54" rx="1.9" ry="1.3" fill="#ffffff"/><ellipse cx="54.5" cy="54" rx="1.9" ry="1.3" fill="#ffffff"/></g></g></g>
+                        <rect x="155" y="202" width="6" height="106" fill="url(#npf-wood)"/><path d="M140 318 Q158 300 176 318 Z" fill="url(#npf-wood)"/><ellipse cx="158" cy="318.5" rx="23" ry="3" fill="#0d0a07" stroke="#6b5124" stroke-width="0.6"/><rect x="112" y="198" width="92" height="5" fill="#120e09"/><ellipse cx="158" cy="198" rx="46" ry="7" fill="url(#npf-wood)" stroke="#8f7136" stroke-width="0.8"/><path d="M172 197 h14 v-30 q0 -6 -5 -9 v-16 h-4 v16 q-5 3 -5 9 z" fill="url(#npf-bottle)" stroke="#000" stroke-width="0.5"/><rect x="172" y="176" width="14" height="9" fill="#6b5124" opacity="0.8"/><path d="M174 194 v-24" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.2"/><rect x="176.7" y="142" width="4.6" height="4" fill="#4f3a12"/><path d="M136 176 L156 176 L146 188 Z" fill="url(#npf-liquor)" stroke="#fff0d2" stroke-opacity="0.55" stroke-width="0.6"/><path d="M146 188 v10" stroke="#fff0d2" stroke-opacity="0.5" stroke-width="0.8"/><ellipse cx="146" cy="197.5" rx="6" ry="1.2" fill="none" stroke="#fff0d2" stroke-opacity="0.5" stroke-width="0.6"/><circle cx="149" cy="179" r="1.6" fill="#3f6b2a"/><rect x="119" y="183" width="11" height="14" rx="1" fill="#fff0d2" fill-opacity="0.08" stroke="#fff0d2" stroke-opacity="0.45" stroke-width="0.6"/><rect x="119.5" y="190" width="10" height="7" fill="url(#npf-liquor)" opacity="0.8"/><rect x="156.5" y="177" width="7" height="20" rx="1.5" fill="url(#npf-blackwax)"/><path d="M162.5 178 q1.5 5 0 9 q-1.5 -4 0 -9z" fill="#2a2722"/><ellipse cx="160" cy="177" rx="3.5" ry="1.4" fill="#1d1b17"/><path d="M160 177 v-3" stroke="#111" stroke-width="0.9"/><circle class="npf-glow" cx="160" cy="167.5" r="23.4" fill="url(#npf-glow-green)" style="animation-delay:-0.9s"/><g transform="translate(160 174.5) scale(0.7)"><g class="npf-flame" style="animation-delay:-0.9s"><use href="#npf-flame-shape" fill="url(#npf-green)"/><use href="#npf-core-shape" fill="#eaffef"/></g></g>
+                        <path d="M8 322 L22 298 L36 322 M22 298 v24" stroke="#6b5124" stroke-width="2.4" fill="none" stroke-linecap="round"/><rect x="20.3" y="122" width="3.4" height="178" fill="url(#npf-brass)"/><ellipse cx="22" cy="123" rx="13" ry="3.4" fill="url(#npf-brass)" stroke="#3a2a0e" stroke-width="0.6"/><rect x="14.5" y="58" width="15" height="64" rx="2" fill="url(#npf-wax)"/><path d="M18 59 q2 9 0 15 q-2 -6 0 -15z M26.5 59 q1.5 6 0 10 q-1.5 -4 0 -10z" fill="#f4ecd8"/><ellipse cx="22" cy="58.5" rx="7.5" ry="1.8" fill="#e4d9bf"/><path d="M22 58 v-3.5" stroke="#1a1410" stroke-width="1"/><circle class="npf-glow" cx="22" cy="42.5" r="46" fill="url(#npf-glow-warm)" style="animation-delay:-1.3s"/><g transform="translate(22 55) scale(1.25)"><g class="npf-flame" style="animation-delay:-1.3s"><use href="#npf-flame-shape" fill="url(#npf-warm)"/><use href="#npf-core-shape" fill="#fff8e4"/></g></g>
+                    </svg>
+                </div>
+                <div class="np-corner-candles" aria-hidden="true">
+                    <svg viewBox="0 0 110 80">
+                        <rect x="17.5" y="48" width="9" height="30" rx="1.5" fill="url(#npf-blackwax)"/><path d="M25.5 49 q1.5 5 0 9 q-1.5 -4 0 -9z" fill="#2a2722"/><ellipse cx="22" cy="48" rx="4.5" ry="1.4" fill="#1d1b17"/><path d="M22 48 v-3" stroke="#111" stroke-width="0.9"/><circle class="npf-glow" cx="22" cy="37.5" r="25.6" fill="url(#npf-glow-green)" style="animation-delay:0.0s"/><g transform="translate(22 45.5) scale(0.8)"><g class="npf-flame" style="animation-delay:0.0s"><use href="#npf-flame-shape" fill="url(#npf-green)"/><use href="#npf-core-shape" fill="#eaffef"/></g></g>
+                        <rect x="47" y="30" width="10" height="48" rx="1.5" fill="url(#npf-blackwax)"/><path d="M56 31 q1.5 5 0 9 q-1.5 -4 0 -9z" fill="#2a2722"/><ellipse cx="52" cy="30" rx="5" ry="1.4" fill="#1d1b17"/><path d="M52 30 v-3" stroke="#111" stroke-width="0.9"/><circle class="npf-glow" cx="52" cy="18.5" r="27.8" fill="url(#npf-glow-green)" style="animation-delay:-0.7s"/><g transform="translate(52 27.5) scale(0.9)"><g class="npf-flame" style="animation-delay:-0.7s"><use href="#npf-flame-shape" fill="url(#npf-green)"/><use href="#npf-core-shape" fill="#eaffef"/></g></g>
+                        <rect x="78" y="56" width="8" height="22" rx="1.5" fill="url(#npf-blackwax)"/><path d="M85 57 q1.5 5 0 9 q-1.5 -4 0 -9z" fill="#2a2722"/><ellipse cx="82" cy="56" rx="4" ry="1.4" fill="#1d1b17"/><path d="M82 56 v-3" stroke="#111" stroke-width="0.9"/><circle class="npf-glow" cx="82" cy="46" r="24.5" fill="url(#npf-glow-green)" style="animation-delay:-1.3s"/><g transform="translate(82 53.5) scale(0.75)"><g class="npf-flame" style="animation-delay:-1.3s"><use href="#npf-flame-shape" fill="url(#npf-green)"/><use href="#npf-core-shape" fill="#eaffef"/></g></g>
+                    </svg>
+                </div>
+                <!-- Now Showing: projector + screen + camera/filmstrip (projector.js, projector.css) -->
+                <section class="np-stage" id="np-stage" aria-label="Now showing: projects">
+                    <svg class="np-beam" aria-hidden="true" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="np-beam-grad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1" y2="0">
+                                <stop offset="0" stop-color="#ffd89a" stop-opacity="0.78"/>
+                                <stop offset="0.55" stop-color="#ffcf87" stop-opacity="0.28"/>
+                                <stop offset="1" stop-color="#ffe9b8" stop-opacity="0.1"/>
+                            </linearGradient>
+                            <filter id="np-beam-blur" x="-20%" y="-20%" width="140%" height="140%">
+                                <feGaussianBlur stdDeviation="10"/>
+                            </filter>
+                            <clipPath id="np-beam-clip">
+                                <polygon class="np-beam-shape" points="0,0 0,0 0,0"/>
+                            </clipPath>
+                        </defs>
+                        <polygon class="np-beam-shape" points="0,0 0,0 0,0" fill="url(#np-beam-grad)" filter="url(#np-beam-blur)" opacity="0.6"/>
+                        <polygon class="np-beam-shape" points="0,0 0,0 0,0" fill="url(#np-beam-grad)"/>
+                        <g class="np-motes" clip-path="url(#np-beam-clip)"></g>
+                    </svg>
+
+                    <div class="np-projector-wrap">
+                        <svg class="np-projector" viewBox="0 0 260 230" aria-hidden="true">
+                            <defs>
+                                <radialGradient id="npp-spun" cx="0.5" cy="0.5" r="0.5">
+                                    <stop offset="0" stop-color="#e2c78a"/>
+                                    <stop offset="0.2" stop-color="#9c7c3e"/>
+                                    <stop offset="0.35" stop-color="#d8b874"/>
+                                    <stop offset="0.55" stop-color="#8f7136"/>
+                                    <stop offset="0.75" stop-color="#c9a45c"/>
+                                    <stop offset="0.92" stop-color="#7a5f2b"/>
+                                    <stop offset="1" stop-color="#4f3a12"/>
+                                </radialGradient>
+                                <radialGradient id="npp-sheen" cx="0.3" cy="0.25" r="0.75">
+                                    <stop offset="0" stop-color="#fff6dc" stop-opacity="0.28"/>
+                                    <stop offset="0.5" stop-color="#fff6dc" stop-opacity="0.04"/>
+                                    <stop offset="1" stop-color="#000" stop-opacity="0.25"/>
+                                </radialGradient>
+                                <radialGradient id="npp-film" cx="0.5" cy="0.5" r="0.5">
+                                    <stop offset="0" stop-color="#1a140d"/>
+                                    <stop offset="0.6" stop-color="#2e2417"/>
+                                    <stop offset="1" stop-color="#3b2e1d"/>
+                                </radialGradient>
+                                <linearGradient id="npp-brass" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0" stop-color="#f1d898"/>
+                                    <stop offset="0.35" stop-color="#c9a45c"/>
+                                    <stop offset="0.7" stop-color="#8f7136"/>
+                                    <stop offset="1" stop-color="#4f3a12"/>
+                                </linearGradient>
+                                <linearGradient id="npp-brass-h" x1="0" y1="0" x2="1" y2="0">
+                                    <stop offset="0" stop-color="#5a4520"/>
+                                    <stop offset="0.35" stop-color="#e2c78a"/>
+                                    <stop offset="0.6" stop-color="#b8924a"/>
+                                    <stop offset="1" stop-color="#4f3a12"/>
+                                </linearGradient>
+                                <linearGradient id="npp-enamel" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0" stop-color="#3a3226"/>
+                                    <stop offset="0.12" stop-color="#221d16"/>
+                                    <stop offset="0.6" stop-color="#14110c"/>
+                                    <stop offset="1" stop-color="#060504"/>
+                                </linearGradient>
+                                <radialGradient id="np-lamp-grad" cx="0.5" cy="0.5" r="0.5">
+                                    <stop offset="0" stop-color="#fff4d6"/>
+                                    <stop offset="0.6" stop-color="#e8c47a"/>
+                                    <stop offset="1" stop-color="#8f7136"/>
+                                </radialGradient>
+                                <linearGradient id="npp-vent-glow" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0" stop-color="#ffe2a0"/>
+                                    <stop offset="1" stop-color="#c98a2e"/>
+                                </linearGradient>
+                                <filter id="npp-soft" x="-50%" y="-50%" width="200%" height="200%">
+                                    <feGaussianBlur stdDeviation="3.5"/>
+                                </filter>
+                            </defs>
+                            <!-- Ground shadow -->
+                            <ellipse cx="118" cy="218" rx="98" ry="6" fill="#000" opacity="0.6" filter="url(#npp-soft)"/>
+                            <!-- Reel arms -->
+                            <polygon points="64,58 72,58 104,140 92,140" fill="url(#npp-brass-h)" stroke="#2a1f0c" stroke-width="0.8"/>
+                            <polygon points="178,64 186,64 168,140 156,140" fill="url(#npp-brass-h)" stroke="#2a1f0c" stroke-width="0.8"/>
+                            <!-- Film path: reels -> sprocket rollers -> gate -->
+                            <path d="M30 84 C 24 122, 38 148, 52 156" fill="none" stroke="#2b2318" stroke-width="5"/>
+                            <path d="M30 84 C 24 122, 38 148, 52 156" fill="none" stroke="#8a7550" stroke-width="1" stroke-dasharray="1.6 2.4" stroke-opacity="0.7"/>
+                            <path d="M218 92 C 226 122, 204 148, 184 156" fill="none" stroke="#2b2318" stroke-width="5"/>
+                            <path d="M218 92 C 226 122, 204 148, 184 156" fill="none" stroke="#8a7550" stroke-width="1" stroke-dasharray="1.6 2.4" stroke-opacity="0.7"/>
+                            <!-- Reels (rotate) with fixed lighting on top -->
+                            <g class="np-reel">
+                                <circle cx="68" cy="58" r="49" fill="#0b0907"/>
+                                <circle cx="68" cy="58" r="46.0" fill="url(#npp-film)"/>
+                                <g fill="none" stroke="#4a3d29" stroke-width="0.6" stroke-opacity="0.8"><circle cx="68" cy="58" r="42.0"/><circle cx="68" cy="58" r="37.0"/><circle cx="68" cy="58" r="32.0"/><circle cx="68" cy="58" r="27.0"/><circle cx="68" cy="58" r="22.0"/></g>
+                                <path d="M18.00 58.00 a50.00 50.00 0 1 0 100.00 0 a50.00 50.00 0 1 0 -100.00 0Z M57.50 30.00 a10.50 10.50 0 1 0 21.00 0 a10.50 10.50 0 1 0 -21.00 0Z M84.13 49.35 a10.50 10.50 0 1 0 21.00 0 a10.50 10.50 0 1 0 -21.00 0Z M73.96 80.65 a10.50 10.50 0 1 0 21.00 0 a10.50 10.50 0 1 0 -21.00 0Z M41.04 80.65 a10.50 10.50 0 1 0 21.00 0 a10.50 10.50 0 1 0 -21.00 0Z M30.87 49.35 a10.50 10.50 0 1 0 21.00 0 a10.50 10.50 0 1 0 -21.00 0Z" fill="url(#npp-spun)" fill-rule="evenodd" stroke="#2a1f0c" stroke-width="1"/>
+                                <g fill="none" stroke="#000" stroke-opacity="0.45" stroke-width="1.6"><circle cx="68.00" cy="30.00" r="10.50"/><circle cx="94.63" cy="49.35" r="10.50"/><circle cx="84.46" cy="80.65" r="10.50"/><circle cx="51.54" cy="80.65" r="10.50"/><circle cx="41.37" cy="49.35" r="10.50"/></g>
+                                <circle cx="68" cy="58" r="47.0" fill="none" stroke="#000" stroke-opacity="0.3" stroke-width="1.2"/>
+                                <circle cx="68" cy="58" r="9" fill="url(#npp-spun)" stroke="#2a1f0c" stroke-width="0.8"/>
+                                <g fill="#3a2a0e"><circle cx="68.00" cy="52.42" r="1.2"/><circle cx="72.83" cy="60.79" r="1.2"/><circle cx="63.17" cy="60.79" r="1.2"/></g>
+                                <circle cx="68" cy="58" r="2.6" fill="#0b0907"/>
+                            </g>
+                            <circle cx="68" cy="58" r="50" fill="url(#npp-sheen)" pointer-events="none"/>
+                            <path d="M24.5 37.0 A48.5 48.5 0 0 1 53.0 11.5" fill="none" stroke="#fff6dc" stroke-opacity="0.45" stroke-width="1.6" stroke-linecap="round"/>
+                            <g class="np-reel np-reel-front">
+                                <circle cx="182" cy="64" r="43" fill="#0b0907"/>
+                                <circle cx="182" cy="64" r="40.5" fill="url(#npp-film)"/>
+                                <g fill="none" stroke="#4a3d29" stroke-width="0.6" stroke-opacity="0.8"><circle cx="182" cy="64" r="37.0"/><circle cx="182" cy="64" r="32.6"/><circle cx="182" cy="64" r="28.2"/><circle cx="182" cy="64" r="23.8"/><circle cx="182" cy="64" r="19.4"/></g>
+                                <path d="M138.00 64.00 a44.00 44.00 0 1 0 88.00 0 a44.00 44.00 0 1 0 -88.00 0Z M173.00 39.50 a9.00 9.00 0 1 0 18.00 0 a9.00 9.00 0 1 0 -18.00 0Z M196.30 56.43 a9.00 9.00 0 1 0 18.00 0 a9.00 9.00 0 1 0 -18.00 0Z M187.40 83.82 a9.00 9.00 0 1 0 18.00 0 a9.00 9.00 0 1 0 -18.00 0Z M158.60 83.82 a9.00 9.00 0 1 0 18.00 0 a9.00 9.00 0 1 0 -18.00 0Z M149.70 56.43 a9.00 9.00 0 1 0 18.00 0 a9.00 9.00 0 1 0 -18.00 0Z" fill="url(#npp-spun)" fill-rule="evenodd" stroke="#2a1f0c" stroke-width="1"/>
+                                <g fill="none" stroke="#000" stroke-opacity="0.45" stroke-width="1.6"><circle cx="182.00" cy="39.50" r="9.00"/><circle cx="205.30" cy="56.43" r="9.00"/><circle cx="196.40" cy="83.82" r="9.00"/><circle cx="167.60" cy="83.82" r="9.00"/><circle cx="158.70" cy="56.43" r="9.00"/></g>
+                                <circle cx="182" cy="64" r="41.0" fill="none" stroke="#000" stroke-opacity="0.3" stroke-width="1.2"/>
+                                <circle cx="182" cy="64" r="8" fill="url(#npp-spun)" stroke="#2a1f0c" stroke-width="0.8"/>
+                                <g fill="#3a2a0e"><circle cx="182.00" cy="59.04" r="1.2"/><circle cx="186.30" cy="66.48" r="1.2"/><circle cx="177.70" cy="66.48" r="1.2"/></g>
+                                <circle cx="182" cy="64" r="2.6" fill="#0b0907"/>
+                            </g>
+                            <circle cx="182" cy="64" r="44" fill="url(#npp-sheen)" pointer-events="none"/>
+                            <path d="M143.7 45.5 A42.5 42.5 0 0 1 168.8 23.1" fill="none" stroke="#fff6dc" stroke-opacity="0.45" stroke-width="1.6" stroke-linecap="round"/>
+                            <!-- Lamp house: warm light leaking through the vents -->
+                            <rect x="100" y="106" width="48" height="6" rx="2" fill="url(#npp-brass)"/>
+                            <rect x="104" y="112" width="40" height="28" rx="3" fill="url(#npp-enamel)" stroke="#000" stroke-width="0.8"/>
+                            <rect class="np-lamp" x="108" y="116" width="32" height="20" fill="url(#npp-vent-glow)"/>
+                            <path d="M106 117.5h36M106 121.5h36M106 125.5h36M106 129.5h36M106 133.5h36" stroke="#14110c" stroke-width="2.4"/>
+                            <g opacity="0.22"><rect class="np-lamp" x="104" y="108" width="40" height="34" fill="#ffd98a" filter="url(#npp-soft)"/></g>
+
+                            <!-- Body -->
+                            <rect x="36" y="138" width="162" height="62" rx="10" fill="url(#npp-enamel)" stroke="#000" stroke-width="1"/>
+                            <path d="M46 139.5h142" stroke="#fff6dc" stroke-opacity="0.16" stroke-width="1"/>
+                            <rect x="36" y="149" width="162" height="2.5" fill="url(#npp-brass)"/>
+                            <rect x="36" y="190" width="162" height="2" fill="url(#npp-brass)" opacity="0.7"/>
+                            <path d="M44 158v26M48 158v26M52 158v26M56 158v26" stroke="#000" stroke-width="1.6" opacity="0.7"/>
+                            <path d="M44.8 158v26M48.8 158v26M52.8 158v26M56.8 158v26" stroke="#c9a45c" stroke-width="0.5" opacity="0.35"/>
+
+                            <!-- Sprocket rollers -->
+                            <circle cx="56" cy="156" r="6.5" fill="url(#npp-spun)" stroke="#2a1f0c" stroke-width="0.8"/>
+                            <circle cx="56" cy="156" r="5" fill="none" stroke="#3a2a0e" stroke-width="1.6" stroke-dasharray="1 1.2"/>
+                            <circle cx="182" cy="156" r="6.5" fill="url(#npp-spun)" stroke="#2a1f0c" stroke-width="0.8"/>
+                            <circle cx="182" cy="156" r="5" fill="none" stroke="#3a2a0e" stroke-width="1.6" stroke-dasharray="1 1.2"/>
+
+                            <!-- Engraved nameplate -->
+                            <rect x="70" y="164" width="62" height="17" rx="2" fill="url(#npp-brass)" stroke="#3a2a0e" stroke-width="0.7"/>
+                            <rect x="72" y="166" width="58" height="13" rx="1" fill="none" stroke="#3a2a0e" stroke-width="0.4" stroke-opacity="0.7"/>
+                            <text class="npp-plate" x="101" y="175.4" text-anchor="middle" font-size="6.4" fill="#2a1f0c">&#9737; CIN&#201; &#9789;</text>
+
+                            <!-- Knobs + switch -->
+                            <circle cx="148" cy="173" r="7" fill="url(#npp-spun)" stroke="#2a1f0c" stroke-width="0.8"/>
+                            <circle cx="148" cy="173" r="5.5" fill="none" stroke="#3a2a0e" stroke-width="1.4" stroke-dasharray="0.8 1"/>
+                            <circle cx="148" cy="173" r="2" fill="#2a1f0c"/>
+                            <circle cx="168" cy="173" r="5.5" fill="url(#npp-spun)" stroke="#2a1f0c" stroke-width="0.8"/>
+                            <path d="M168 168.5v4" stroke="#2a1f0c" stroke-width="1.2" stroke-linecap="round"/>
+                            <rect x="180" y="168" width="10" height="12" rx="2" fill="#0b0907" stroke="#6b5124" stroke-width="0.6"/>
+                            <path d="M185 174 L188 169.5" stroke="url(#npp-brass)" stroke-width="2.2" stroke-linecap="round"/>
+
+                            <!-- Lens barrel -->
+                            <rect x="196" y="156" width="20" height="20" rx="2" fill="url(#npp-enamel)" stroke="#000" stroke-width="0.8"/>
+                            <rect x="214" y="151.5" width="15" height="29" rx="2" fill="url(#npp-brass)" stroke="#2a1f0c" stroke-width="0.7"/>
+                            <path d="M216 153v26M218 153v26M220 153v26M222 153v26M224 153v26M226 153v26" stroke="#3a2a0e" stroke-width="0.7" opacity="0.6"/>
+                            <rect x="228" y="149" width="9" height="34" rx="3" fill="url(#npp-brass)" stroke="#2a1f0c" stroke-width="0.8"/>
+                            <ellipse class="np-lamp" cx="238" cy="166" rx="4.5" ry="13.5" fill="url(#np-lamp-grad)"/>
+                            <g opacity="0.35"><ellipse class="np-lamp" cx="240" cy="166" rx="9" ry="18" fill="#ffe9b8" filter="url(#npp-soft)"/></g>
+                            <circle class="np-lens-point" cx="241" cy="166" r="1" fill="none"/>
+
+                            <!-- Cast base + feet -->
+                            <rect x="44" y="200" width="146" height="8" rx="2" fill="url(#npp-brass)" stroke="#2a1f0c" stroke-width="0.7"/>
+                            <path d="M52 208 h18 l-3 6 h-12 z M164 208 h18 l-3 6 h-12 z" fill="#1d1912" stroke="#6b5124" stroke-width="0.6"/>
+                        </svg>
+                    </div>
+
+                    <a class="np-screen" href="projects/mosquito-tracker.html" aria-label="Open Mosquito Tracker">
+                        <img class="np-film" src="assets/projector/mosquito-tracker.webp" alt="Mosquito Tracker" width="880" height="524" decoding="async">
+                        <span class="np-grain" aria-hidden="true"></span>
+                        <span class="np-vignette" aria-hidden="true"></span>
+                    </a>
+
+                    <div class="np-caption">
+                        <div class="np-caption-text" aria-live="polite">
+                            <p class="np-kicker">Now showing &middot; <span class="np-reel-count">Reel 01 / 07</span></p>
+                            <p class="np-title">Mosquito Tracker</p>
+                            <p class="np-blurb">1st Place, NASA geoEMERGE. Offline-first redesign of GLOBE Observer with client-side WebP compression.</p>
+                        </div>
+                        <div class="np-controls">
+                            <button type="button" class="np-btn np-prev" aria-label="Previous project">&#9664;</button>
+                            <a class="np-view" href="projects/mosquito-tracker.html">View project &rarr;</a>
+                            <button type="button" class="np-btn np-next" aria-label="Next project">&#9654;</button>
+                        </div>
+                    </div>
+
+                    <div class="np-reel-row">
+                        <div class="np-camera-wrap">
+                            <svg class="np-camera" viewBox="0 0 220 160" aria-hidden="true">
+                                <defs>
+                                    <linearGradient id="npc-brass" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0" stop-color="#f1d898"/>
+                                        <stop offset="0.35" stop-color="#c9a45c"/>
+                                        <stop offset="0.7" stop-color="#8f7136"/>
+                                        <stop offset="1" stop-color="#4f3a12"/>
+                                    </linearGradient>
+                                    <radialGradient id="npc-brass-ring" cx="0.38" cy="0.3" r="0.8">
+                                        <stop offset="0" stop-color="#f4dfa6"/>
+                                        <stop offset="0.45" stop-color="#b8924a"/>
+                                        <stop offset="0.85" stop-color="#6b5124"/>
+                                        <stop offset="1" stop-color="#3a2a0e"/>
+                                    </radialGradient>
+                                    <linearGradient id="npc-body" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0" stop-color="#342c20"/>
+                                        <stop offset="0.25" stop-color="#1d1912"/>
+                                        <stop offset="1" stop-color="#0a0907"/>
+                                    </linearGradient>
+                                    <linearGradient id="npc-knurl" x1="0" y1="0" x2="1" y2="0">
+                                        <stop offset="0" stop-color="#5a4520"/>
+                                        <stop offset="0.3" stop-color="#e2c78a"/>
+                                        <stop offset="0.55" stop-color="#b8924a"/>
+                                        <stop offset="1" stop-color="#4f3a12"/>
+                                    </linearGradient>
+                                    <radialGradient id="npc-glass" cx="0.42" cy="0.38" r="0.75">
+                                        <stop offset="0" stop-color="#1f4a3a"/>
+                                        <stop offset="0.45" stop-color="#0b1f18"/>
+                                        <stop offset="1" stop-color="#020504"/>
+                                    </radialGradient>
+                                    <radialGradient id="npc-spirit" cx="0.5" cy="0.5" r="0.5">
+                                        <stop offset="0" stop-color="#7dffa0" stop-opacity="0.55"/>
+                                        <stop offset="0.5" stop-color="#7dffa0" stop-opacity="0.16"/>
+                                        <stop offset="1" stop-color="#7dffa0" stop-opacity="0"/>
+                                    </radialGradient>
+                                    <radialGradient id="npc-jewel" cx="0.35" cy="0.35" r="0.7">
+                                        <stop offset="0" stop-color="#ff9a8a"/>
+                                        <stop offset="0.4" stop-color="#9c2430"/>
+                                        <stop offset="1" stop-color="#3a0a0e"/>
+                                    </radialGradient>
+                                    <filter id="npc-pebble" x="0" y="0" width="100%" height="100%">
+                                        <feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="2" seed="7" result="n"/>
+                                        <feColorMatrix in="n" type="matrix" values="0 0 0 0 0.75  0 0 0 0 0.62  0 0 0 0 0.38  0 0 0 -1.6 1.05"/>
+                                        <feComposite in2="SourceGraphic" operator="in"/>
+                                    </filter>
+                                    <filter id="npc-soft" x="-50%" y="-50%" width="200%" height="200%">
+                                        <feGaussianBlur stdDeviation="4"/>
+                                    </filter>
+                                    <path id="npc-ring-path" d="M80,94 m-33,0 a33,33 0 1,1 66,0 a33,33 0 1,1 -66,0"/>
+                                </defs>
+
+                                <!-- Ground shadow -->
+                                <ellipse cx="104" cy="152" rx="92" ry="6" fill="#000" opacity="0.55" filter="url(#npc-soft)"/>
+
+                                <!-- Top plate: viewfinder, shutter release, winding knob -->
+                                <rect x="22" y="17" width="46" height="23" rx="3" fill="url(#npc-body)" stroke="url(#npc-brass)" stroke-width="1.2"/>
+                                <rect x="29" y="22" width="18" height="12" rx="1.5" fill="url(#npc-glass)" stroke="#8f7136" stroke-width="0.8"/>
+                                <path d="M31 24 l6 0 l-5 6 z" fill="#ffffff" opacity="0.18"/>
+                                <circle cx="58" cy="28.5" r="4.5" fill="url(#npc-glass)" stroke="#8f7136" stroke-width="0.8"/>
+                                <rect x="104" y="30" width="6" height="8" fill="url(#npc-knurl)"/>
+                                <circle cx="107" cy="29" r="5" fill="url(#npc-brass-ring)"/>
+                                <rect x="128" y="16" width="28" height="22" rx="2" fill="url(#npc-knurl)"/>
+                                <path d="M131 18v18M134 18v18M137 18v18M140 18v18M143 18v18M146 18v18M149 18v18M152 18v18" stroke="#3a2a0e" stroke-width="0.7" opacity="0.7"/>
+                                <ellipse cx="142" cy="16" rx="14" ry="3.2" fill="#e8cf92" stroke="#6b5124" stroke-width="0.6"/>
+                                <circle cx="142" cy="16" r="1.4" fill="#4f3a12"/>
+
+                                <!-- Body -->
+                                <rect x="10" y="38" width="188" height="108" rx="9" fill="url(#npc-body)" stroke="#000" stroke-width="1"/>
+                                <rect x="10" y="56" width="188" height="72" fill="#2a2218" filter="url(#npc-pebble)" opacity="0.55"/>
+                                <rect x="10" y="52" width="188" height="4" fill="url(#npc-brass)"/>
+                                <rect x="10" y="128" width="188" height="4" fill="url(#npc-brass)"/>
+                                <path d="M19 39.5 h170" stroke="#ffffff" stroke-opacity="0.12" stroke-width="1"/>
+
+                                <!-- Corner screws -->
+                                <g fill="url(#npc-brass-ring)">
+                                    <circle cx="18" cy="45" r="2.4"/><circle cx="190" cy="45" r="2.4"/>
+                                    <circle cx="18" cy="139" r="2.4"/><circle cx="190" cy="139" r="2.4"/>
+                                </g>
+                                <path d="M16.6 45h2.8M188.6 45h2.8M16.6 139h2.8M188.6 139h2.8" stroke="#3a2a0e" stroke-width="0.7"/>
+
+                                <!-- Engraved Eye sigil -->
+                                <g class="npc-sigil" fill="none" stroke="#c9a45c" stroke-linejoin="round">
+                                    <circle cx="158" cy="92" r="21" stroke-opacity="0.35" stroke-width="0.7" stroke-dasharray="0.8 2.2"/>
+                                    <circle cx="158" cy="92" r="17.5" stroke-opacity="0.4" stroke-width="0.6"/>
+                                    <path d="M158 76 L143.5 101 L172.5 101 Z" stroke-opacity="0.75" stroke-width="1.1"/>
+                                    <path d="M149 94 Q158 86.5 167 94 Q158 101.5 149 94 Z" stroke-opacity="0.85" stroke-width="0.9"/>
+                                    <path d="M158 70.5v-3M146 75l-2-2.2M170 75l2-2.2M140.5 86h-3M175.5 86h3" stroke-opacity="0.5" stroke-width="0.8"/>
+                                </g>
+                                <circle class="npc-pupil" cx="158" cy="94" r="2.6" fill="#7dffa0"/>
+
+                                <!-- Tally jewel -->
+                                <circle cx="182" cy="66" r="5" fill="#9c2430" opacity="0.35" filter="url(#npc-soft)"/>
+                                <circle cx="182" cy="66" r="3.4" fill="url(#npc-jewel)" stroke="#6b5124" stroke-width="0.8"/>
+
+                                <!-- Lens: halo, bezel with engraved planetary glyphs, knurled focus ring, glass -->
+                                <circle class="npc-halo" cx="80" cy="94" r="54" fill="url(#npc-spirit)"/>
+                                <circle cx="80" cy="94" r="42" fill="#050403" opacity="0.6" filter="url(#npc-soft)"/>
+                                <circle cx="80" cy="94" r="40" fill="url(#npc-brass-ring)" stroke="#2a1f0c" stroke-width="1"/>
+                                <text font-size="7" fill="#2a1f0c" fill-opacity="0.85" font-family="'Segoe UI Symbol', 'DejaVu Sans', serif">
+                                    <textPath href="#npc-ring-path" textLength="200" lengthAdjust="spacing">&#9737;&#183;&#9789;&#183;&#9791;&#183;&#9792;&#183;&#9794;&#183;&#9795;&#183;&#9796;&#183;&#9737;&#183;&#9789;&#183;&#9791;&#183;&#9792;&#183;&#9794;&#183;&#9795;&#183;&#9796;&#183;</textPath>
+                                </text>
+                                <circle cx="80" cy="94" r="28.5" fill="#0d0b08" stroke="#6b5124" stroke-width="0.8"/>
+                                <circle cx="80" cy="94" r="26" fill="none" stroke="url(#npc-knurl)" stroke-width="3.2" stroke-dasharray="1.1 1.1"/>
+                                <circle cx="80" cy="94" r="22.5" fill="url(#npc-glass)" stroke="#000" stroke-width="1"/>
+                                <path d="M80 80 L92 87 L92 101 L80 108 L68 101 L68 87 Z" fill="none" stroke="#7dffa0" stroke-opacity="0.14" stroke-width="0.8"/>
+                                <circle class="npc-spirit" cx="80" cy="94" r="22" fill="url(#npc-spirit)"/>
+                                <circle cx="80" cy="94" r="6" fill="#010302"/>
+                                <path d="M64 86 A18 18 0 0 1 78 76" fill="none" stroke="#ffffff" stroke-opacity="0.5" stroke-width="2" stroke-linecap="round"/>
+                                <circle cx="91" cy="104" r="1.6" fill="#ffffff" opacity="0.35"/>
+
+                                <!-- Film gate on the side -->
+                                <rect x="193" y="44" width="10" height="96" rx="1.5" fill="url(#npc-brass)"/>
+                                <rect x="195" y="46" width="6" height="92" fill="#030302"/>
+                            </svg>
+                        </div>
+                        <div class="np-strip">
+                            <div class="np-track">
+                                <div class="np-set">
+                                    <button type="button" class="np-frame" data-index="0" data-title="Mosquito Tracker" data-blurb="1st Place, NASA geoEMERGE. Offline-first redesign of GLOBE Observer with client-side WebP compression." data-href="projects/mosquito-tracker.html" data-src="assets/projector/mosquito-tracker.webp" data-w="880" data-h="524" data-fit="cover" data-bg="" aria-label="Project Mosquito Tracker on screen"><img src="assets/projector/mosquito-tracker-thumb.webp" alt="" width="240" height="143" loading="lazy" decoding="async"></button>
+                                    <button type="button" class="np-frame is-contain" data-index="1" data-title="Liquid Lift" data-blurb="3rd Place, Outreach Design Competition. Syringe-powered hydraulic arm kit that teaches Pascal&#x27;s Law." data-href="projects/liquid-lift.html" data-src="assets/projector/liquid-lift.webp" data-w="598" data-h="481" data-fit="contain" data-bg="#ffffff" aria-label="Project Liquid Lift on screen" style="background: #ffffff;"><img src="assets/projector/liquid-lift-thumb.webp" alt="" width="240" height="193" loading="lazy" decoding="async"></button>
+                                    <button type="button" class="np-frame" data-index="2" data-title="CircuitEdge" data-blurb="Paid platform that teaches Arduino from scratch: 29 tutorials, 232 quiz questions, Stripe subscriptions." data-href="projects/circuitedge.html" data-src="assets/projector/circuitedge.webp" data-w="880" data-h="587" data-fit="cover" data-bg="" aria-label="Project CircuitEdge on screen"><img src="assets/projector/circuitedge-thumb.webp" alt="" width="240" height="160" loading="lazy" decoding="async"></button>
+                                    <button type="button" class="np-frame is-contain" data-index="3" data-title="Embedded POS Terminal" data-blurb="In progress. ESP32-S3 touchscreen payment terminal that reads NFC cards and creates Stripe payments." data-href="projects.html" data-src="assets/pos-terminal.svg" data-w="220" data-h="220" data-fit="contain" data-bg="#eef4f2" aria-label="Project Embedded POS Terminal on screen" style="background: #eef4f2;"><img src="assets/pos-terminal.svg" alt="" width="220" height="220" loading="lazy" decoding="async"></button>
+                                    <button type="button" class="np-frame" data-index="4" data-title="Emergency Resource Locator" data-blurb="UF SwampHacks XI. Interactive map for finding nearby emergency services during crises." data-href="projects/emergency-resource-locator.html" data-src="assets/projector/emergency-resource-locator.webp" data-w="880" data-h="587" data-fit="cover" data-bg="" aria-label="Project Emergency Resource Locator on screen"><img src="assets/projector/emergency-resource-locator-thumb.webp" alt="" width="240" height="160" loading="lazy" decoding="async"></button>
+                                    <button type="button" class="np-frame is-contain" data-index="5" data-title="LockIN" data-blurb="SHPE Designathon. Phone-locking study device built on a servo, IR remote, and LCD display." data-href="projects.html" data-src="assets/lockin.svg" data-w="220" data-h="220" data-fit="contain" data-bg="#f4fbfa" aria-label="Project LockIN on screen" style="background: #f4fbfa;"><img src="assets/lockin.svg" alt="" width="220" height="220" loading="lazy" decoding="async"></button>
+                                    <button type="button" class="np-frame is-contain" data-index="6" data-title="Neo-Runner" data-blurb="Roblox Studio. Movement-based first-person platformer-shooter with trick-based movement." data-href="projects.html" data-src="assets/roblox-studio.svg" data-w="220" data-h="220" data-fit="contain" data-bg="#eaf7ff" aria-label="Project Neo-Runner on screen" style="background: #eaf7ff;"><img src="assets/roblox-studio.svg" alt="" width="220" height="220" loading="lazy" decoding="async"></button>
+                                </div>
+                                <div class="np-set" aria-hidden="true">
+                                    <button type="button" class="np-frame" data-index="0" tabindex="-1"><img src="assets/projector/mosquito-tracker-thumb.webp" alt="" width="240" height="143" loading="lazy" decoding="async"></button>
+                                    <button type="button" class="np-frame is-contain" data-index="1" tabindex="-1" style="background: #ffffff;"><img src="assets/projector/liquid-lift-thumb.webp" alt="" width="240" height="193" loading="lazy" decoding="async"></button>
+                                    <button type="button" class="np-frame" data-index="2" tabindex="-1"><img src="assets/projector/circuitedge-thumb.webp" alt="" width="240" height="160" loading="lazy" decoding="async"></button>
+                                    <button type="button" class="np-frame is-contain" data-index="3" tabindex="-1" style="background: #eef4f2;"><img src="assets/pos-terminal.svg" alt="" width="220" height="220" loading="lazy" decoding="async"></button>
+                                    <button type="button" class="np-frame" data-index="4" tabindex="-1"><img src="assets/projector/emergency-resource-locator-thumb.webp" alt="" width="240" height="160" loading="lazy" decoding="async"></button>
+                                    <button type="button" class="np-frame is-contain" data-index="5" tabindex="-1" style="background: #f4fbfa;"><img src="assets/lockin.svg" alt="" width="220" height="220" loading="lazy" decoding="async"></button>
+                                    <button type="button" class="np-frame is-contain" data-index="6" tabindex="-1" style="background: #eaf7ff;"><img src="assets/roblox-studio.svg" alt="" width="220" height="220" loading="lazy" decoding="async"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                </div>
+
                 <!-- Filter Bar -->
                 <div class="news-filters" style="max-width: 1100px; margin-left: auto; margin-right: auto;">
                     <button class="news-filter-btn active" data-filter="all">All</button>
@@ -412,6 +866,7 @@
     </footer>
 
     <script src="script.js"></script>
+    <script src="projector.js"></script>
 
     <!-- News Modal -->
     <div class="news-modal-overlay" id="news-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">

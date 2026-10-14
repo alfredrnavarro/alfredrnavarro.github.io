@@ -1,0 +1,677 @@
+/* ===================================
+   News page "Now Showing" projector (projector.js)
+   A dark cinema plate in both themes: a reel-to-reel projector beams onto
+   a screen that cycles through projects, and an old box camera feeds a
+   filmstrip of project frames along the bottom. Colors are fixed to the
+   night palette inside the plate so the beam always reads as light.
+   =================================== */
+.np-stage {
+    --np-bg: #0b0b0a;
+    --np-ink: #16140f;
+    --np-ink-2: #221e16;
+    --np-brass: #c9a45c;
+    --np-brass-dim: #8f7136;
+    --np-text: #e6dcc4;
+    --np-muted: #9a917e;
+    --np-oxblood: #9c2430;
+    --np-cam-w: 250px;
+    --np-film-tilt: -4deg;
+    --np-gap: 4.5rem;
+
+    position: relative;
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    grid-template-areas:
+        "proj screen"
+        "proj caption"
+        "reel reel";
+    column-gap: var(--np-gap);
+    row-gap: 1rem;
+    padding: 2rem 2rem 1.75rem;
+    background:
+        radial-gradient(ellipse at 70% 35%, rgba(201, 164, 92, 0.08) 0%, transparent 60%),
+        var(--np-bg);
+    border: 1px solid rgba(201, 164, 92, 0.25);
+    border-radius: 0.85rem;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+    color: var(--np-text);
+}
+
+/* Grid items default to min-width: auto, which would let the filmstrip's
+   max-content track stretch the whole page wider than the viewport. */
+.np-stage > * {
+    min-width: 0;
+}
+
+/* ---- Light beam (SVG polygon positioned by projector.js) ---- */
+.np-beam {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    mix-blend-mode: screen;
+    animation: np-flicker-strong 1.7s steps(1) infinite;
+}
+
+/* Warm spill from the lamp and the lit screen, flickering with the beam */
+.np-stage::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+        radial-gradient(ellipse 55% 50% at 62% 38%, rgba(255, 196, 120, 0.14), transparent 70%),
+        radial-gradient(ellipse 28% 30% at 27% 45%, rgba(255, 200, 130, 0.12), transparent 70%);
+    animation: np-flicker-strong 1.7s steps(1) infinite;
+}
+
+/* Dust drifting through the beam (circles added by projector.js) */
+.np-mote {
+    fill: #fff1d0;
+    transform-box: fill-box;
+    animation: np-mote var(--d, 6s) ease-in-out var(--delay, 0s) infinite alternate;
+}
+
+/* ---- Theater: the stage plus what stands around it on the page ---- */
+.np-theater {
+    position: relative;
+    max-width: 980px;
+    margin: 4rem auto 2.5rem;
+}
+
+.np-defs {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+/* Side scenes live in the page margins, between the side rails (22-86px
+   from each edge, shown from 1280px) and the stage. Only shown when the
+   margin is wide enough to hold them. */
+.np-scene {
+    display: none;
+    position: absolute;
+    bottom: -0.5rem;
+    width: clamp(140px, calc((100vw - 980px) / 2 - 110px), 280px);
+    pointer-events: none;
+}
+
+.np-scene svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+}
+
+.np-scene-l { right: calc(100% + 0.75rem); }
+.np-scene-r { left: calc(100% + 0.75rem); }
+
+/* Mirror so the tall candle stands on the outer side */
+.np-scene-r svg { transform: scaleX(-1); }
+
+@media (min-width: 1380px) {
+    .np-scene { display: block; }
+}
+
+/* Dark ghosts on parchment don't need the haze that lifts them off the night */
+[data-theme="light"] .npf-haze { display: none; }
+
+.np-ghost {
+    animation: ngh-float 7s ease-in-out infinite;
+}
+
+.np-ghost-back {
+    opacity: 0.5;
+}
+
+/* Green-fire candles sitting on the stage's top-right corner */
+.np-corner-candles {
+    position: absolute;
+    top: 0;
+    right: 1.25rem;
+    width: 128px;
+    transform: translateY(-100%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.np-corner-candles svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+}
+
+.npf-flame {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: npf-flicker 1.9s ease-in-out infinite;
+}
+
+.npf-glow {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: npf-glow 1.9s ease-in-out infinite;
+}
+
+.ngh-rim {
+    opacity: 0.32;
+    animation: np-flicker-strong 1.7s steps(1) infinite;
+}
+
+.ngh-eyes {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: ngh-blink 5.6s ease-in-out infinite;
+}
+
+.ngh-eye-glow {
+    opacity: 0.85;
+    animation: np-flicker 2.4s steps(1) infinite;
+}
+
+/* ---- Projector ---- */
+.np-projector-wrap {
+    grid-area: proj;
+    align-self: center;
+    position: relative;
+    z-index: 1;
+}
+
+.np-projector,
+.np-camera {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+}
+
+.np-body { fill: var(--np-ink-2); stroke: rgba(201, 164, 92, 0.35); stroke-width: 1; }
+.np-brass { fill: var(--np-brass); }
+.np-brass-dim { fill: var(--np-brass-dim); }
+.np-arm { stroke: var(--np-brass-dim); stroke-width: 5; stroke-linecap: round; fill: none; }
+.np-leg { stroke: var(--np-brass-dim); stroke-width: 4; stroke-linecap: round; fill: none; }
+.np-filmline { stroke: #3a2f1f; stroke-width: 3; fill: none; }
+.np-vent { stroke: rgba(201, 164, 92, 0.3); stroke-width: 2; stroke-linecap: round; }
+.np-reel-rim { fill: var(--np-ink); stroke: var(--np-brass); stroke-width: 3; }
+.np-reel-film { fill: #2b2318; stroke: #3d3222; stroke-width: 1; }
+.np-reel-hole { fill: var(--np-bg); }
+.np-tally { fill: var(--np-oxblood); }
+
+.np-reel {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: np-spin 3.2s linear infinite;
+}
+
+.np-reel-front {
+    animation-duration: 2.4s;
+}
+
+.np-lamp {
+    animation: np-flicker 2.4s steps(1) infinite;
+}
+
+/* ---- Screen ---- */
+.np-screen {
+    grid-area: screen;
+    position: relative;
+    z-index: 1;
+    display: block;
+    aspect-ratio: 16 / 10;
+    background: #efe8d6;
+    border: 6px solid #0f0e0b;
+    border-radius: 4px;
+    box-shadow:
+        0 0 0 1px rgba(201, 164, 92, 0.3),
+        0 0 70px rgba(255, 210, 140, 0.22);
+    overflow: hidden;
+    text-decoration: none !important;
+}
+
+.np-film {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: sepia(0.35) saturate(0.9) contrast(1.05);
+    transition: filter 0.3s ease;
+    animation: np-weave 0.6s steps(1) infinite;
+}
+
+.np-film.is-contain {
+    object-fit: contain;
+    padding: 8%;
+}
+
+.np-screen:hover .np-film,
+.np-screen:focus-visible .np-film {
+    filter: none;
+}
+
+.np-grain,
+.np-vignette,
+.np-screen::after {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.np-grain {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.55'/></svg>");
+    opacity: 0.16;
+    mix-blend-mode: multiply;
+    animation: np-grain 0.6s steps(1) infinite;
+}
+
+.np-vignette {
+    background:
+        radial-gradient(ellipse at 50% 45%, rgba(255, 214, 150, 0.12), transparent 60%),
+        radial-gradient(ellipse at center, transparent 50%, rgba(30, 16, 4, 0.5) 100%);
+}
+
+.np-screen::after {
+    content: '';
+    background: #ffe2a8;
+    opacity: 0;
+    animation: np-screen-flicker 1.9s steps(1) infinite;
+}
+
+/* Frame change: the image rolls and flashes like film slipping the gate */
+.np-screen.is-cutting .np-film {
+    animation: np-roll 0.42s ease-in-out;
+}
+
+/* ---- Caption ---- */
+.np-caption {
+    grid-area: caption;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.np-caption-text {
+    min-width: 0;
+}
+
+.np-stage .np-kicker {
+    margin: 0 0 0.25rem;
+    font-family: var(--font-display);
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--np-brass);
+}
+
+.np-stage .np-title {
+    margin: 0 0 0.3rem;
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--np-text);
+}
+
+.np-stage .np-blurb {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    color: var(--np-muted);
+}
+
+.np-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-shrink: 0;
+}
+
+.np-btn,
+.np-view {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2rem;
+    border: 1px solid rgba(201, 164, 92, 0.4);
+    border-radius: 9999px;
+    background: rgba(201, 164, 92, 0.08);
+    color: var(--np-brass);
+    font-family: inherit;
+    font-size: 0.8rem;
+    cursor: pointer;
+    text-decoration: none !important;
+    transition: background 0.2s, color 0.2s;
+}
+
+.np-btn {
+    width: 2rem;
+    padding: 0;
+}
+
+.np-view {
+    padding: 0 0.9rem;
+    white-space: nowrap;
+}
+
+.np-btn:hover,
+.np-view:hover {
+    background: var(--np-brass);
+    color: var(--np-bg);
+}
+
+.np-btn:focus-visible,
+.np-view:focus-visible,
+.np-screen:focus-visible,
+.np-frame:focus-visible {
+    outline: 2px solid var(--np-brass);
+    outline-offset: 2px;
+}
+
+/* ---- Camera + filmstrip ---- */
+.np-reel-row {
+    grid-area: reel;
+    display: flex;
+    align-items: flex-start;
+    margin-top: 2.25rem; /* room for the tilted film to rise into */
+    position: relative;
+    z-index: 1;
+}
+
+.np-camera-wrap {
+    flex: 0 0 var(--np-cam-w);
+    width: var(--np-cam-w);
+    position: relative;
+    z-index: 2;
+    /* Same pivot as the strip's left end (gate opening at x 196, y 92 of
+       the 220x160 camera), so camera and film tilt as one piece. */
+    transform: rotate(var(--np-film-tilt));
+    transform-origin: 89.1% 57.5%;
+}
+
+/* Height and offset match the film gate in the camera SVG (viewBox 220
+   wide, gate at y 44-140, opening at x 195), so the strip comes straight
+   out of it, then tilts upward as it runs away from the camera. */
+.np-strip {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: calc(var(--np-cam-w) * 96 / 220);
+    margin-top: calc(var(--np-cam-w) * 44 / 220);
+    margin-left: calc(var(--np-cam-w) * -24 / 220);
+    position: relative;
+    overflow: hidden;
+    background: #14110c;
+    transform: rotate(var(--np-film-tilt));
+    transform-origin: 0 50%;
+    -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
+    mask-image: linear-gradient(to right, black 85%, transparent 100%);
+}
+
+.np-strip::before,
+.np-strip::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 15%;
+    z-index: 1;
+    pointer-events: none;
+    background: repeating-linear-gradient(to right,
+        transparent 0 7px,
+        #cfc3a4 7px 17px,
+        transparent 17px 24px);
+    background-size: 24px 45%;
+    background-repeat: repeat-x;
+    background-position: 0 50%;
+    animation: np-sprockets 1.2s linear infinite;
+}
+
+.np-strip::before { top: 0; }
+.np-strip::after { bottom: 0; }
+
+.np-track {
+    display: flex;
+    width: max-content;
+    height: 100%;
+    animation: np-track 42s linear infinite;
+}
+
+.np-set {
+    display: flex;
+    height: 100%;
+}
+
+.np-frame {
+    flex: 0 0 auto;
+    height: 70%;
+    aspect-ratio: 16 / 9;
+    margin: auto 6px;
+    padding: 0;
+    border: 2px solid transparent;
+    border-radius: 2px;
+    background: #2b2318;
+    cursor: pointer;
+    overflow: hidden;
+    opacity: 0.6;
+    transition: opacity 0.2s, border-color 0.2s;
+}
+
+.np-frame img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: sepia(0.45);
+}
+
+.np-frame.is-contain img {
+    object-fit: contain;
+    padding: 6%;
+}
+
+.np-frame:hover,
+.np-frame.is-active {
+    opacity: 1;
+}
+
+.np-frame.is-active {
+    border-color: var(--np-brass);
+}
+
+/* Camera's spectral lens glow + the sigil's pupil breathe slowly */
+.npc-spirit,
+.npc-halo,
+.npc-pupil {
+    animation: np-breathe 4.5s ease-in-out infinite;
+}
+
+.npc-halo {
+    animation-delay: -1.5s;
+}
+
+/* ---- Paused (hover, focus, offscreen, hidden tab) ---- */
+.np-stage.is-paused .np-reel,
+.np-stage.is-paused .np-track,
+.np-stage.is-paused .np-strip::before,
+.np-stage.is-paused .np-strip::after {
+    animation-play-state: paused;
+}
+
+/* ---- Keyframes ---- */
+@keyframes np-spin { to { transform: rotate(360deg); } }
+@keyframes np-breathe {
+    0%, 100% { opacity: 0.55; }
+    50% { opacity: 1; }
+}
+@keyframes np-track { to { transform: translateX(-50%); } }
+@keyframes np-sprockets { to { background-position: -24px 50%; } }
+
+@keyframes np-flicker {
+    0%, 100% { opacity: 0.92; }
+    11% { opacity: 0.74; }
+    13% { opacity: 0.96; }
+    41% { opacity: 0.84; }
+    43% { opacity: 1; }
+    72% { opacity: 0.88; }
+}
+
+@keyframes np-flicker-strong {
+    0%, 100% { opacity: 0.95; }
+    6% { opacity: 0.82; }
+    8% { opacity: 1; }
+    19% { opacity: 0.9; }
+    21% { opacity: 0.76; }
+    23% { opacity: 0.98; }
+    37% { opacity: 0.92; }
+    52% { opacity: 0.84; }
+    54% { opacity: 1; }
+    68% { opacity: 0.9; }
+    81% { opacity: 0.78; }
+    83% { opacity: 0.96; }
+}
+
+@keyframes np-screen-flicker {
+    0%, 100% { opacity: 0; }
+    9% { opacity: 0.1; }
+    11% { opacity: 0; }
+    23% { opacity: 0.06; }
+    25% { opacity: 0; }
+    47% { opacity: 0.14; }
+    48% { opacity: 0.03; }
+    61% { opacity: 0.08; }
+    63% { opacity: 0; }
+    86% { opacity: 0.05; }
+}
+
+@keyframes np-weave {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(0, 0.25px); }
+}
+
+@keyframes np-mote {
+    from { transform: translate(0, 0); opacity: 0.15; }
+    to { transform: translate(var(--dx, 10px), var(--dy, -8px)); opacity: 0.85; }
+}
+
+@keyframes ngh-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+@keyframes npf-flicker {
+    0%, 100% { transform: scale(1, 1) skewX(0deg); }
+    15% { transform: scale(0.92, 1.1) skewX(3deg); }
+    32% { transform: scale(1.05, 0.94) skewX(-2deg); }
+    50% { transform: scale(0.95, 1.07) skewX(1.5deg); }
+    68% { transform: scale(1.03, 0.96) skewX(-3deg); }
+    84% { transform: scale(0.97, 1.04) skewX(1deg); }
+}
+
+@keyframes npf-glow {
+    0%, 100% { opacity: 0.85; transform: scale(1); }
+    32% { opacity: 0.65; transform: scale(0.92); }
+    68% { opacity: 1; transform: scale(1.06); }
+}
+
+@keyframes ngh-blink {
+    0%, 90%, 100% { transform: scaleY(1); }
+    93% { transform: scaleY(0.1); }
+    96% { transform: scaleY(1); }
+}
+
+@keyframes np-grain {
+    0% { background-position: 0 0; }
+    25% { background-position: -40px 20px; }
+    50% { background-position: 30px -30px; }
+    75% { background-position: -20px -45px; }
+}
+
+@keyframes np-roll {
+    0% { transform: none; opacity: 1; }
+    45% { transform: translateY(-7%); opacity: 0.15; filter: brightness(2.2) blur(2px); }
+    55% { transform: translateY(7%); opacity: 0.15; filter: brightness(2.2) blur(2px); }
+    100% { transform: none; opacity: 1; }
+}
+
+/* ---- Small screens: stack, drop the beam ---- */
+@media (max-width: 720px) {
+    .np-stage {
+        --np-cam-w: 150px;
+        --np-film-tilt: -3deg;
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+            "proj"
+            "screen"
+            "caption"
+            "reel";
+        padding: 1.25rem 1rem 1rem;
+        --np-gap: 1rem;
+    }
+
+    .np-projector-wrap {
+        width: 150px;
+        justify-self: center;
+    }
+
+    .np-beam {
+        display: none;
+    }
+
+    .np-caption {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .np-stage .np-title {
+        font-size: 1.15rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .np-reel,
+    .np-track,
+    .np-lamp,
+    .npc-spirit,
+    .npc-halo,
+    .npc-pupil,
+    .np-beam,
+    .np-stage::before,
+    .np-mote,
+    .np-ghost,
+    .npf-flame,
+    .npf-glow,
+    .ngh-rim,
+    .ngh-eyes,
+    .ngh-eye-glow,
+    .np-film,
+    .np-grain,
+    .np-screen::after,
+    .np-strip::before,
+    .np-strip::after,
+    .np-screen.is-cutting .np-film {
+        animation: none;
+    }
+
+    /* No marquee: let the strip scroll by hand instead, minus the loop copy */
+    .np-strip {
+        overflow-x: auto;
+    }
+
+    .np-set[aria-hidden="true"] {
+        display: none;
+    }
+}
+
+/* Projector nameplate engraving */
+.npp-plate {
+    font-family: var(--font-display);
+    letter-spacing: 0.08em;
+}

@@ -742,6 +742,49 @@ body.has-hero footer p {
     color: rgba(243, 234, 217, 0.7) !important;
 }
 
+/* New York skyline behind the dithered portrait. Lives on body (not
+   #hero::before) because #hero sits below body's padding-top and clips its
+   overflow — this way it runs from the very top of the page, under the
+   fixed header, down through the hero. Grayscale + a blend mode so it takes
+   on the page backdrop's own color (ink on parchment by day, green-black
+   haze by night) instead of bringing in its own blue. Fades out at the
+   bottom into the Venice crossfade (main::before). Positioned before #hero
+   in paint order, so the portrait always sits on top. */
+body.has-hero {
+    --hero-offset: 7rem;
+}
+
+body.has-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: calc(var(--hero-offset) + clamp(480px, 100vh, 960px));
+    background-image: url('assets/newyork-hero.jpg');
+    background-image: image-set(url('assets/newyork-hero.webp') type('image/webp') 1x, url('assets/newyork-hero.jpg') type('image/jpeg') 1x);
+    background-size: cover;
+    background-position: center 40%;
+    background-repeat: no-repeat;
+    filter: grayscale(1) contrast(1.1);
+    mix-blend-mode: multiply;
+    opacity: 0.4;
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    pointer-events: none;
+}
+
+[data-theme="dark"] body.has-hero::before {
+    mix-blend-mode: luminosity;
+    opacity: 0.22;
+}
+
+@media (max-width: 640px) {
+    body.has-hero {
+        --hero-offset: 5rem;
+    }
+}
+
 /* dither-bg.js injects #dither-bg + <canvas> as the first child of #hero */
 #hero #dither-bg {
     position: absolute;
