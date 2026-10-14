@@ -38,9 +38,9 @@
         "https://jaimebreitkreutz.com/",
         "https://www.linkedin.com/in/raamia/?isSelfProfile=false",
         "https://www.linkedin.com/in/anhhoangmai2007/?isSelfProfile=false",
-        null,  // Ely: no link yet, shows as a photo only
-        null,  // Ian: no link yet
-        null,  // Tyler: no link yet
+        "https://www.linkedin.com/in/ely-herman-506143361",
+        "https://www.linkedin.com/in/ian-greyvensteyn-9b98903b3/",
+        "https://www.linkedin.com/in/tyler-alves-komitor/",
     ];
 
     var CFG = {
@@ -152,6 +152,47 @@
 
         tiltWrap.appendChild(ring);
         container.appendChild(tiltWrap);
+
+        // Projected half-extents of the whole ring, sampled over a full turn
+        // (photo corners through rotateY, the ring's -radius push, the tilt
+        // and the perspective divide), so the stage can be sized to fit it
+        var extent = (function () {
+            var t = CFG.tilt * Math.PI / 180;
+            var P = CFG.perspective;
+            var hw = CFG.imageWidth / 2, hh = CFG.imageHeight / 2;
+            var maxX = 0, maxY = 0;
+            for (var deg = 0; deg < 360; deg += 2) {
+                var p = deg * Math.PI / 180;
+                [-hw, hw].forEach(function (cx) {
+                    [-hh, hh].forEach(function (cy) {
+                        var x = cx * Math.cos(p) + radius * Math.sin(p);
+                        var z = -cx * Math.sin(p) + radius * Math.cos(p) - radius;
+                        var y = cy * Math.cos(t) - z * Math.sin(t);
+                        var z2 = cy * Math.sin(t) + z * Math.cos(t);
+                        var k = P / (P - z2);
+                        maxX = Math.max(maxX, Math.abs(x * k));
+                        maxY = Math.max(maxY, Math.abs(y * k));
+                    });
+                });
+            }
+            return { x: maxX, y: maxY };
+        })();
+
+        // Room for the hover glow and drop shadow around the outer photos
+        var EDGE = 40;
+
+        // Shrink the ring (scaling perspective with it, so the projection
+        // scales uniformly) when the stage is narrower than the ring, and
+        // grow the stage's height to whatever the ring needs
+        function fit() {
+            var avail = container.clientWidth / 2 - EDGE;
+            var s = Math.min(1, avail / extent.x);
+            tiltWrap.style.transform = "scale3d(" + s + "," + s + "," + s + ") rotateX(" + CFG.tilt + "deg)";
+            container.style.perspective = (CFG.perspective * s) + "px";
+            container.style.height = Math.ceil(2 * (extent.y * s + EDGE)) + "px";
+        }
+        fit();
+        window.addEventListener("resize", fit);
 
         var rotY = 0;
         var vel = 0;
