@@ -114,6 +114,41 @@
     transform: rotate(28deg);
 }
 
+/* Rune ring: hidden while paused, fades in around the record while it
+   plays, its two bands turning in opposite directions */
+.vinyl-ring {
+    position: absolute;
+    inset: -0.55rem;
+    width: calc(100% + 1.1rem);
+    height: calc(100% + 1.1rem);
+    overflow: visible;
+    pointer-events: none;
+    color: #9dffb4;
+    font-family: 'Segoe UI Historic', 'Noto Sans Runic', 'Apple Symbols', serif;
+    filter: drop-shadow(0 0 2px rgba(80, 255, 140, 0.7));
+    opacity: 0;
+    transform: scale(0.85);
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.vinyl-ring g {
+    transform-box: view-box;
+    transform-origin: 50% 50%;
+    animation-play-state: paused;
+}
+
+.vinyl-ring-outer { animation: vinylSpin 24s linear infinite; }
+.vinyl-ring-inner { animation: vinylSpin 14s linear infinite reverse; }
+
+.vinyl.is-playing .vinyl-ring {
+    opacity: 0.85;
+    transform: scale(1);
+}
+
+.vinyl.is-playing .vinyl-ring g {
+    animation-play-state: running;
+}
+
 /* ---- Song info ---- */
 .vinyl-meta {
     flex: 1;
@@ -141,6 +176,35 @@
 
 a.vinyl-title[href]:hover {
     text-decoration: underline;
+}
+
+/* While a song plays the title glows green like the hovering cursor sigil.
+   Vertical padding keeps overflow:hidden from clipping the glow. */
+.vinyl-title {
+    padding: 0.15rem 0;
+    margin: -0.15rem 0;
+    transition: color 0.4s ease, text-shadow 0.4s ease;
+}
+
+.vinyl.is-playing .vinyl-title {
+    color: #9dffb4;
+    text-shadow: 0 0 4px rgba(80, 255, 140, 0.8), 0 0 12px rgba(40, 255, 110, 0.4);
+    animation: vinylTitleGlow 2.4s ease-in-out infinite;
+}
+
+@keyframes vinylTitleGlow {
+    50% { text-shadow: 0 0 3px rgba(80, 255, 140, 0.55), 0 0 8px rgba(40, 255, 110, 0.25); }
+}
+
+html[data-theme="light"] .vinyl.is-playing .vinyl-title {
+    color: #1f7a3a;
+    text-shadow: 0 0 3px rgba(30, 140, 70, 0.45);
+    animation: none;
+}
+
+html[data-theme="light"] .vinyl-ring {
+    color: #1f7a3a;
+    filter: drop-shadow(0 0 2px rgba(30, 140, 70, 0.45));
 }
 
 .vinyl-artist {
@@ -233,4 +297,6 @@ a.vinyl-title[href]:hover {
 @media (prefers-reduced-motion: reduce) {
     .vinyl-disc { animation: none; }
     .vinyl-arm { transition: none; }
+    .vinyl-ring g { animation: none; }
+    .vinyl.is-playing .vinyl-title { animation: none; }
 }

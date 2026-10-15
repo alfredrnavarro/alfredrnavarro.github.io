@@ -83,6 +83,28 @@
     var ICON_PAUSE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor"/></svg>';
     var ICON_NEXT = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 5.5v13L15 12zM15.5 5.5H18.5v13h-3z" fill="currentColor"/></svg>';
 
+    // Rune ring that wakes around the record while it plays: an outer band
+    // of Elder Futhark on a circle path, an inner dashed circle turning the
+    // other way, like the cursor sigil.
+    var RUNES = 'ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚾᛁᛃᛇᛈᛉᛊᛏᛒᛖᛗᛚᛜᛞᛟ';
+    var RING =
+        '<svg class="vinyl-ring" viewBox="0 0 100 100" fill="none" stroke="currentColor">' +
+            '<defs><path id="vinyl-rune-path" d="M50 5.5a44.5 44.5 0 1 1 0 89a44.5 44.5 0 1 1 0-89"/></defs>' +
+            '<g class="vinyl-ring-outer">' +
+                '<circle cx="50" cy="50" r="49" stroke-width="0.6"/>' +
+                '<text font-size="6.4" fill="currentColor" stroke="none" textLength="276" lengthAdjust="spacing">' +
+                    '<textPath href="#vinyl-rune-path">' + RUNES + '</textPath>' +
+                '</text>' +
+            '</g>' +
+            '<g class="vinyl-ring-inner">' +
+                '<circle cx="50" cy="50" r="40.5" stroke-width="0.7" stroke-dasharray="1.6 2.4"/>' +
+                '<circle cx="50" cy="9.5" r="1.6" fill="currentColor" stroke="none"/>' +
+                '<circle cx="90.5" cy="50" r="1" fill="currentColor" stroke="none"/>' +
+                '<circle cx="50" cy="90.5" r="1.6" fill="currentColor" stroke="none"/>' +
+                '<circle cx="9.5" cy="50" r="1" fill="currentColor" stroke="none"/>' +
+            '</g>' +
+        '</svg>';
+
     function init() {
         var root = document.createElement('div');
         root.className = 'vinyl';
@@ -90,6 +112,7 @@
         root.setAttribute('aria-label', 'Music player');
         root.innerHTML =
             '<div class="vinyl-deck" aria-hidden="true">' +
+                RING +
                 '<div class="vinyl-disc"><span class="vinyl-label"><img alt="" decoding="async"></span></div>' +
                 '<span class="vinyl-arm"></span>' +
             '</div>' +
