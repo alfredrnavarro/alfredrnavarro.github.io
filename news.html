@@ -197,6 +197,137 @@
             margin-top: 0.2rem;
             padding-top: 0.5rem;
         }
+
+        /* ── Windows: two tall panes on the back wall, behind the stage ─────── */
+        /* The theater gets its own stacking context so the windows can sit
+           at z-index -1 behind the stage without dropping under the page. */
+        .np-theater {
+            isolation: isolate;
+            margin-top: 17rem;
+        }
+        .news-windows {
+            position: absolute;
+            /* Pushed out into the page margins, stopping short of the side rails */
+            --win-out: clamp(0px, (100vw - 980px) / 2 - 130px, 240px);
+            inset: -15rem calc(-1 * var(--win-out)) auto;
+            z-index: -1;
+            display: flex;
+            justify-content: space-between;
+            pointer-events: none;
+        }
+        .news-windows .news-window {
+            width: 26%;
+        }
+        .news-window {
+            margin: 0;
+            padding: 12px 12px 22px;
+            background: var(--panel);
+            border: 1px solid var(--glass-border);
+            border-radius: 2px;
+            box-shadow:
+                inset 0 0 0 4px var(--panel),
+                inset 0 0 0 5px var(--glass-border-outer),
+                var(--glass-shadow);
+            position: relative;
+        }
+        /* The sill */
+        .news-window::after {
+            content: "";
+            position: absolute;
+            left: -10px;
+            right: -10px;
+            bottom: -6px;
+            height: 10px;
+            background: var(--panel);
+            border: 1px solid var(--glass-border);
+            border-radius: 1px;
+        }
+        .news-window-glass {
+            position: relative;
+            aspect-ratio: 3 / 5;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+        }
+        /* Oversized and pinned to the bottom so the skyline, not the empty
+           sky, is what shows above the stage */
+        .news-window-glass img {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            display: block;
+            width: 100%;
+            height: 155%;
+            object-fit: cover;
+            object-position: center bottom;
+            margin: 0;
+            /* Same treatment as the New York photo on the home page */
+            filter: grayscale(1) contrast(1.1);
+            opacity: 0.55;
+        }
+        html[data-theme="light"] .news-window-glass img {
+            mix-blend-mode: multiply;
+            opacity: 0.75;
+        }
+        /* Mullions and a faint sheen on the glass */
+        .news-window-glass::before,
+        .news-window-glass::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+        .news-window-glass::before {
+            background:
+                linear-gradient(var(--panel), var(--panel)) 50% 0 / 6px 100% no-repeat,
+                linear-gradient(var(--panel), var(--panel)) 0 28% / 100% 6px no-repeat;
+        }
+        .news-window-glass::after {
+            background: linear-gradient(125deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 35%, rgba(255,255,255,0) 70%, rgba(255,255,255,0.06) 100%);
+        }
+        /* ── Blood-red curtains drawn back on a brass rod ── */
+        .news-window-rod {
+            position: absolute;
+            top: -14px;
+            left: -22px;
+            right: -22px;
+            height: 5px;
+            border-radius: 3px;
+            background: linear-gradient(#e2c78a, #8f7136 60%, #5e4a22);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            z-index: 2;
+        }
+        .news-window-rod::before,
+        .news-window-rod::after {
+            content: "";
+            position: absolute;
+            top: -3px;
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #f0dca8, #8f7136 70%);
+        }
+        .news-window-rod::before { left: -8px; }
+        .news-window-rod::after { right: -8px; }
+        .news-curtain {
+            position: absolute;
+            top: -12px;
+            bottom: -4px;
+            width: 36%;
+            height: calc(100% + 16px);
+            overflow: visible;
+            filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.55));
+            z-index: 1;
+        }
+        .news-curtain-l { left: -18px; }
+        .news-curtain-r { right: -18px; transform: scaleX(-1); }
+        @media (max-width: 640px) {
+            .np-theater { margin-top: 10rem; }
+            .news-windows { top: -8.5rem; }
+            .news-windows .news-window { width: 32%; padding: 6px 6px 12px; }
+            .news-window-rod { left: -12px; right: -12px; top: -10px; height: 4px; }
+            .news-curtain-l { left: -10px; }
+            .news-curtain-r { right: -10px; }
+        }
     </style>
 </head>
 <body class="bg-global-bg text-global-text antialiased">
@@ -371,8 +502,51 @@
                             </filter>
                             <path id="npf-flame-shape" d="M0 0 C -5.5 -3, -6 -12, 0 -24 C 6 -12, 5.5 -3, 0 0 Z"/>
                             <path id="npf-core-shape" d="M0 -1 C -2.4 -3, -2.6 -8, 0 -13 C 2.6 -8, 2.4 -3, 0 -1 Z"/>
+                            <!-- Window curtains: deep red folds, gathered by a gold tie-back -->
+                            <linearGradient id="nwc-folds" x1="0" y1="0" x2="1" y2="0">
+                                <stop offset="0" stop-color="#1a0204"/>
+                                <stop offset="0.12" stop-color="#4f070c"/>
+                                <stop offset="0.22" stop-color="#260306"/>
+                                <stop offset="0.36" stop-color="#5a080e"/>
+                                <stop offset="0.48" stop-color="#2b0407"/>
+                                <stop offset="0.62" stop-color="#55080f"/>
+                                <stop offset="0.76" stop-color="#240305"/>
+                                <stop offset="0.9" stop-color="#46060b"/>
+                                <stop offset="1" stop-color="#1a0204"/>
+                            </linearGradient>
+                            <linearGradient id="nwc-shade" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0" stop-color="#000" stop-opacity="0.45"/>
+                                <stop offset="0.25" stop-color="#000" stop-opacity="0"/>
+                                <stop offset="0.8" stop-color="#000" stop-opacity="0.1"/>
+                                <stop offset="1" stop-color="#000" stop-opacity="0.5"/>
+                            </linearGradient>
+                            <g id="nw-curtain">
+                                <path d="M0 0 H100 C 94 80, 56 160, 22 200 C 30 238, 42 274, 56 300 H0 Z" fill="url(#nwc-folds)"/>
+                                <path d="M0 0 H100 C 94 80, 56 160, 22 200 C 30 238, 42 274, 56 300 H0 Z" fill="url(#nwc-shade)"/>
+                                <path d="M0 197 Q 12 194 24 200 Q 12 204 0 202 Z" fill="#a8843f"/>
+                                <path d="M22 201 q 3 9 -1 18 M24 201 q 5 7 2 16" stroke="#8f7136" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+                            </g>
                     </defs>
                 </svg>
+                <!-- Two tall windows on the back wall, behind the projector stage -->
+                <div class="news-windows" aria-hidden="true">
+                    <figure class="news-window news-window-l">
+                        <div class="news-window-glass">
+                            <img src="assets/news-window1.webp" alt="" width="900" height="1200" decoding="async">
+                        </div>
+                        <span class="news-window-rod"></span>
+                        <svg class="news-curtain news-curtain-l" viewBox="0 0 100 300" preserveAspectRatio="none"><use href="#nw-curtain"/></svg>
+                        <svg class="news-curtain news-curtain-r" viewBox="0 0 100 300" preserveAspectRatio="none"><use href="#nw-curtain"/></svg>
+                    </figure>
+                    <figure class="news-window news-window-r">
+                        <div class="news-window-glass">
+                            <img src="assets/news-window2.webp" alt="" width="900" height="1200" decoding="async">
+                        </div>
+                        <span class="news-window-rod"></span>
+                        <svg class="news-curtain news-curtain-l" viewBox="0 0 100 300" preserveAspectRatio="none"><use href="#nw-curtain"/></svg>
+                        <svg class="news-curtain news-curtain-r" viewBox="0 0 100 300" preserveAspectRatio="none"><use href="#nw-curtain"/></svg>
+                    </figure>
+                </div>
                 <div class="np-scene np-scene-l" aria-hidden="true">
                     <svg viewBox="0 0 230 330">
                         <ellipse cx="128" cy="322" rx="98" ry="5" fill="#000" opacity="0.45" filter="url(#npf-soft)"/>
@@ -697,22 +871,22 @@
                         <div class="np-strip">
                             <div class="np-track">
                                 <div class="np-set">
-                                    <button type="button" class="np-frame" data-index="0" data-title="Mosquito Tracker" data-blurb="1st Place, NASA geoEMERGE. Offline-first redesign of GLOBE Observer with client-side WebP compression." data-href="projects/mosquito-tracker.html" data-src="assets/projector/mosquito-tracker.webp" data-w="880" data-h="524" data-fit="cover" data-bg="" aria-label="Project Mosquito Tracker on screen"><img src="assets/projector/mosquito-tracker-thumb.webp" alt="" width="240" height="143" loading="lazy" decoding="async"></button>
-                                    <button type="button" class="np-frame is-contain" data-index="1" data-title="Liquid Lift" data-blurb="3rd Place, Outreach Design Competition. Syringe-powered hydraulic arm kit that teaches Pascal&#x27;s Law." data-href="projects/liquid-lift.html" data-src="assets/projector/liquid-lift.webp" data-w="598" data-h="481" data-fit="contain" data-bg="#ffffff" aria-label="Project Liquid Lift on screen" style="background: #ffffff;"><img src="assets/projector/liquid-lift-thumb.webp" alt="" width="240" height="193" loading="lazy" decoding="async"></button>
-                                    <button type="button" class="np-frame" data-index="2" data-title="CircuitEdge" data-blurb="Paid platform that teaches Arduino from scratch: 29 tutorials, 232 quiz questions, Stripe subscriptions." data-href="projects/circuitedge.html" data-src="assets/projector/circuitedge.webp" data-w="880" data-h="587" data-fit="cover" data-bg="" aria-label="Project CircuitEdge on screen"><img src="assets/projector/circuitedge-thumb.webp" alt="" width="240" height="160" loading="lazy" decoding="async"></button>
-                                    <button type="button" class="np-frame is-contain" data-index="3" data-title="Embedded POS Terminal" data-blurb="In progress. ESP32-S3 touchscreen payment terminal that reads NFC cards and creates Stripe payments." data-href="projects.html" data-src="assets/pos-terminal.svg" data-w="220" data-h="220" data-fit="contain" data-bg="#eef4f2" aria-label="Project Embedded POS Terminal on screen" style="background: #eef4f2;"><img src="assets/pos-terminal.svg" alt="" width="220" height="220" loading="lazy" decoding="async"></button>
-                                    <button type="button" class="np-frame" data-index="4" data-title="Emergency Resource Locator" data-blurb="UF SwampHacks XI. Interactive map for finding nearby emergency services during crises." data-href="projects/emergency-resource-locator.html" data-src="assets/projector/emergency-resource-locator.webp" data-w="880" data-h="587" data-fit="cover" data-bg="" aria-label="Project Emergency Resource Locator on screen"><img src="assets/projector/emergency-resource-locator-thumb.webp" alt="" width="240" height="160" loading="lazy" decoding="async"></button>
-                                    <button type="button" class="np-frame is-contain" data-index="5" data-title="LockIN" data-blurb="SHPE Designathon. Phone-locking study device built on a servo, IR remote, and LCD display." data-href="projects.html" data-src="assets/lockin.svg" data-w="220" data-h="220" data-fit="contain" data-bg="#f4fbfa" aria-label="Project LockIN on screen" style="background: #f4fbfa;"><img src="assets/lockin.svg" alt="" width="220" height="220" loading="lazy" decoding="async"></button>
-                                    <button type="button" class="np-frame is-contain" data-index="6" data-title="Neo-Runner" data-blurb="Roblox Studio. Movement-based first-person platformer-shooter with trick-based movement." data-href="projects.html" data-src="assets/roblox-studio.svg" data-w="220" data-h="220" data-fit="contain" data-bg="#eaf7ff" aria-label="Project Neo-Runner on screen" style="background: #eaf7ff;"><img src="assets/roblox-studio.svg" alt="" width="220" height="220" loading="lazy" decoding="async"></button>
+                                    <button type="button" class="np-frame" data-index="0" data-title="Mosquito Tracker" data-blurb="1st Place, NASA geoEMERGE. Offline-first redesign of GLOBE Observer with client-side WebP compression." data-href="projects/mosquito-tracker.html" data-src="assets/projector/mosquito-tracker.webp" data-w="880" data-h="524" data-fit="cover" data-bg="" aria-label="Project Mosquito Tracker on screen"><img src="assets/projector/mosquito-tracker-thumb.webp" alt="" width="240" height="143" decoding="async"></button>
+                                    <button type="button" class="np-frame is-contain" data-index="1" data-title="Liquid Lift" data-blurb="3rd Place, Outreach Design Competition. Syringe-powered hydraulic arm kit that teaches Pascal&#x27;s Law." data-href="projects/liquid-lift.html" data-src="assets/projector/liquid-lift.webp" data-w="598" data-h="481" data-fit="contain" data-bg="#ffffff" aria-label="Project Liquid Lift on screen" style="background: #ffffff;"><img src="assets/projector/liquid-lift-thumb.webp" alt="" width="240" height="193" decoding="async"></button>
+                                    <button type="button" class="np-frame" data-index="2" data-title="CircuitEdge" data-blurb="Paid platform that teaches Arduino from scratch: 29 tutorials, 232 quiz questions, Stripe subscriptions." data-href="projects/circuitedge.html" data-src="assets/projector/circuitedge.webp" data-w="880" data-h="587" data-fit="cover" data-bg="" aria-label="Project CircuitEdge on screen"><img src="assets/projector/circuitedge-thumb.webp" alt="" width="240" height="160" decoding="async"></button>
+                                    <button type="button" class="np-frame is-contain" data-index="3" data-title="Embedded POS Terminal" data-blurb="In progress. ESP32-S3 touchscreen payment terminal that reads NFC cards and creates Stripe payments." data-href="projects.html" data-src="assets/pos-terminal.svg" data-w="220" data-h="220" data-fit="contain" data-bg="#eef4f2" aria-label="Project Embedded POS Terminal on screen" style="background: #eef4f2;"><img src="assets/pos-terminal.svg" alt="" width="220" height="220" decoding="async"></button>
+                                    <button type="button" class="np-frame" data-index="4" data-title="Emergency Resource Locator" data-blurb="UF SwampHacks XI. Interactive map for finding nearby emergency services during crises." data-href="projects/emergency-resource-locator.html" data-src="assets/projector/emergency-resource-locator.webp" data-w="880" data-h="587" data-fit="cover" data-bg="" aria-label="Project Emergency Resource Locator on screen"><img src="assets/projector/emergency-resource-locator-thumb.webp" alt="" width="240" height="160" decoding="async"></button>
+                                    <button type="button" class="np-frame is-contain" data-index="5" data-title="LockIN" data-blurb="SHPE Designathon. Phone-locking study device built on a servo, IR remote, and LCD display." data-href="projects.html" data-src="assets/lockin.svg" data-w="220" data-h="220" data-fit="contain" data-bg="#f4fbfa" aria-label="Project LockIN on screen" style="background: #f4fbfa;"><img src="assets/lockin.svg" alt="" width="220" height="220" decoding="async"></button>
+                                    <button type="button" class="np-frame is-contain" data-index="6" data-title="Neo-Runner" data-blurb="Roblox Studio. Movement-based first-person platformer-shooter with trick-based movement." data-href="projects.html" data-src="assets/roblox-studio.svg" data-w="220" data-h="220" data-fit="contain" data-bg="#eaf7ff" aria-label="Project Neo-Runner on screen" style="background: #eaf7ff;"><img src="assets/roblox-studio.svg" alt="" width="220" height="220" decoding="async"></button>
                                 </div>
                                 <div class="np-set" aria-hidden="true">
-                                    <button type="button" class="np-frame" data-index="0" tabindex="-1"><img src="assets/projector/mosquito-tracker-thumb.webp" alt="" width="240" height="143" loading="lazy" decoding="async"></button>
-                                    <button type="button" class="np-frame is-contain" data-index="1" tabindex="-1" style="background: #ffffff;"><img src="assets/projector/liquid-lift-thumb.webp" alt="" width="240" height="193" loading="lazy" decoding="async"></button>
-                                    <button type="button" class="np-frame" data-index="2" tabindex="-1"><img src="assets/projector/circuitedge-thumb.webp" alt="" width="240" height="160" loading="lazy" decoding="async"></button>
-                                    <button type="button" class="np-frame is-contain" data-index="3" tabindex="-1" style="background: #eef4f2;"><img src="assets/pos-terminal.svg" alt="" width="220" height="220" loading="lazy" decoding="async"></button>
-                                    <button type="button" class="np-frame" data-index="4" tabindex="-1"><img src="assets/projector/emergency-resource-locator-thumb.webp" alt="" width="240" height="160" loading="lazy" decoding="async"></button>
-                                    <button type="button" class="np-frame is-contain" data-index="5" tabindex="-1" style="background: #f4fbfa;"><img src="assets/lockin.svg" alt="" width="220" height="220" loading="lazy" decoding="async"></button>
-                                    <button type="button" class="np-frame is-contain" data-index="6" tabindex="-1" style="background: #eaf7ff;"><img src="assets/roblox-studio.svg" alt="" width="220" height="220" loading="lazy" decoding="async"></button>
+                                    <button type="button" class="np-frame" data-index="0" tabindex="-1"><img src="assets/projector/mosquito-tracker-thumb.webp" alt="" width="240" height="143" decoding="async"></button>
+                                    <button type="button" class="np-frame is-contain" data-index="1" tabindex="-1" style="background: #ffffff;"><img src="assets/projector/liquid-lift-thumb.webp" alt="" width="240" height="193" decoding="async"></button>
+                                    <button type="button" class="np-frame" data-index="2" tabindex="-1"><img src="assets/projector/circuitedge-thumb.webp" alt="" width="240" height="160" decoding="async"></button>
+                                    <button type="button" class="np-frame is-contain" data-index="3" tabindex="-1" style="background: #eef4f2;"><img src="assets/pos-terminal.svg" alt="" width="220" height="220" decoding="async"></button>
+                                    <button type="button" class="np-frame" data-index="4" tabindex="-1"><img src="assets/projector/emergency-resource-locator-thumb.webp" alt="" width="240" height="160" decoding="async"></button>
+                                    <button type="button" class="np-frame is-contain" data-index="5" tabindex="-1" style="background: #f4fbfa;"><img src="assets/lockin.svg" alt="" width="220" height="220" decoding="async"></button>
+                                    <button type="button" class="np-frame is-contain" data-index="6" tabindex="-1" style="background: #eaf7ff;"><img src="assets/roblox-studio.svg" alt="" width="220" height="220" decoding="async"></button>
                                 </div>
                             </div>
                         </div>
@@ -854,6 +1028,7 @@
                     </div>
 
                 </div>
+
             </div>
         </section>
     </main>

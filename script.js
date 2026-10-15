@@ -527,7 +527,7 @@ prefersReducedMotion.addEventListener('change', () => {
 })();
 
 // Occult cursor: a small spinning sigil on the pointer, a lamplight halo
-// that trails it, brass embers shed as it moves, and a green pulse with
+// that trails it, and a green pulse with
 // sparks and a rising planetary glyph on click. Particles live on one
 // fixed canvas whose loop only runs while something is still moving.
 // Mouse and trackpad only; skipped for touch and reduced motion.
@@ -576,7 +576,6 @@ prefersReducedMotion.addEventListener('change', () => {
 
     let x = -400, y = -400;   // pointer
     let hx = x, hy = y;       // halo, eased toward the pointer
-    let lastX = null, lastY = null;
     let raf = 0;
     let prev = 0;
     const embers = [];
@@ -692,18 +691,6 @@ prefersReducedMotion.addEventListener('change', () => {
         sigil.style.transform = `translate3d(${x}px, ${y}px, 0)`;
         halo.classList.add('is-visible');
         sigil.classList.add('is-visible');
-
-        // Embers in proportion to distance travelled, along the path
-        if (lastX !== null) {
-            const dist = Math.hypot(x - lastX, y - lastY);
-            const n = Math.min(Math.floor(dist / 9 + Math.random() * 1.5), 4);
-            for (let i = 1; i <= n; i++) {
-                const f = (i - Math.random()) / n;
-                spawnEmber(lastX + (x - lastX) * f, lastY + (y - lastY) * f, false);
-            }
-        }
-        lastX = x;
-        lastY = y;
         start();
     }, { passive: true });
 
@@ -727,6 +714,5 @@ prefersReducedMotion.addEventListener('change', () => {
     document.documentElement.addEventListener('pointerleave', () => {
         halo.classList.remove('is-visible');
         sigil.classList.remove('is-visible');
-        lastX = lastY = null;
     });
 })();
